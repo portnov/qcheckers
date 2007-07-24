@@ -1,0 +1,7 @@
+Run the following commands:
+    qmake -o Makefile qcheckers.pro
+    make
+    make install
+
+Shared files are installed in /usr/local/share/qcheckers by default. You can
+change this by changing SHARE_PATH in common.h.

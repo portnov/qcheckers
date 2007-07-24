@@ -1,0 +1,73 @@
+- replace kcheckers with qcheckers
+
+- rewrite TODO file; some things may be outdated.
+
+- do we need to save "free men placement" state?!
+
+	+ move names/game type to info...
+	+ is void myView::slotNextRound() obsolete?
+	+ doMove() always redraws board - really needed?
+
+	+ Setting comments in Paused Mode disabled. Why?
+
+	! SHARE_PATH is hard coded in main.cc kcheckers.pro
+
+info:	+ Provide a function that returns what color is on turn.
+
+
+to Qt 4.0:
+	+ XML for theme files?
+	+ save: should not overwrite but add? maybe add an option.
+
+	+ info: columns should be resized to content's size. not working for
+	  taglist.
+
+
+translate themes.
+
+duplicate themes at the moment.
+
+comments of moves are not set on both sides. allow each player to change his
+own move comments?
+
++ MISC
+	- Why not logging the time when a move is done? Easy to implement.
+	- Place kcheckersrc in $HOME/.kcheckers?
+
++ CONTINUE ONLINE GAME.
+	this is not yet implemented. although it is simple. kcheckers is
+	ready for this - i am not. i still have to think about this. the
+	server side should be able to open pdn file.
+
++ SERVER IP!
+    show server's ip in the new game dialog. in normal case linux has more than
+    one configured network interface (see ifconfig output). qt failes to
+    resolv the "right" one.
+
++ NETWORK SPECTATOR MODE.
+    I think this would be cool :) Do i?
+
++ RENAME to qcheckers?
+    when reading "kcheckers" one might think the program depends on kdelibs what
+    is not true. renaming it to "qcheckers" clarifies its dependency on qt.
+
++ ANIMATED MOVES.
+    this need to be done not just for fun. as for me, i sometimes do not notice
+    engine's moves. i just see that it's my turn. in such cases i have to look
+    at the move's list and check the last move.
+
++ GUI.
+    although i am quite happy with current gui. need better themes/pixmaps for
+    big board size.
+
++ THEMES.
+    - Warnings due to failures on loading themes are not i18n. qWarning is used
+      to display these warnings. Erroneous themes are ignored.
+    - I use a simple text file to provide translated theme names.
+
++ PDN.
+    - The FEN tag is not parsed at all, at the moment.
+    - Errors in PDN files are logged untranslated.
+    - What to do on abort? Cancel everything?
+    - When continuing the game one must be able to choose the size/color.
+
