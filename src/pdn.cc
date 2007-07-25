@@ -1,7 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2002-2003 Andi Peredri                                  *
  *   andi@ukr.net                                                          *
- *   Copyright (C) 2004-2005 Artur Wiebe                                   *
+ *   Copyright (C) 2004-2007 Artur Wiebe                                   *
  *   wibix@gmx.de                                                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,7 +53,9 @@ bool Pdn::open(const QString& filename, QWidget* parent,
 	m_database.clear();
 
 	QFile file(filename);
-	if(!file.open(QFile::ReadOnly)) return false;
+	if(!file.open(QFile::ReadOnly)) {
+		return false;
+	}
 
 	QTextStream ts(&file);
 
@@ -70,15 +72,17 @@ bool Pdn::open(const QString& filename, QWidget* parent,
 	bool in_tags = false;
 	while(!ts.atEnd()) {
 		str1 = ts.readLine().trimmed();
-		if(ts.atEnd())
+		if(ts.atEnd()) {
 			str2 += str1;
+		}
 
 		if((str1.length() && str1[0]=='[') || ts.atEnd()) {
 			if(!in_tags) {
 				// tags begin again, so a game is ended.
 				if(str2.length()) {
-					if((m_database.count()%10)==0)
+					if((m_database.count()%10)==0) {
 						progress.setValue(file.pos());
+					}
 
 					QString log_txt;
 					PdnGame* game = new PdnGame(str2, log_txt);
@@ -99,14 +103,16 @@ bool Pdn::open(const QString& filename, QWidget* parent,
 				in_tags = true;
 			}
 		} else {
-			if(in_tags)
+			if(in_tags) {
 				in_tags = false;
+			}
 		}
 
 		str2.append(str1+"\n");
 
-		if(progress.wasCanceled())
+		if(progress.wasCanceled()) {
 			break;
+		}
 
 		line_nr++;
 	}
@@ -120,8 +126,9 @@ bool Pdn::open(const QString& filename, QWidget* parent,
 bool Pdn::save(const QString& filename)
 {
 	QFile file(filename);
-	if(!file.open(QFile::WriteOnly))
+	if(!file.open(QFile::WriteOnly)) {
 		return false;
+	}
 
 	QTextStream ts(&file);
 
@@ -145,8 +152,8 @@ PdnGame* Pdn::newGame()
 
 
 /***************************************************************************
- *																		 *
- *																		 *
+ *                                                                         *
+ *                                                                         *
  ***************************************************************************/
 PdnMove::PdnMove(QString line)
 {
@@ -166,8 +173,9 @@ PdnMove::PdnMove(QString line)
 			m_comfirst = line.mid(1, end-1);
 			line.remove(0, end+1);
 			line = line.trimmed();
-		} else
+		} else {
 			qDebug("no comment ending of the first comment.");
+		}
 	}
 
 	// second move.
@@ -177,25 +185,28 @@ PdnMove::PdnMove(QString line)
 	// check for a second comment.
 	if(line[0]=='{') {
 		int end = line.indexOf('}', 1);
-		if(end>=0)
+		if(end>=0) {
 			m_comsecond = line.mid(1, end-1);
-		else
+		} else {
 			qDebug("no comment ending of the second comment.");
+		}
 	}
 }
 
 
 /***************************************************************************
- *																		 *
- *																		 *
+ *                                                                         *
+ *                                                                         *
  ***************************************************************************/
 PdnGame::PdnGame(const QString& game_string, QString& log_txt)
 {
 	white = PLAYER;
-	for(int i=0;  i<12; i++)
+	for(int i=0;  i<12; i++) {
 		board[i]=MAN2;
-	for(int i=20; i<32; i++)
+	}
+	for(int i=20; i<32; i++) {
 		board[i]=MAN1;
+	}
 
 	if(!parse(game_string, log_txt)) {
 		qDebug("  errors occured while processing game.");	// TODO
@@ -213,13 +224,13 @@ PdnGame::~PdnGame()
 QString PdnGame::get(Tag tag) const
 {
 	switch(tag) {
-	case Date:  return pdnDate;
-	case Site:  return pdnSite;
-	case Type:  return pdnType;
-	case Event: return pdnEvent;
-	case Round: return pdnRound;
-	case White: return pdnWhite;
-	case Black: return pdnBlack;
+	case Date:	return pdnDate;
+	case Site:	return pdnSite;
+	case Type:	return pdnType;
+	case Event:	return pdnEvent;
+	case Round:	return pdnRound;
+	case White:	return pdnWhite;
+	case Black:	return pdnBlack;
 	default:	return pdnResult;
 	}
 }
@@ -228,13 +239,13 @@ QString PdnGame::get(Tag tag) const
 void PdnGame::set(Tag tag, const QString& string)
 {
 	switch(tag) {
-	case Date:  pdnDate=string;		break;
-	case Site:  pdnSite=string;		break;
-	case Type:  pdnType=string;		break;
-	case Event: pdnEvent=string;break;
-	case Round: pdnRound=string;break;
-	case White: pdnWhite=string;break;
-	case Black: pdnBlack=string;break;
+	case Date:	pdnDate=string;		break;
+	case Site:	pdnSite=string;		break;
+	case Type:	pdnType=string;		break;
+	case Event:	pdnEvent=string;	break;
+	case Round:	pdnRound=string;	break;
+	case White:	pdnWhite=string;	break;
+	case Black:	pdnBlack=string;	break;
 	default:	pdnResult=string;
 	}
 }
@@ -251,10 +262,12 @@ bool PdnGame::parse_moves(const QString& line)
 	int move_num = 0;
 	bool in_comment = false;
 	foreach(QString str, list) {
-		if(str.startsWith("{"))
+		if(str.startsWith("{")) {
 			in_comment = true;
-		if(str.endsWith("}"))
+		}
+		if(str.endsWith("}")) {
 			in_comment = false;
+		}
 		
 		if(str.endsWith(".") && !in_comment) {
 			if(str!=END_OF_MOVELINE) {
@@ -274,10 +287,11 @@ bool PdnGame::parse_moves(const QString& line)
 			continue;
 		}
 
-			if(str.isEmpty())
+		if(str.isEmpty()) {
 			current_move += " ";
-		else
+		} else {
 			current_move += str + " ";
+		}
 	}
 
 	return true;
@@ -292,23 +306,35 @@ bool PdnGame::parse(const QString& pdngame, QString& log_txt)
 
 	for(int i=0; i<=num; i++) {
 		QString line = pdngame.section('\n',i ,i);
-		if(!line.length())
+		if(!line.length()) {
 			continue;
+		}
 
 		if(line.startsWith("[")) {
 			line.remove(0, 1);
 			line = line.trimmed();
 
-			if(line.startsWith("GameType"))	  pdnType=line.section('"',1,1);
-			else if(line.startsWith("FEN"))		  fen=line.section('"',1,1);
-			else if(line.startsWith("Date"))	 pdnDate=line.section('"',1,1);
-			else if(line.startsWith("Site"))	 pdnSite=line.section('"',1,1);
-			else if(line.startsWith("Event"))   pdnEvent=line.section('"',1,1);
-			else if(line.startsWith("Round"))   pdnRound=line.section('"',1,1);
-			else if(line.startsWith("White"))   pdnWhite=line.section('"',1,1);
-			else if(line.startsWith("Black"))   pdnBlack=line.section('"',1,1);
-			else if(line.startsWith("Result")) pdnResult=line.section('"',1,1);
-			else ;  // Skip other unsupported tags
+			if(line.startsWith("GameType")) {
+				pdnType=line.section('"',1,1);
+			} else if(line.startsWith("FEN")) {
+				fen=line.section('"',1,1);
+			} else if(line.startsWith("Date")) {
+				pdnDate=line.section('"',1,1);
+			} else if(line.startsWith("Site")) {
+				pdnSite=line.section('"',1,1);
+			} else if(line.startsWith("Event")) {
+				pdnEvent=line.section('"',1,1);
+			} else if(line.startsWith("Round")) {
+				pdnRound=line.section('"',1,1);
+			} else if(line.startsWith("White")) {
+				pdnWhite=line.section('"',1,1);
+			} else if(line.startsWith("Black")) {
+				pdnBlack=line.section('"',1,1);
+			} else if(line.startsWith("Result")) {
+				pdnResult=line.section('"',1,1);
+			} else {
+				;  // Skip other unsupported tags
+			}
 
 		} else {
 			moves += " " + line;
@@ -316,9 +342,9 @@ bool PdnGame::parse(const QString& pdngame, QString& log_txt)
 	}
 
 	// parse move section.
-	if(moves.endsWith(pdnResult))
+	if(moves.endsWith(pdnResult)) {
 		moves.truncate(moves.length()-pdnResult.length());
-	else {
+	} else {
 		log_txt += "  +Different result at the end of the movelist:\n"
 			+ QString("	  \"%1\" expected, got \"%2\"\n")
 			.arg(pdnResult)
@@ -364,30 +390,36 @@ bool PdnGame::parse(const QString& pdngame, QString& log_txt)
 	}
 
 	// Parsing of the Forsyth-Edwards Notation (FEN) tag
-	if(fen.isNull())
+	if(fen.isNull()) {
 		return true;
+	}
 
 	fen=fen.trimmed();
 
-	for(int i=fen.indexOf(" "); i!=-1; i=fen.indexOf(" "))
+	for(int i=fen.indexOf(" "); i!=-1; i=fen.indexOf(" ")) {
 		fen=fen.remove(i,1);
+	}
 
-	if(fen.startsWith("W:W"))
+	if(fen.startsWith("W:W")) {
 		white=PLAYER;
-	else if(fen.startsWith("B:W"))
+	} else if(fen.startsWith("B:W")) {
 		white=COMPUTER;
-	else
+	} else {
 		return false;
+	}
 
 	QString string = fen.mid(3).section(":B",0,0);
-	if(!parse(string, white))
+	if(!parse(string, white)) {
 		return false;
+	}
 
 	string=fen.section(":B",1,1);
-	if(string.endsWith("."))
+	if(string.endsWith(".")) {
 		string.truncate(string.length()-1);
-	if(!parse(string, !white))
+	}
+	if(!parse(string, !white)) {
 		return false;
+	}
 
 	return true;
 }
@@ -397,10 +429,11 @@ bool PdnGame::parse(const QString& str, bool side)
 {
 	QString notation;
 
-	if(pdnType.toInt() == ENGLISH)
+	if(pdnType.toInt() == ENGLISH) {
 		notation=QString(ENOTATION);
-	else
+	} else {
 		notation=QString(RNOTATION);
+	}
 
 	QStringList sections = str.split(",");
 	foreach(QString pos, sections) {
@@ -410,24 +443,30 @@ bool PdnGame::parse(const QString& str, bool side)
 			pos=pos.remove(0,1);
 			king=true;
 		}
-		if(pos.length()==1)
+		if(pos.length()==1) {
 			pos.append(' ');
-		if(pos.length()!=2)
+		}
+		if(pos.length()!=2) {
 			return false;
+		}
 
 		int index = notation.indexOf(pos);
-		if(index%2)
+		if(index%2) {
 			index=notation.indexOf(pos,index+1);
-		if(index == -1)
+		}
+		if(index == -1) {
 			return false;
+		}
 
-		if(white==COMPUTER)
+		if(white==COMPUTER) {
 			index=62-index;
+		}
 
-		if(side==PLAYER)
+		if(side==PLAYER) {
 			board[index/2]=(king ? KING1 : MAN1);
-		else
+		} else {
 			board[index/2]=(king ? KING2 : MAN2);
+		}
 	}
 	return true;
 }
@@ -440,9 +479,10 @@ PdnMove* PdnGame::getMove(int i)
 	}
 
 	// TODO - do we need this?
-	if(i>m_moves.count())
+	if(i>m_moves.count()) {
 		qDebug("PdnGame::getMove(%u) m_moves.count()=%u",
 				i, m_moves.count());
+	}
 
 	PdnMove* m = new PdnMove("");
 	m_moves.append(m);
@@ -459,19 +499,23 @@ QString PdnGame::toString()
 	 * fen
 	 */
 	if(!movesCount()) {
-			qDebug("FEN tag with lots of errors.");
+		qDebug("FEN tag with lots of errors.");
+
 		QString string1;
 		QString string2;
 		QString notation;
 
-		if(pdnType.toInt() == ENGLISH)
+		if(pdnType.toInt() == ENGLISH) {
 			notation=QString(ENOTATION);
-		else
-				notation=QString(RNOTATION);
+		} else {
+			notation=QString(RNOTATION);
+		}
 
 		for(int i=0; i<32; i++) {
 			int index=i*2;
-			if(white==COMPUTER) index=62-index;
+			if(white==COMPUTER) {
+				index=62-index;
+			}
 
 			QString pos;
 
@@ -480,23 +524,30 @@ QString PdnGame::toString()
 				pos.append('K');
 			case MAN1:
 				pos.append(notation.mid(index,2).trimmed());
-				if(string1.length()) string1.append(',');
+				if(string1.length()) {
+					string1.append(',');
+				}
 				string1.append(pos);
 				break;
+
 			case KING2:
 				pos.append('K');
 			case MAN2:
 				pos.append(notation.mid(index,2).trimmed());
-				if(string2.length()) string2.append(',');
+				if(string2.length()) {
+					string2.append(',');
+				}
 				string2.append(pos);
 			default:
 				break;
 			}
 		}
-			if(white==PLAYER)
-				fen.append("W:W"+string1+":B"+string2+".");
-		else
+
+		if(white==PLAYER) {
+			fen.append("W:W"+string1+":B"+string2+".");
+		} else {
 			fen.append("B:W"+string2+":B"+string1+".");
+		}
 	}
 
 	/*
@@ -519,12 +570,24 @@ QString PdnGame::toString()
 	 */
 	QString str;
 
-	if(pdnEvent.length())		str.append("[Event \""+pdnEvent+"\"]\n");
-	if(pdnSite.length())		str.append("[Site \"" +pdnSite +"\"]\n");
-	if(pdnDate.length())		str.append("[Date \"" +pdnDate +"\"]\n");
-	if(pdnRound.length())		str.append("[Round \""+pdnRound+"\"]\n");
-	if(pdnWhite.length())		str.append("[White \""+pdnWhite+"\"]\n");
-	if(pdnBlack.length())		str.append("[Black \""+pdnBlack+"\"]\n");
+	if(pdnEvent.length()) {
+		str.append("[Event \""+pdnEvent+"\"]\n");
+	}
+	if(pdnSite.length()) {
+		str.append("[Site \"" +pdnSite +"\"]\n");
+	}
+	if(pdnDate.length()) {
+		str.append("[Date \"" +pdnDate +"\"]\n");
+	}
+	if(pdnRound.length()) {
+		str.append("[Round \""+pdnRound+"\"]\n");
+	}
+	if(pdnWhite.length()) {
+		str.append("[White \""+pdnWhite+"\"]\n");
+	}
+	if(pdnBlack.length()) {
+		str.append("[Black \""+pdnBlack+"\"]\n");
+	}
 
 	if(fen.length()) {
 		str.append("[SetUp \"1\"]\n");
@@ -538,4 +601,3 @@ QString PdnGame::toString()
 
 	return str;
 }
-

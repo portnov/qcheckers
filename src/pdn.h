@@ -1,6 +1,8 @@
 /***************************************************************************
  *   Copyright (C) 2002-2003 Andi Peredri                                  *
  *   andi@ukr.net                                                          *
+ *   Copyright (C) 2004-2007 Artur Wiebe                                   *
+ *   wibix@gmx.de                                                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,7 +19,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #ifndef PDN_H
 #define PDN_H
 
@@ -42,21 +43,21 @@ class PdnGame;
 class Pdn
 {
 public:
-    Pdn();
-    virtual ~Pdn();
+	Pdn();
+	virtual ~Pdn();
 
-    int count() const { return m_database.count(); }
-    PdnGame* game(int i) { return m_database.at(i); }
-    PdnGame* newGame();
+	int count() const { return m_database.count(); }
+	PdnGame* game(int i) { return m_database.at(i); }
+	PdnGame* newGame();
 
-    void clear() { m_database.clear(); }
-    // parent is needed to display a progress dialog.
-    bool open(const QString& filename, QWidget* parent,
-	    const QString& label, QString& text_to_log);
-    bool save(const QString& filename);
+	void clear() { m_database.clear(); }
+	// parent is needed to display a progress dialog.
+	bool open(const QString& filename, QWidget* parent,
+			const QString& label, QString& text_to_log);
+	bool save(const QString& filename);
 
 private:
-    QList<PdnGame*> m_database;
+	QList<PdnGame*> m_database;
 };
 
 
@@ -67,10 +68,10 @@ private:
 class PdnMove
 {
 public:
-    PdnMove(QString whole_line_of_move);
+	PdnMove(QString whole_line_of_move);
 
-    QString m_first, m_comfirst;
-    QString m_second, m_comsecond;
+	QString m_first, m_comfirst;
+	QString m_second, m_comsecond;
 };
 
 
@@ -80,46 +81,45 @@ public:
 class PdnGame
 {
 public:
-    PdnGame(const QString& game_string, QString& text_to_log);
-    ~PdnGame();
+	PdnGame(const QString& game_string, QString& text_to_log);
+	~PdnGame();
 
-    enum Tag { Date, Site, Type, Event, Round, White, Black,Result };
+	enum Tag { Date, Site, Type, Event, Round, White, Black,Result };
 
-    int item(int i) const { return board[i]; }
-    void setItem(int i, int set) { board[i]=set; }
+	int item(int i) const { return board[i]; }
+	void setItem(int i, int set) { board[i]=set; }
 
-    bool isWhite() const { return white; }
-    void setWhite(bool set) { white=set; }
+	bool isWhite() const { return white; }
+	void setWhite(bool set) { white=set; }
 
-    void set(Tag tag, const QString& string);
-    QString get(Tag tag) const;
+	void set(Tag tag, const QString& string);
+	QString get(Tag tag) const;
 
-    int movesCount() const { return m_moves.count(); }
-    PdnMove* getMove(int i);
-    PdnMove* addMove();
-    void clearMoves() { m_moves.clear(); }
+	int movesCount() const { return m_moves.count(); }
+	PdnMove* getMove(int i);
+	PdnMove* addMove();
+	void clearMoves() { m_moves.clear(); }
 
-    QString toString();
-
-private:
-    bool parse(const QString& game_string, QString& log_txt);
-    bool parse(const QString& string, bool side);
-    bool parse_moves(const QString& moves_line);
+	QString toString();
 
 private:
-    bool white;
-    int board[32];
-    QString pdnDate;
-    QString pdnSite;
-    QString pdnType;
-    QString pdnEvent;
-    QString pdnRound;
-    QString pdnWhite;
-    QString pdnBlack;
-    QString pdnResult;
-    QList<PdnMove*> m_moves;
+	bool parse(const QString& game_string, QString& log_txt);
+	bool parse(const QString& string, bool side);
+	bool parse_moves(const QString& moves_line);
+
+private:
+	bool white;
+	int board[32];
+	QString pdnDate;
+	QString pdnSite;
+	QString pdnType;
+	QString pdnEvent;
+	QString pdnRound;
+	QString pdnWhite;
+	QString pdnBlack;
+	QString pdnResult;
+	QList<PdnMove*> m_moves;
 };
 
 
 #endif
-
