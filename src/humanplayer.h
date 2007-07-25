@@ -28,35 +28,35 @@
 
 class myHumanPlayer : public myPlayer
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    // when playing player vs. player on same computer. the second
-    // player must invert some things.
-    myHumanPlayer(const QString& name, bool white, bool second_player);
-    ~myHumanPlayer();
+	// when playing player vs. player on same computer. the second
+	// player must invert some things.
+	myHumanPlayer(const QString& name, bool white, bool second_player);
+	~myHumanPlayer();
 
-    virtual void yourTurn(const Checkers* game);
-    virtual bool fieldClicked(int fieldnumber, bool*, QString& err_msg);
-    virtual void stop() {}
+    	virtual void yourTurn(const Checkers* game);
+	virtual bool fieldClicked(int fieldnumber, bool*, QString& err_msg);
+	virtual void stop() {}
 
-    virtual bool isHuman() const { return true; }
+    	virtual bool isHuman() const { return true; }
 
 
 public slots:
-//    virtual void getReady() { emit readyToPlay(); }
+//	virtual void getReady() { emit readyToPlay(); }
 
 private:
-    bool go(int fieldnumber);
+	bool go(int fieldnumber);
 
 private:
-    bool m_second;
+	bool m_second;
 
-    Checkers* m_game;
-    bool selected;
+	Checkers* m_game;
+	bool selected;
 
-    int from;		// on Checkers board
-    int fromField;	// on GUI board
+	int from;	// on Checkers board
+	int fromField;	// on GUI board
 };
 
 
