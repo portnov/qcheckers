@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2005 Artur Wiebe                                   *
+ *   Copyright (C) 2004-2007 Artur Wiebe                                   *
  *   wibix@gmx.de                                                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -49,16 +49,18 @@ myComputerPlayer::~myComputerPlayer()
 
 void myComputerPlayer::yourTurn(const Checkers* g)
 {
-	if(m_thread)
+	if(m_thread) {
 		qDebug("myComputerPlayer::yourTurn: a thread exists.");
+	}
 
 	// first create it.
 	if(!m_game || m_game->type()!=g->type()) {
 		delete m_game;
-	if(g->type()==RUSSIAN)
-		m_game = new RCheckers();
-	else
-		m_game = new ECheckers();
+		if(g->type()==RUSSIAN) {
+			m_game = new RCheckers();
+		} else {
+			m_game = new ECheckers();
+		}
 	}
 
 	m_game->setSkill(m_skill);
@@ -101,8 +103,9 @@ void myThread::run()
 	if(!m_aborted) {
 		QEvent* ev = new QEvent(QEvent::MaxUser);
 		QApplication::postEvent(m_player, ev);
-	} else
+	} else {
 		qDebug("thread.aborted.done.");
+	}
 }
 
 

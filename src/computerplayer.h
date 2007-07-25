@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2005 Artur Wiebe                                   *
+ *   Copyright (C) 2004-2007 Artur Wiebe                                   *
  *   wibix@gmx.de                                                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,22 +32,22 @@ class myThread;
 
 class myComputerPlayer : public myPlayer
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    myComputerPlayer(const QString& name, bool white, int skill);
-    ~myComputerPlayer();
+	myComputerPlayer(const QString& name, bool white, int skill);
+	~myComputerPlayer();
 
-    virtual void yourTurn(const Checkers* game);
-    virtual void stop();
+	virtual void yourTurn(const Checkers* game);
+	virtual void stop();
 
-    // need this to process thread's events
-    virtual void customEvent(QEvent*);
+	// need this to process thread's events
+	virtual void customEvent(QEvent*);
 
 private:
-    myThread* m_thread;
-    Checkers* m_game;
-    int m_skill;
+	myThread* m_thread;
+	Checkers* m_game;
+	int m_skill;
 };
 
 
@@ -55,21 +55,20 @@ private:
 /****************************************************************************/
 class myThread : public QThread {
 public:
-    myThread(myComputerPlayer* p, Checkers* g)
-	: m_player(p), m_game(g), m_aborted(false) {}
+	myThread(myComputerPlayer* p, Checkers* g)
+		: m_player(p), m_game(g), m_aborted(false) {}
 
-    virtual void run();
+	virtual void run();
 
-    void stop();
+	void stop();
 
-    Checkers* game() const { return m_game; }
+	Checkers* game() const { return m_game; }
 
 private:
-    myComputerPlayer* m_player;
-    Checkers* m_game;
-    bool m_aborted;
+	myComputerPlayer* m_player;
+	Checkers* m_game;
+	bool m_aborted;
 };
 
 
 #endif
-
