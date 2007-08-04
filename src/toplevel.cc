@@ -1,3 +1,4 @@
+// @version: $Id $
 /***************************************************************************
  *   Copyright (C) 2002-2003 Andi Peredri                                  *
  *   andi@ukr.net                                                          *
@@ -64,8 +65,9 @@ myTopLevel::myTopLevel()
 			m_newgame->isWhite(), m_newgame->opponent(),
 			m_newgame->opponentName(), m_newgame->skill());
 
-	if(layout())
+	if(layout()) {
 		layout()->setSizeConstraint(QLayout::SetFixedSize);
+	}
 }
 
 
@@ -308,12 +310,14 @@ void myTopLevel::restore_settings()
 
 	QString theme_path = cfg.value(CFG_THEME_PATH, DEFAULT_THEME)
 		.toString();
-	for(myThemeMap::iterator it = m_themes.begin(); it!=m_themes.end();it++)
+	for(myThemeMap::iterator it = m_themes.begin(); it!=m_themes.end();
+			it++) {
 		if(it.value() == theme_path) {
 			it.key()->setChecked(true);
 			set_theme(it.key());
 			break;
 		}
+	}
 
 	filename = cfg.value(CFG_FILENAME).toString();
 
@@ -399,13 +403,15 @@ void myTopLevel::slot_save_game()
 	QString fn = QFileDialog::getSaveFileName(this,
 		tr("Save Game")+" - "APPNAME, filename, "PDN Files (*."EXT")");
 	if(!fn.isEmpty()) {
-		if(fn.right(3)!=EXT)
+		if(fn.right(3)!=EXT) {
 			fn += "."EXT;
+		}
 
-		if(m_view->savePdn(fn))
+		if(m_view->savePdn(fn)) {
 			filename = fn;
-		else
+		} else {
 			warning(tr("Could not save: ")+filename);
+		}
 	}
 }
 
@@ -414,15 +420,17 @@ void myTopLevel::slot_open_game()
 {
 	QString fn = QFileDialog::getOpenFileName(this,
 		tr("Open Game")+" - "APPNAME, filename, "PDN Files (*."EXT")");
-	if(!fn.isEmpty())
+	if(!fn.isEmpty()) {
 		open(fn);
+	}
 }
 
 
 void myTopLevel::open(const QString& fn)
 {
-	if(m_view->openPdn(fn))
+	if(m_view->openPdn(fn)) {
 		filename = fn;
+	}
 }
 
 
@@ -441,11 +449,13 @@ void myTopLevel::store_settings()
 {
 	QSettings config(APPNAME, APPNAME);
 
-	for(myThemeMap::iterator it=m_themes.begin(); it!=m_themes.end(); it++)
+	for(myThemeMap::iterator it=m_themes.begin(); it!=m_themes.end();
+			it++) {
 		if(it.key()->isChecked()) {
 			config.setValue(CFG_THEME_PATH, it.value());
 			break;
 		}
+	}
 
 	config.setValue(CFG_FILENAME, filename);
 
@@ -535,16 +545,18 @@ void myTopLevel::slot_working(bool working)
 
 bool myTopLevel::keep_game()
 {
-	if(!settingsKeep->isChecked() || m_view->isAborted())
+	if(!settingsKeep->isChecked() || m_view->isAborted()) {
 		return false;
+	}
 
 	int answer = QMessageBox::question(this, tr("Abort Game?")+" - "APPNAME,
 		tr("Current game will be lost if you continue.\n"
 		"Do you really want to discard it?"),
 		QMessageBox::Yes, QMessageBox::No);
 
-	if(answer == QMessageBox::Yes)
+	if(answer == QMessageBox::Yes) {
 		return false;
+	}
 
 	return true;
 }
@@ -552,8 +564,9 @@ bool myTopLevel::keep_game()
 
 void myTopLevel::slot_next_round()
 {
-	if(!keep_game())
+	if(!keep_game()) {
 		m_view->slotNextRound();
+	}
 }
 
 
@@ -561,8 +574,9 @@ void myTopLevel::slot_notation_font()
 {
 	bool ok;
 	QFont font = QFontDialog::getFont(&ok, m_view->notationFont(), this);
-	if(ok)
+	if(ok) {
 		m_view->setNotationFont(font);
+	}
 }
 
 
