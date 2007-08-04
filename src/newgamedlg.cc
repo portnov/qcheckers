@@ -1,3 +1,4 @@
+// Version: $Id $
 /***************************************************************************
  *   Copyright (C) 2004-2005 Artur Wiebe                                   *
  *   wibix@gmx.de                                                          *
@@ -281,17 +282,19 @@ void myNewGameDlg::readSettings(QSettings* cfg)
 	int skills = cfg->value(CFG_SKILL, BEGINNER).toInt();
 	QMap<int, QRadioButton*>::iterator it;
 	it = m_player_two.computer.skills.find(skills);
-	if(it != m_player_two.computer.skills.end())
+	if(it != m_player_two.computer.skills.end()) {
 		it.value()->setChecked(true);
-	else
+	} else {
 		m_player_two.computer.skills[BEGINNER]->setChecked(true);
+	}
 	slot_skills();
 
 	int rules = cfg->value(CFG_RULES, ENGLISH).toInt();
-	if(rules == ENGLISH)
+	if(rules == ENGLISH) {
 		m_player_one.rule_english->setChecked(true);
-	else
+	} else {
 		m_player_one.rule_russian->setChecked(true);
+	}
 
 	m_player_one.white->setChecked(cfg->value(CFG_WHITE, false).toBool());
 
@@ -306,8 +309,9 @@ int myNewGameDlg::skill() const
 	QMap<int, QRadioButton*>::const_iterator it;
 	it = m_player_two.computer.skills.begin();
 	for(; it!=m_player_two.computer.skills.end(); ++it) {
-		if(it.value()->isChecked())
+		if(it.value()->isChecked()) {
 			return it.key();
+		}
 	}
 
 	qDebug() << __PRETTY_FUNCTION__ << "No skill selected.";
@@ -317,8 +321,9 @@ int myNewGameDlg::skill() const
 
 int myNewGameDlg::rules() const
 {
-	if(m_player_one.rule_english->isChecked())
+	if(m_player_one.rule_english->isChecked()) {
 		return ENGLISH;
+	}
 	return RUSSIAN;
 }
 
