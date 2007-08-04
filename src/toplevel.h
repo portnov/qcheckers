@@ -1,3 +1,4 @@
+// Version: $Id $
 /***************************************************************************
  *   Copyright (C) 2002-2003 Andi Peredri                                  *
  *   andi@ukr.net                                                          *
@@ -33,71 +34,71 @@ class myNewGameDlg;
 
 class myTopLevel : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    myTopLevel();
+	myTopLevel();
 
-    void open(const QString& filename);
+	void open(const QString& filename);
 
 protected:
-    void closeEvent(QCloseEvent*);
+	void closeEvent(QCloseEvent*);
 
 private slots:
-    void slot_help();
-    void slot_about();
+	void slot_help();
+	void slot_about();
 
-    void slot_new_game();
-    void slot_open_game();
-    void slot_save_game();
-    void slot_next_round();
+	void slot_new_game();
+	void slot_open_game();
+	void slot_save_game();
+	void slot_next_round();
 
-    void slot_notation(bool);
-    void slot_notation_font();
+	void slot_notation(bool);
+	void slot_notation_font();
 
-    void slot_working(bool);
+	void slot_working(bool);
 
-    void set_theme(QAction*);
+	void set_theme(QAction*);
 
-    void warning(const QString& text);
+	void warning(const QString& text);
 
-
-private:
-    void make_actions();
-    void make_central_widget();
-    void restore_settings();
-    void store_settings();
-
-    // add themes to this menu.
-    void read_themes(QActionGroup*, QMenu*, const QString& path);
-
-    void information(const QString& caption, const QString& text);
-
-    // returns true if the user wishes to keep current game
-    bool keep_game();
 
 private:
-    QMenu* viewMenu;
-    //
-    QAction* gameNew;
-    QAction* gameStop;
-    QAction* gameOpen;
-    QAction* gameSave;
-    QAction* gameNextRound;
-    //
-    QAction* viewNotation;
-    QAction* viewNotationAbove;
-    //
-    QAction* settingsKeep;
-    QAction* settingsClearLog;
+	void make_actions();
+	void make_central_widget();
+	void restore_settings();
+	void store_settings();
 
-    QString filename;      // PDN File Name
+	// add themes to this menu.
+	void read_themes(QActionGroup*, QMenu*, const QString& path);
 
-    myView* m_view;
-    myNewGameDlg* m_newgame;
+	void information(const QString& caption, const QString& text);
 
-    typedef QMap<QAction*, QString> myThemeMap;
-    myThemeMap m_themes;
+	// returns true if the user wishes to keep current game
+	bool keep_game();
+
+private:
+	QMenu* viewMenu;
+	//
+	QAction* gameNew;
+	QAction* gameStop;
+	QAction* gameOpen;
+	QAction* gameSave;
+	QAction* gameNextRound;
+	//
+	QAction* viewNotation;
+	QAction* viewNotationAbove;
+	//
+	QAction* settingsKeep;
+	QAction* settingsClearLog;
+
+	QString filename;      // PDN File Name
+
+	myView* m_view;
+	myNewGameDlg* m_newgame;
+
+	typedef QMap<QAction*, QString> myThemeMap;
+	myThemeMap m_themes;
 };
 
 #endif
