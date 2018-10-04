@@ -2,6 +2,8 @@ TEMPLATE= app
 TARGET	= qcheckers
 CONFIG  += qt warn_on
 
+QT += widgets
+
 HEADERS	= pdn.h \
 	    checkers.h echeckers.h rcheckers.h \
 	    field.h toplevel.h view.h history.h board.h \

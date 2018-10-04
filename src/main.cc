@@ -67,8 +67,8 @@ int main(int argc, char *argv[])
 	top->show();
 
 	// command line
-	if(app.argc()==2) {
-		top->open(app.argv()[1]);
+	if(app.arguments().length()==2) {
+		top->open(app.arguments()[1]);
 	}
 
 	int exit = app.exec();

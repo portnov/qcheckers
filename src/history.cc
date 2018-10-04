@@ -60,7 +60,7 @@ myHistory::myHistory(QWidget* parent)
 	m_movelist = new QTreeWidget(this);
 	m_movelist->setColumnCount(3);
 	m_movelist->header()->setStretchLastSection(true);
-	m_movelist->header()->setMovable(false);
+	//m_movelist->header()->setMovable(false);
 	m_movelist->setRootIsDecorated(false);
 	QStringList header;
 	header << "#" << tr("Move") << tr("Comment");

@@ -21,7 +21,7 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <qwidget.h>
+#include <QtWidgets>
 #include <qpixmap.h>
 
 
