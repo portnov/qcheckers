@@ -126,8 +126,8 @@ bool RCheckers::go1(int from,int field)
 bool RCheckers::checkCapture1() const
 {
     for(int i=6;i<48;i++)
-	if(checkCapture1(i))
-	    return true;
+        if(checkCapture1(i))
+            return true;
 
     return false;
 }
@@ -138,32 +138,32 @@ bool RCheckers::checkCapture1(int i) const
     switch(board[i])
     {
     case MAN1:
-	if(board[i-6]==MAN2 || board[i-6]==KING2)
-	    if(board[i-12]==FREE) return true;
-	if(board[i-5]==MAN2 || board[i-5]==KING2)
-	    if(board[i-10]==FREE) return true;
-	if(board[i+5]==MAN2 || board[i+5]==KING2)
-	    if(board[i+10]==FREE) return true;
-	if(board[i+6]==MAN2 || board[i+6]==KING2)
-	    if(board[i+12]==FREE) return true;
-	break;
+        if(board[i-6]==MAN2 || board[i-6]==KING2)
+            if(board[i-12]==FREE) return true;
+        if(board[i-5]==MAN2 || board[i-5]==KING2)
+            if(board[i-10]==FREE) return true;
+        if(board[i+5]==MAN2 || board[i+5]==KING2)
+            if(board[i+10]==FREE) return true;
+        if(board[i+6]==MAN2 || board[i+6]==KING2)
+            if(board[i+12]==FREE) return true;
+        break;
     case KING1:
-	int k;
-	for(k=i-6;board[k]==FREE;k-=6);
-	if(board[k]==MAN2 || board[k]==KING2)
-	    if(board[k-6]==FREE) return true;
+        int k;
+        for(k=i-6;board[k]==FREE;k-=6);
+        if(board[k]==MAN2 || board[k]==KING2)
+            if(board[k-6]==FREE) return true;
 
-	for(k=i-5;board[k]==FREE;k-=5);
-	if(board[k]==MAN2 || board[k]==KING2)
-	    if(board[k-5]==FREE) return true;
+        for(k=i-5;board[k]==FREE;k-=5);
+        if(board[k]==MAN2 || board[k]==KING2)
+            if(board[k-5]==FREE) return true;
 
-	for(k=i+5;board[k]==FREE;k+=5);
-	if(board[k]==MAN2 || board[k]==KING2)
-	    if(board[k+5]==FREE) return true;
+        for(k=i+5;board[k]==FREE;k+=5);
+        if(board[k]==MAN2 || board[k]==KING2)
+            if(board[k+5]==FREE) return true;
 
-	for(k=i+6;board[k]==FREE;k+=6);
-	if(board[k]==MAN2 || board[k]==KING2)
-	    if(board[k+6]==FREE) return true;
+        for(k=i+6;board[k]==FREE;k+=6);
+        if(board[k]==MAN2 || board[k]==KING2)
+            if(board[k+6]==FREE) return true;
     }
 
     return false;
@@ -230,11 +230,11 @@ bool RCheckers::manCapture1(int from,int direction,bool &capture)
             if(k<10)
             {
                 board[k]=KING1;
-		if(kingCapture1(k,direction+11,next))
-		{
-		    board[i]=FREE;
-		    return true;
-		}
+                if(kingCapture1(k,direction+11,next))
+                {
+                    board[i]=FREE;
+                    return true;
+                }
             }
             else
             {
