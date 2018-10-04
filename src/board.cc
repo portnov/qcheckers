@@ -69,13 +69,6 @@ myBoard::myBoard(QWidget* parent)
 	 */
 	m_game = 0;
 
-	xpmPat1 = 0;
-	xpmPat2 = 0;
-	xpmFrame= 0;
-	xpmManBlack = 0;
-	xpmManWhite = 0;
-	xpmKingBlack= 0;
-	xpmKingWhite= 0;
 }
 
 
@@ -86,78 +79,45 @@ myBoard::~myBoard()
 	}
 }
 
+void myBoard::beginSetup() {
+  for (int i = 0; i < 64; i++) {
+    m_fields[i]->beginSetup();
+  }
+}
+
+void myBoard::endSetup() {
+  for (int i = 0; i < 64; i++) {
+    m_fields[i]->endSetup();
+  }
+}
+
 
 void myBoard::setTheme(const QString& path, bool set_white)
 {
-	// delete them later.
-	QPixmap* p1 = xpmManWhite;
-	QPixmap* p2 = xpmManBlack;
-	QPixmap* p3 = xpmKingWhite;
-	QPixmap* p4 = xpmKingBlack;
-	QPixmap* p5 = xpmPat1;
-	QPixmap* p6 = xpmPat2;
-	QPixmap* p7 = xpmFrame;
+  m_theme = new Theme(this, path);
 
-	if(path == DEFAULT_THEME) {
-		// just in case no themes installed.
-		xpmPat1 = new QPixmap(":/icons/theme/tile1.png");
-		xpmPat2 = new QPixmap(":/icons/theme/tile2.png");
-		xpmFrame= new QPixmap(":/icons/theme/frame.png");
-		xpmManBlack = new QPixmap(":/icons/theme/manblack.png");
-		xpmManWhite = new QPixmap(":/icons/theme/manwhite.png");
-		xpmKingBlack= new QPixmap(":/icons/theme/kingblack.png");
-		xpmKingWhite= new QPixmap(":/icons/theme/kingwhite.png");
-	} else {
-		xpmPat1 = new QPixmap(path+"/"THEME_TILE1);
-		xpmPat2 = new QPixmap(path+"/"THEME_TILE2);
-		xpmFrame= new QPixmap(path+"/"THEME_FRAME);
-		xpmManBlack = new QPixmap(path+"/"THEME_MANBLACK);
-		xpmManWhite = new QPixmap(path+"/"THEME_MANWHITE);
-		xpmKingBlack = new QPixmap(path+"/"THEME_KINGBLACK);
-		xpmKingWhite = new QPixmap(path+"/"THEME_KINGWHITE);
-	}
+  beginSetup();
 
 	setColorWhite(set_white);
 
 	for(int i=0; i<32; i++) {
-		m_fields[i]->setPattern(xpmPat2);
+		m_fields[i]->setPattern(m_theme->getPattern2());
 	}
 	for(int i=32; i<64; i++) {
-		m_fields[i]->setPattern(xpmPat1);
+		m_fields[i]->setPattern(m_theme->getPattern1());
 	}
 	for(int i=0; i<32; i++) {
-		m_fields[i]->setFrame(xpmFrame);
+		m_fields[i]->setFrame(m_theme->getFrame());
 	}
 
-	setFixedSize(xpmMan1->width()*8 + 2*frameWidth(),
-		xpmMan1->height()*8 + 2*frameWidth());
+	setFixedSize(m_theme->getFieldWidth()*8 + 2*frameWidth(),
+		m_theme->getFieldHeight()*8 + 2*frameWidth());
 
 	if(m_game) {
 		do_draw();
 	}
 
-	// now delete.
-	if(p1) {
-		delete p1;
-	}
-	if(p2) {
-		delete p2;
-	}
-	if(p3) {
-		delete p3;
-	}
-	if(p4) {
-		delete p4;
-	}
-	if(p5) {
-		delete p5;
-	}
-	if(p6) {
-		delete p6;
-	}
-	if(p7) {
-		delete p7;
-	}
+  endSetup();
 }
 
 
@@ -214,16 +174,16 @@ void myBoard::do_draw()
 	for(int i=0; i<32; i++) {
 		switch(m_game->item(i)) {
 		case MAN1:
-			m_fields[i]->setPicture(xpmMan1);
+			m_fields[i]->setPicture(m_theme->getMan1(bottom_is_white));
 			break;
 		case MAN2:
-			m_fields[i]->setPicture(xpmMan2);
+			m_fields[i]->setPicture(m_theme->getMan2(bottom_is_white));
 			break;
 		case KING1:
-			m_fields[i]->setPicture(xpmKing1);
+			m_fields[i]->setPicture(m_theme->getKing1(bottom_is_white));
 			break;
 		case KING2:
-			m_fields[i]->setPicture(xpmKing2);
+			m_fields[i]->setPicture(m_theme->getKing2(bottom_is_white));
 			break;
 		default:
 			m_fields[i]->setPicture(NULL);
@@ -234,17 +194,7 @@ void myBoard::do_draw()
 
 void myBoard::setColorWhite(bool b)
 {
-	if(b) {
-		xpmMan1 = xpmManWhite;
-		xpmMan2 = xpmManBlack;
-		xpmKing1= xpmKingWhite;
-		xpmKing2= xpmKingBlack;
-	} else {
-		xpmMan1 = xpmManBlack;
-		xpmMan2 = xpmManWhite;
-		xpmKing1= xpmKingBlack;
-		xpmKing2= xpmKingWhite;
-	}
+  bottom_is_white = b;
 }
 
 void myBoard::setNotation(bool s, bool above)
@@ -344,8 +294,8 @@ void myBoard::selectField(int field_num, bool is_on)
 
 QString myBoard::doMove(int from_num, int to_num, bool white_player)
 {
-	bool bottom_player = (white_player && (xpmMan1==xpmManWhite))
-		|| (!white_player && (xpmMan1==xpmManBlack));
+	bool bottom_player = (white_player && bottom_is_white)
+		|| (!white_player && !bottom_is_white);
 
 	int from_pos = from_num;
 	int to_pos = to_num;

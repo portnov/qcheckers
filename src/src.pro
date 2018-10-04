@@ -1,12 +1,12 @@
 TEMPLATE= app
 TARGET	= qcheckers
-CONFIG  += qt warn_on
+CONFIG  += qt warn_on debug
 
 QT += widgets
 
 HEADERS	= pdn.h \
 	    checkers.h echeckers.h rcheckers.h \
-	    field.h toplevel.h view.h history.h board.h \
+	    theme.h field.h toplevel.h view.h history.h board.h \
 	    newgamedlg.h \
 	    common.h \
 	    player.h humanplayer.h computerplayer.h
@@ -14,7 +14,7 @@ HEADERS	= pdn.h \
 
 SOURCES	= pdn.cc \
 	    checkers.cc echeckers.cc rcheckers.cc \
-	    field.cc toplevel.cc view.cc history.cc board.cc \
+	    theme.cc field.cc toplevel.cc view.cc history.cc board.cc \
 	    main.cc \
 	    newgamedlg.cc \
 	    humanplayer.cc computerplayer.cc

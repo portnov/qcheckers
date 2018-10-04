@@ -24,6 +24,7 @@
 
 #include <QFrame>
 
+#include "theme.h"
 #include "field.h"
 #include "checkers.h"
 
@@ -68,23 +69,15 @@ signals:
 private:
 	bool convert_move(const QString&, int* from, int* to);
 	void do_draw();
+  void beginSetup();
+  void endSetup();
 
 private:
 	Field* m_fields[64];
 
-	QPixmap* xpmPat1;
-	QPixmap* xpmPat2;
-	QPixmap* xpmFrame;
+  Theme* m_theme;
 
-	QPixmap* xpmMan1;
-	QPixmap* xpmMan2;
-	QPixmap* xpmKing1;
-	QPixmap* xpmKing2;
-
-	QPixmap* xpmManBlack;
-	QPixmap* xpmManWhite;
-	QPixmap* xpmKingBlack;
-	QPixmap* xpmKingWhite;
+  bool bottom_is_white;
 
 	Checkers* m_game;
 };

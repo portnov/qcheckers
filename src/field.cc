@@ -42,6 +42,36 @@ Field::Field(QWidget* parent,int i)
     show_frame = false;
 
     m_show_label = true;
+
+    setup_mode = false;
+}
+
+void Field::beginSetup() {
+  Q_ASSERT(! setup_mode);
+  qInfo("beginSetup(%d)", m_number);
+  setup_mode = true;
+}
+
+void Field::endSetup() {
+  Q_ASSERT(setup_mode);
+  qInfo("endSetup(%d)", m_number);
+
+  setup_mode = false;
+  /*if (m_prev_frame) {
+    qInfo("m_prev_frame = %d", m_prev_frame);
+    delete m_prev_frame;
+    m_prev_frame = NULL;
+  }
+  if (m_prev_checker) {
+    qInfo("m_prev_checker = %d", m_prev_checker);
+    delete m_prev_checker;
+    m_prev_checker = NULL;
+  }
+  if (m_prev_pattern) {
+    qInfo("m_prev_pattern = %d", m_prev_pattern);
+    delete m_prev_pattern;
+    m_prev_pattern = NULL;
+  }*/
 }
 
 
@@ -99,7 +129,13 @@ void Field::draw()
 
 void Field::setFrame(QPixmap* xpm)
 {
+    m_prev_frame = m_frame;
     m_frame = xpm;
+}
+
+void Field::setFrame(const QString& path) {
+  m_prev_frame = m_frame;
+  m_frame = new QPixmap(path);
 }
 
 
@@ -115,18 +151,31 @@ void Field::showFrame(bool b)
 void Field::setPicture(QPixmap* xpm)
 {
     if(m_checker!=xpm) {
+      m_prev_checker = m_checker;
 	m_checker = xpm;
 	draw();
     }
 }
 
+void Field::setPicture(const QString& path) {
+  m_prev_checker = m_checker;
+  m_checker = new QPixmap(path);
+  draw();
+}
 
 void Field::setPattern(QPixmap* xpm)
 {
     if(m_pattern != xpm) {
+      m_prev_pattern = m_pattern;
 	m_pattern = xpm;
 	draw();
     }
+}
+
+void Field::setPattern(const QString& path) {
+  m_prev_pattern = m_pattern;
+  m_pattern = new QPixmap(path);
+  draw();
 }
 
 

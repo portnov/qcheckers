@@ -18,85 +18,51 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef FIELD_H
-#define FIELD_H
+#ifndef THEME_H
+#define THEME_H
 
 #include <QtWidgets>
 #include <qpixmap.h>
 
+class Theme : public QObject {
+  Q_OBJECT
 
-class Field : public QWidget
-{
-    Q_OBJECT
+  public:
+    Theme(QObject*, const QString&);
 
-public:
-    Field(QWidget*, int num);
+    QPixmap* getMan1(bool);
+    QPixmap* getMan2(bool);
+    QPixmap* getKing1(bool);
+    QPixmap* getKing2(bool);
 
-    const QString& label() const { return m_label; }
-    void setLabel(const QString&);
-    void showLabel(bool s, bool above);
+    QPixmap* getPattern1();
+    QPixmap* getPattern2();
+    QPixmap* getFrame();
 
-    void showFrame(bool);
-    void setFrame(QPixmap*);
-    void setFrame(const QString&);
-    void setPicture(QPixmap*);
-    void setPicture(const QString&);
-    void setPattern(QPixmap*);
-    void setPattern(const QString&);
+    int getFieldWidth();
+    int getFieldHeight();
 
-    void set(int);
+  private:
+    QString m_path;
 
-    int number() const { return m_number; }
+    QString m_man_white_path;
+    QString m_man_black_path;
+    QString m_king_white_path;
+    QString m_king_black_path;
 
-    int width() const {
-      Q_ASSERT(m_checker);
-      return m_checker->width();
-    }
+    QString m_pat1_path;
+    QString m_pat2_path;
+    QString m_frame_path;
 
-    int height() const {
-      Q_ASSERT(m_checker);
-      return m_checker->height();
-    }
+    QPixmap* m_man_white = NULL;
+    QPixmap* m_man_black = NULL;
+    QPixmap* m_king_white = NULL;
+    QPixmap* m_king_black = NULL;
 
-    void fontUpdate() { draw(); }
+    QPixmap* m_pattern1 = NULL;
+    QPixmap* m_pattern2 = NULL;
+    QPixmap* m_frame = NULL;
 
-    void beginSetup();
-    void endSetup();
-
-signals:
-    void click(int);
-
-protected:
-
-    void paintEvent(QPaintEvent*);
-    void mousePressEvent(QMouseEvent*);
-
-private:
-    void draw();
-
-    int m_number;
-
-    // pixmap = pattern + label + picture + frame;
-
-    QPixmap* m_frame;
-    QPixmap* m_checker;
-    QPixmap* m_pattern;
-
-    QPixmap* m_prev_frame = NULL ;
-    QPixmap* m_prev_checker = NULL ;
-    QPixmap* m_prev_pattern = NULL ;
-
-    QString m_label;
-    bool m_show_label;
-    bool m_show_above;
-
-    QPixmap* pixmap;
-
-    bool show_frame;
-
-    bool setup_mode;
 };
 
 #endif
-
-
