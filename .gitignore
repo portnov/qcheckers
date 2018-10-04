@@ -1,0 +1,7 @@
+*.o
+*.swp
+Makefile
+src/Makefile
+src/qcheckers
+src/moc_*.cpp
+src/qrc_*.cpp
