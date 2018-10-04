@@ -2,7 +2,7 @@ TEMPLATE= app
 TARGET	= qcheckers
 CONFIG  += qt warn_on debug
 
-QT += widgets
+QT += widgets svg
 
 HEADERS	= pdn.h \
 	    checkers.h echeckers.h rcheckers.h \

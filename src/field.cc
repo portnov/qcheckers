@@ -24,8 +24,10 @@
 #include <QMouseEvent>
 #include <QDebug>
 
+#include "theme.h"
 #include "field.h"
 #include "common.h"
+#include "checkers.h"
 
 
 Field::Field(QWidget* parent,int i)
@@ -48,13 +50,13 @@ Field::Field(QWidget* parent,int i)
 
 void Field::beginSetup() {
   Q_ASSERT(! setup_mode);
-  qInfo("beginSetup(%d)", m_number);
+  //qInfo("beginSetup(%d)", m_number);
   setup_mode = true;
 }
 
 void Field::endSetup() {
   Q_ASSERT(setup_mode);
-  qInfo("endSetup(%d)", m_number);
+  //qInfo("endSetup(%d)", m_number);
 
   setup_mode = false;
 }
@@ -80,6 +82,7 @@ void Field::mousePressEvent(QMouseEvent* me)
 
 void Field::draw()
 {
+    pixmap->fill(Qt::white);
     QPainter paint;
     paint.begin(pixmap);
     paint.setFont(font());
@@ -111,18 +114,17 @@ void Field::draw()
     update();
 }
 
-
-void Field::setFrame(QPixmap* xpm)
-{
-    m_frame = xpm;
-}
-
 void Field::showFrame(bool b)
 {
     if(show_frame != b) {
 	show_frame = b;
 	draw();
     }
+}
+
+void Field::setFrame(QPixmap* xpm)
+{
+    m_frame = xpm;
 }
 
 
@@ -140,6 +142,32 @@ void Field::setPattern(QPixmap* xpm)
 	m_pattern = xpm;
 	draw();
     }
+}
+
+void Field::setTheme(Theme* theme) {
+  Q_ASSERT(theme);
+  m_theme = theme;
+  m_frame = theme->getFrame();
+  pixmap = new QPixmap(theme->getFieldWidth(), theme->getFieldHeight());
+}
+
+void Field::set(int item, bool bottom_is_white) {
+  switch(item) {
+    case MAN1:
+      setPicture(m_theme->getMan1(bottom_is_white));
+      break;
+    case MAN2:
+      setPicture(m_theme->getMan2(bottom_is_white));
+      break;
+    case KING1:
+      setPicture(m_theme->getKing1(bottom_is_white));
+      break;
+    case KING2:
+      setPicture(m_theme->getKing2(bottom_is_white));
+      break;
+    default:
+      setPicture(NULL);
+  }
 }
 
 void Field::setLabel(const QString& str)
@@ -160,3 +188,17 @@ void Field::showLabel(bool s, bool a)
     }
 }
 
+QSize Field::sizeHint() const {
+  if (! m_theme) {
+    return QSize();
+  } else {
+    return QSize(m_theme->getFieldWidth(), m_theme->getFieldHeight());
+  }
+}
+
+void Field::resizeEvent(QResizeEvent*) {
+  if (m_theme) {
+    m_frame = m_theme->getFrame();
+    //pixmap = new QPixmap(m_theme->getFieldWidth(), m_theme->getFieldHeight());
+  }
+}

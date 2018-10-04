@@ -94,7 +94,10 @@ void myBoard::endSetup() {
 
 void myBoard::setTheme(const QString& path, bool set_white)
 {
-  m_theme = new Theme(this, path);
+  m_theme = new Theme(this, path, 0);
+  for (int i = 0; i < 64; i++) {
+    m_fields[i]->setTheme(m_theme);
+  }
 
   beginSetup();
 
@@ -110,8 +113,13 @@ void myBoard::setTheme(const QString& path, bool set_white)
 		m_fields[i]->setFrame(m_theme->getFrame());
 	}
 
-	setFixedSize(m_theme->getFieldWidth()*8 + 2*frameWidth(),
-		m_theme->getFieldHeight()*8 + 2*frameWidth());
+  int width = m_theme->getFieldWidth()*8 + 2*frameWidth();
+  int height = m_theme->getFieldHeight()*8 + 2*frameWidth();
+  if (! m_theme->getIsResizeable()) {
+    setFixedSize(width, height);
+  } else {
+    setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+  }
 
 	if(m_game) {
 		do_draw();
@@ -119,7 +127,6 @@ void myBoard::setTheme(const QString& path, bool set_white)
 
   endSetup();
 }
-
 
 void myBoard::reset()
 {
@@ -172,22 +179,7 @@ void myBoard::adjustNotation(bool bottom_is_white)
 void myBoard::do_draw()
 {
 	for(int i=0; i<32; i++) {
-		switch(m_game->item(i)) {
-		case MAN1:
-			m_fields[i]->setPicture(m_theme->getMan1(bottom_is_white));
-			break;
-		case MAN2:
-			m_fields[i]->setPicture(m_theme->getMan2(bottom_is_white));
-			break;
-		case KING1:
-			m_fields[i]->setPicture(m_theme->getKing1(bottom_is_white));
-			break;
-		case KING2:
-			m_fields[i]->setPicture(m_theme->getKing2(bottom_is_white));
-			break;
-		default:
-			m_fields[i]->setPicture(NULL);
-		}
+    m_fields[i]->set(m_game->item(i), bottom_is_white);
 	}
 }
 
@@ -345,3 +337,13 @@ void myBoard::doFreeMove(int from, int to)
 	do_draw();
 }
 
+void myBoard::resizeEvent(QResizeEvent* e) {
+  if (m_theme) {
+    int w_max = e->size().width();
+    int h_max = e->size().height();
+    int max_size = w_max < h_max ? w_max : h_max;
+    int size = (max_size - 2*frameWidth()) / 8;
+    m_theme->setTargetSize(size);
+    do_draw();
+  }
+}

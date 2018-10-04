@@ -225,73 +225,14 @@ void myTopLevel::read_themes(QActionGroup* menu_grp, QMenu* menu,
 		sharedir.cd(*it);
 
 		QString theme_dir = sharedir.absolutePath();
-		QString errtext;
+    qInfo("Check: %s", qUtf8Printable(theme_dir));
+    Theme* theme = new Theme(this, theme_dir, 0);
+    if (! theme->isValid()) {
+      qWarning() << "Theme in "
+				<< sharedir.absolutePath() << " is invalid";
+    } else {
+			QString themename = theme->name();
 
-		QStringList files
-			= sharedir.entryList(QDir::Files|QDir::Readable);
-
-		// all files are there.
-		if(files.count()!=8 ||
-			files.indexOf(THEME_TILE1) == -1 ||
-			files.indexOf(THEME_TILE2) == -1 ||
-			files.indexOf(THEME_FRAME) == -1 ||
-			files.indexOf(THEME_MANBLACK) == -1 ||
-			files.indexOf(THEME_MANWHITE) == -1 ||
-			files.indexOf(THEME_KINGBLACK) == -1 ||
-			files.indexOf(THEME_KINGWHITE) == -1 ||
-			files.indexOf(THEME_FILE) == -1) {
-			// TODO not translated.
-			errtext += "Wrong number of files. ";
-		}
-		files.removeAll(THEME_FILE);
-
-		// check pic size.
-		QSize size = QPixmap(theme_dir+"/"+files[0]).size();
-		if(size.width()>MAX_TILE_SIZE || size.height()>MAX_TILE_SIZE)
-			// TODO not translated.
-			errtext += "Picture(s) too big. ";
-
-		if(size.width()==0 || size.height()==0)
-			// TODO not translated.
-			errtext += "Width/Height is zero. ";
-
-		// check pics all the same size.
-		foreach(QString file, files) {
-			if(QPixmap(theme_dir+"/"+file).size() != size) {
-				// TODO not translated.
-				errtext += "Pictures are different in size. ";
-				break;
-			}
-		}
-
-		if(errtext.length()) {
-			// TODO not translated.
-			qWarning() << endl << "Theme in"
-				<< sharedir.absolutePath() << endl << errtext;
-
-		} else {
-			QString themename = sharedir.dirName();
-
-			/*TODO
-			QFile file(theme_dir+"/"+THEME_FILE);
-			if(file.open(QFile::ReadOnly)) {
-			QTextStream ts(&file);
-			if(!ts.atEnd())
-				themename = ts.readLine();
-			// try go get locale theme name
-			// TODO
-			QString locale = QString("[%1]=").arg(QTextCodec::locale());
-			while(!ts.atEnd()) {
-				QString line = ts.readLine();
-				if(line.startsWith(locale)) {
-					themename = line.mid(locale.length());
-					break;
-				}
-			}
-			file.close();
-			}
-			*/
-		//
 			QAction* action = new QAction(themename, this);
 			menu_grp->addAction(action);
 			menu->addAction(action);

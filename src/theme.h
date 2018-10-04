@@ -28,7 +28,7 @@ class Theme : public QObject {
   Q_OBJECT
 
   public:
-    Theme(QObject*, const QString&);
+    Theme(QObject*, const QString&, int);
 
     QPixmap* getMan1(bool);
     QPixmap* getMan2(bool);
@@ -39,11 +39,23 @@ class Theme : public QObject {
     QPixmap* getPattern2();
     QPixmap* getFrame();
 
+    void setTargetSize(int);
     int getFieldWidth();
     int getFieldHeight();
 
+    bool getIsResizeable();
+
+    bool isValid();
+
+    const QString name();
+
   private:
+
+    QPixmap* render(const QString&);
+    QSettings* settings;
+
     QString m_path;
+    int m_target_size;
 
     QString m_man_white_path;
     QString m_man_black_path;

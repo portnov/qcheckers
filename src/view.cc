@@ -79,7 +79,7 @@ myView::myView(QWidget* parent)
 	 *
 	 */
 	m_log = new QTextEdit(this);
-    	m_log->setFixedHeight(100); //FIXME
+    	//m_log->setFixedHeight(100); //FIXME
 	m_log->setReadOnly(true);
 
 
@@ -89,7 +89,7 @@ myView::myView(QWidget* parent)
 	QVBoxLayout* vb = new QVBoxLayout(this);
 	vb->addLayout(hb);
 	vb->addWidget(m_log);
-	vb->setSizeConstraint(QLayout::SetFixedSize);
+	//vb->setSizeConstraint(QLayout::SetFixedSize);
 
 
 	/*
@@ -121,7 +121,7 @@ void myView::setEnabled(bool b)
 void myView::setTheme(const QString& path)
 {
 	m_board->setTheme(path, m_player ? m_player->isWhite() : true);
-	m_history->setFixedHeight(m_board->height());
+	//m_history->setFixedHeight(m_board->height());
 }
 
 

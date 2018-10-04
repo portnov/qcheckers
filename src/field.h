@@ -24,6 +24,8 @@
 #include <QtWidgets>
 #include <qpixmap.h>
 
+#include "theme.h"
+
 
 class Field : public QWidget
 {
@@ -32,16 +34,21 @@ class Field : public QWidget
 public:
     Field(QWidget*, int num);
 
+    QSize sizeHint() const;
+    void resizeEvent(QResizeEvent*);
+
     const QString& label() const { return m_label; }
     void setLabel(const QString&);
     void showLabel(bool s, bool above);
 
     void showFrame(bool);
+
     void setFrame(QPixmap*);
     void setPicture(QPixmap*);
     void setPattern(QPixmap*);
 
-    void set(int);
+    void setTheme(Theme*);
+    void set(int, bool);
 
     int number() const { return m_number; }
 
@@ -88,6 +95,7 @@ private:
     bool show_frame;
 
     bool setup_mode;
+    Theme* m_theme;
 };
 
 #endif

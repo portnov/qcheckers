@@ -37,6 +37,8 @@ public:
 	myBoard(QWidget* parent);
 	~myBoard();
 
+  void resizeEvent(QResizeEvent*);
+
 	// returns coded move string: from_pos_string?to_pos_string
 	QString doMove(int from_pos, int to_pos, bool white_player);
 	// coded move.
