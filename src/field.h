@@ -38,11 +38,8 @@ public:
 
     void showFrame(bool);
     void setFrame(QPixmap*);
-    void setFrame(const QString&);
     void setPicture(QPixmap*);
-    void setPicture(const QString&);
     void setPattern(QPixmap*);
-    void setPattern(const QString&);
 
     void set(int);
 
@@ -81,10 +78,6 @@ private:
     QPixmap* m_frame;
     QPixmap* m_checker;
     QPixmap* m_pattern;
-
-    QPixmap* m_prev_frame = NULL ;
-    QPixmap* m_prev_checker = NULL ;
-    QPixmap* m_prev_pattern = NULL ;
 
     QString m_label;
     bool m_show_label;
