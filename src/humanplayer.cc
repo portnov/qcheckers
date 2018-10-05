@@ -70,7 +70,7 @@ bool myHumanPlayer::fieldClicked(int field_num, bool* select, bool bottom_is_whi
     bool must_capture = !capture->isEmpty() && !m_game->canCapture1(field_num);
     delete capture;
 		if (must_capture) {
-      errmsg = tr("You must capture: %1").arg(m_game->describeCapture(bottom_is_white, capture));
+      errmsg = tr("You must capture. Available moves are: %1").arg(m_game->describeCapture(bottom_is_white, capture));
 			return false;
 		}
 		if(!m_game->canCapture1(field_num)

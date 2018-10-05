@@ -351,12 +351,17 @@ bool Checkers::checkMove2() const
 
 QString Checkers::describeCapture(bool bottom_is_white, Captures* capture) const {
   QString result;
+  bool first = true;
   for (int i = 0; i < capture->size(); i++) {
     Capture move = capture->at(i);
     QString from = getFieldNotation(external(move.source), bottom_is_white);
     QString to   = getFieldNotation(external(move.target), bottom_is_white);
     QString captured = getFieldNotation(external(move.captured), bottom_is_white);
-    result += QString("%1 -> %2 capturing %3, ").arg(from).arg(to).arg(captured);
+    if (! first) {
+      result += ", ";
+    }
+    first = false;
+    result += QString("%1 -> %2 capturing %3").arg(from).arg(to).arg(captured);
   }
   return result;
 }

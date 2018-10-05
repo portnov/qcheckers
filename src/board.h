@@ -32,6 +32,7 @@
 class myBoard : public QFrame
 {
 	Q_OBJECT
+  Q_PROPERTY(QColor highlightColor READ highlightColor WRITE setHighlightColor)
 
 public:
 	myBoard(QWidget* parent);
@@ -66,6 +67,9 @@ public:
 	// TODO
 	const Checkers* game() const { return m_game; }
 
+  QColor highlightColor() const;
+  void setHighlightColor(const QColor& color);
+
 signals:
 	void fieldClicked(int);
 
@@ -83,6 +87,9 @@ private:
   void endSetup();
   int getTargetFieldSize(QSize size);
 
+  void highlightSource(int);
+  void highlightTarget(int);
+
 private:
 	Field* m_fields[64];
   QPixmap* pixmap = NULL;
@@ -91,6 +98,9 @@ private:
   Theme* m_theme;
 
   bool bottom_is_white;
+  bool animation_in_progress;
+  QColor m_highlight_color;
+  Field* m_highlighted_field;
 
 	Checkers* m_game;
 };

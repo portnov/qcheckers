@@ -40,6 +40,6 @@ INSTALLS	+= target
 # This hack is needed for i18n support.
 #
 share.path	+= $$PREFIX/share/qcheckers
-share.files	+= qcheckers.pdn ../COPYING ../AUTHORS ../ChangeLog ../README ../themes ../i18n/*
+share.files	+= qcheckers.pdn ../COPYING ../AUTHORS ../ChangeLog ../README ../themes ../lang
 INSTALLS	+= share
 

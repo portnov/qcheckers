@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <QLayout>
+#include <QtGui>
 #include <QDebug>
 
 #include "board.h"
@@ -34,6 +35,13 @@
 #include "computerplayer.h"
 */
 
+QVariant myColorInterpolator(const QColor &start, const QColor &end, qreal progress) {
+    qreal r = (1 - progress) * start.red() + progress * end.red();
+    qreal g = (1 - progress) * start.green() + progress * end.green();
+    qreal b = (1 - progress) * start.blue() + progress * end.blue();
+    qInfo("from %s to %s, progress %f", qUtf8Printable(start.name()), qUtf8Printable(end.name()), progress);
+    return QColor(r, g, b);
+}
 
 myBoard::myBoard(QWidget* parent)
 	: QFrame(parent)
@@ -41,12 +49,14 @@ myBoard::myBoard(QWidget* parent)
 	/*
 	 * board & info 
 	 */
+  qRegisterAnimationInterpolator<QColor>(myColorInterpolator);
 	setFrameStyle(QFrame::Box|QFrame::Plain);
 	for(int i=0; i<64; i++) {
 		m_fields[i] = new Field(this, i);
 	}
 
   pixmap_valid = false;
+  m_highlighted_field = NULL;
 
 // 	for(int i=0; i<32; i++) {
 // 		connect(m_fields[i], SIGNAL(click(int)),
@@ -227,6 +237,13 @@ void myBoard::draw() {
 			drawField(painter, m_fields[i*8+k+36], i*2+1,k*2+1);
 		}
 	}
+
+  if (animation_in_progress && m_highlighted_field) {
+    qInfo("color: %s", qUtf8Printable(m_highlight_color.name()));
+    painter.setPen(QPen(m_highlight_color, 5));
+    painter.drawRect(m_highlighted_field->rect());
+    painter.setPen(Qt::black);
+  }
   painter.end();
   update();
   pixmap_valid = true;
@@ -359,6 +376,8 @@ QString myBoard::doMove(int from_num, int to_num, bool white_player)
 	}
 
 	fieldsSetup();
+  highlightSource(from_num);
+  highlightTarget(to_num);
 
 	return QString("%1?%3")
 		.arg(m_fields[from_num]->label())
@@ -413,5 +432,45 @@ void myBoard::mousePressEvent(QMouseEvent* me)
         return;
       }
     }
+}
+
+QColor myBoard::highlightColor() const {
+  return m_highlight_color;
+}
+
+void myBoard::setHighlightColor(const QColor& color) {
+  m_highlight_color = color;
+  //if (animation_in_progress && m_highlighted_field) {
+    invalidate();
+    repaint();
+  //}
+}
+
+void myBoard::highlightSource(int i) {
+  animation_in_progress = true;
+  m_highlighted_field = m_fields[i];
+  QPropertyAnimation animation(this, "highlightColor");
+  animation.setKeyValueAt(0, QColor(0,0,0));
+  animation.setKeyValueAt(0.5, QColor(255,0,0));
+  animation.setKeyValueAt(1, QColor(255,255,255));
+  animation.setDuration(10000);
+  animation.start();
+  animation_in_progress = false;
+  m_highlighted_field = NULL;
+}
+
+void myBoard::highlightTarget(int i) {
+  animation_in_progress = true;
+  m_highlighted_field = m_fields[i];
+  QPropertyAnimation animation(this, "highlightColor");
+  animation.setStartValue(QColor(0, 0, 0));
+  animation.setEndValue(QColor(255, 0, 0));
+  /*animation.setKeyValueAt(0, QColor(0,0,0));
+  animation.setKeyValueAt(0.5, QColor(0,255,0));
+  animation.setKeyValueAt(1, QColor(255,255,0));*/
+  animation.setDuration(10000);
+  animation.start();
+  animation_in_progress = false;
+  m_highlighted_field = NULL;
 }
 

@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	QApplication app(argc,argv);
 	QString current_lang = QLocale::system().name().split("_").front();
 	QString qt_lang_path = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-	QString qcheckers_share_path = PREFIX"/share/qcheckers";
+	QString qcheckers_share_path = PREFIX"/share/qcheckers/lang";
 
 	qDebug()
 		<< "Your Locale:" << current_lang << endl
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 					qcheckers_share_path)) {
 			app.installTranslator(&app_tr);
 		} else {
-			qDebug() << "Loading KCheckers translations failed.";
+			qDebug() << "Loading QCheckers translations failed.";
 		}
 	}
 
