@@ -27,15 +27,16 @@
 #include "theme.h"
 
 
-class Field : public QWidget
+class Field : public QObject
 {
     Q_OBJECT
 
 public:
-    Field(QWidget*, int num);
+    Field(QObject*, int num);
+    ~Field();
 
-    QSize sizeHint() const;
-    void resizeEvent(QResizeEvent*);
+    //QSize sizeHint() const;
+    //void resizeEvent(QResizeEvent*);
 
     const QString& label() const { return m_label; }
     void setLabel(const QString&);
@@ -63,17 +64,20 @@ public:
 
     void beginSetup();
     void endSetup();
+    void draw(QPainter&, QRect);
+    void invalidate();
+
+    const QRect& rect() const;
 
 signals:
     void click(int);
 
 protected:
 
-    void paintEvent(QPaintEvent*);
-    void mousePressEvent(QMouseEvent*);
+    //void paintEvent(QPaintEvent*);
+    //void mousePressEvent(QMouseEvent*);
 
 private:
-    void invalidate();
     void draw();
     //void setPicture(QPixmap*);
 
@@ -99,6 +103,7 @@ private:
 
     bool setup_mode;
     Theme* m_theme;
+    QRect m_rect;
 };
 
 #endif

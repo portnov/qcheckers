@@ -69,15 +69,24 @@ public:
 signals:
 	void fieldClicked(int);
 
+protected:
+    void paintEvent(QPaintEvent*);
+    void mousePressEvent(QMouseEvent*);
+
 private:
 	bool convert_move(const QString&, int* from, int* to);
-	void do_draw();
+	void fieldsSetup();
+  void draw();
+  void drawField(QPainter&, Field*, int, int);
+  void invalidate();
   void beginSetup();
   void endSetup();
   int getTargetFieldSize(QSize size);
 
 private:
 	Field* m_fields[64];
+  QPixmap* pixmap = NULL;
+  bool pixmap_valid;
 
   Theme* m_theme;
 

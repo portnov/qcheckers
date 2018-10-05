@@ -46,22 +46,12 @@ myBoard::myBoard(QWidget* parent)
 		m_fields[i] = new Field(this, i);
 	}
 
-	QGridLayout* grid = new QGridLayout(this);
-	grid->setSpacing(0);
-	grid->setMargin(0);
-	for(int i=0; i<4; i++) {
-		for(int k=0; k<4; k++) {
-			grid->addWidget(m_fields[i*8+k+32], i*2,  k*2  );
-			grid->addWidget(m_fields[i*8+k   ], i*2,  k*2+1);
-			grid->addWidget(m_fields[i*8+k+4 ], i*2+1,k*2  );
-			grid->addWidget(m_fields[i*8+k+36], i*2+1,k*2+1);
-		}
-	}
+  pixmap_valid = false;
 
-	for(int i=0; i<32; i++) {
-		connect(m_fields[i], SIGNAL(click(int)),
-				this, SIGNAL(fieldClicked(int)));
-	}
+// 	for(int i=0; i<32; i++) {
+// 		connect(m_fields[i], SIGNAL(click(int)),
+// 				this, SIGNAL(fieldClicked(int)));
+// 	}
 
 
 	/*
@@ -74,9 +64,15 @@ myBoard::myBoard(QWidget* parent)
 
 myBoard::~myBoard()
 {
+  for (int i = 0; i < 64; i++) {
+    delete m_fields[i];
+  }
 	if(m_game) {
 		delete m_game;
 	}
+  if (pixmap) {
+    delete pixmap;
+  }
 }
 
 void myBoard::beginSetup() {
@@ -91,6 +87,16 @@ void myBoard::endSetup() {
   }
 }
 
+void myBoard::paintEvent(QPaintEvent*)
+{
+    QPainter p(this);
+
+    draw();
+    Q_ASSERT(pixmap_valid);
+    p.drawPixmap(0, 0, *pixmap);
+
+    p.end();
+}
 
 void myBoard::setTheme(const QString& path, bool set_white)
 {
@@ -124,7 +130,7 @@ void myBoard::setTheme(const QString& path, bool set_white)
   }
 
 	if(m_game) {
-		do_draw();
+		fieldsSetup();
 	}
 
   endSetup();
@@ -164,7 +170,7 @@ void myBoard::reset()
 		m_game->setup(new_board);
 	}
 
-	do_draw();
+	fieldsSetup();
 }
 
 
@@ -180,13 +186,52 @@ void myBoard::adjustNotation(bool bottom_is_white)
 }
 
 
-void myBoard::do_draw()
+void myBoard::fieldsSetup()
 {
 	for(int i=0; i<32; i++) {
     m_fields[i]->set(m_game->item(i), bottom_is_white);
 	}
+  invalidate();
 }
 
+void myBoard::invalidate() {
+  pixmap_valid = false;
+  for (int i = 0; i < 64;  i++) {
+    m_fields[i]->invalidate();
+  }
+}
+
+void myBoard::drawField(QPainter& painter, Field* field, int row, int column) {
+  int width = size().width();
+  int height = size().height();
+
+  int rowHeight = height / 8;
+  int colWidth = width / 8;
+
+  QRect rect(column * colWidth, row * rowHeight, colWidth, rowHeight);
+  field->draw(painter, rect);
+}
+
+void myBoard::draw() {
+  if (pixmap_valid) {
+    return;
+  }
+  QPixmap* prev = pixmap;
+  pixmap = new QPixmap(size());
+  QPainter painter(pixmap);
+	for(int i=0; i<4; i++) {
+		for(int k=0; k<4; k++) {
+			drawField(painter, m_fields[i*8+k+32], i*2,  k*2  );
+			drawField(painter, m_fields[i*8+k   ], i*2,  k*2+1);
+			drawField(painter, m_fields[i*8+k+4 ], i*2+1,k*2  );
+			drawField(painter, m_fields[i*8+k+36], i*2+1,k*2+1);
+		}
+	}
+  painter.end();
+  update();
+  pixmap_valid = true;
+  delete prev;
+}
 
 void myBoard::setColorWhite(bool b)
 {
@@ -313,7 +358,7 @@ QString myBoard::doMove(int from_num, int to_num, bool white_player)
 		m_game->fromString(m_game->toString(true));
 	}
 
-	do_draw();
+	fieldsSetup();
 
 	return QString("%1?%3")
 		.arg(m_fields[from_num]->label())
@@ -338,7 +383,7 @@ void myBoard::doFreeMove(int from, int to)
 	int old_from = m_game->item(from);
 	m_game->setItem(to, old_from);
 	m_game->setItem(from, old_to);
-	do_draw();
+	fieldsSetup();
 }
 
 int myBoard::getTargetFieldSize(QSize size) {
@@ -352,6 +397,21 @@ void myBoard::resizeEvent(QResizeEvent* e) {
   if (m_theme) {
     int size = getTargetFieldSize(e->size());
     m_theme->setTargetSize(size);
-    do_draw();
+    fieldsSetup();
   }
 }
+
+void myBoard::mousePressEvent(QMouseEvent* me)
+{
+    if(me->button() != Qt::LeftButton)
+      return;
+    for (int i = 0; i < 32; i++) {
+      if (m_fields[i]->rect().contains(me->pos())) {
+        invalidate();
+        update();
+        emit fieldClicked(i);
+        return;
+      }
+    }
+}
+

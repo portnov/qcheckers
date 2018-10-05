@@ -30,8 +30,8 @@
 #include "checkers.h"
 
 
-Field::Field(QWidget* parent,int i)
-    : QWidget(parent)
+Field::Field(QObject* parent,int i)
+    : QObject(parent)
 {
     pixmap = new QPixmap(128, 128);
     pixmap_valid = false;
@@ -48,6 +48,12 @@ Field::Field(QWidget* parent,int i)
     m_checker_id = FREE;
 }
 
+Field::~Field() {
+  if (pixmap) {
+    delete pixmap;
+  }
+}
+
 void Field::beginSetup() {
   Q_ASSERT(! setup_mode);
   //qInfo("beginSetup(%d)", m_number);
@@ -62,6 +68,7 @@ void Field::endSetup() {
 }
 
 
+/*
 void Field::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
@@ -72,14 +79,17 @@ void Field::paintEvent(QPaintEvent*)
 
     p.end();
 }
+*/
 
 
+/*
 void Field::mousePressEvent(QMouseEvent* me)
 {
     if(me->button() != Qt::LeftButton)
 	return;
     emit click(m_number);
 }
+*/
 
 void Field::invalidate() {
   pixmap_valid = false;
@@ -97,14 +107,13 @@ void Field::draw()
     if (mySize.height() == 0 || mySize.width() == 0) {
       return;
     }*/
-    QSize mySize = size();
     //qInfo("Draw: %d x %d", mySize.width(), mySize.height());
     //pixmap = new QPixmap(128, 128);
 
     pixmap->fill(Qt::white);
     QPainter paint;
     paint.begin(pixmap);
-    paint.setFont(font());
+    //paint.setFont(font());
 
     if (m_pattern_id) {
       QPixmap& pattern = m_theme->getPattern(m_pattern_id);
@@ -137,8 +146,19 @@ void Field::draw()
     }
 
     paint.end();
-    update();
+    //update();
     pixmap_valid = true;
+}
+
+void Field::draw(QPainter& painter, QRect rect) {
+  m_rect = rect;
+  draw();
+  Q_ASSERT(pixmap_valid);
+  painter.drawPixmap(rect.x(), rect.y(), *pixmap);
+}
+
+const QRect& Field::rect() const {
+  return m_rect;
 }
 
 void Field::showFrame(bool b)
@@ -146,6 +166,7 @@ void Field::showFrame(bool b)
     if(show_frame != b) {
       show_frame = b;
       invalidate();
+      draw();
     }
 }
 
@@ -190,6 +211,7 @@ void Field::showLabel(bool s, bool a)
     }
 }
 
+/*
 QSize Field::sizeHint() const {
   if (! m_theme) {
     return QSize();
@@ -197,7 +219,9 @@ QSize Field::sizeHint() const {
     return QSize(m_theme->getFieldWidth(), m_theme->getFieldHeight());
   }
 }
+*/
 
+/*
 void Field::resizeEvent(QResizeEvent* e) {
   invalidate();
   if (e->size().width() == 0 || e->size().height() == 0) {
@@ -205,4 +229,5 @@ void Field::resizeEvent(QResizeEvent* e) {
   }
   draw();
 }
+*/
 
