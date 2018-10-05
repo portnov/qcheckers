@@ -87,9 +87,14 @@ bool ECheckers::go1(int from, int field)
 
 bool ECheckers::checkCapture1() const
 {
-    for(int i=6;i<48;i++)
-        if (! getPossibleCapture(i)->isEmpty())
-            return true;
+    for(int i=6;i<48;i++) {
+      Captures* captures = getPossibleCapture(i);
+      bool result = ! captures->isEmpty();
+      delete captures;
+      if (result) {
+        return true;
+      }
+    }
 
     return false;
 }

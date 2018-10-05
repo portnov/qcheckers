@@ -67,11 +67,12 @@ bool myHumanPlayer::fieldClicked(int field_num, bool* select, bool bottom_is_whi
 	case MAN1:
 	case KING1: {
     Captures* capture = m_game->getPossibleCapture();
-		if(!capture->isEmpty() && !m_game->canCapture1(field_num)) {
+    bool must_capture = !capture->isEmpty() && !m_game->canCapture1(field_num);
+    delete capture;
+		if (must_capture) {
       errmsg = tr("You must capture: %1").arg(m_game->describeCapture(bottom_is_white, capture));
 			return false;
 		}
-    delete capture;
 		if(!m_game->canCapture1(field_num)
 				&& !m_game->canMove1(field_num)) {
 			errmsg = tr("This unit does not have valid moves.");//TODO better text.

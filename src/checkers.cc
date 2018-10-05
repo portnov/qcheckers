@@ -364,7 +364,9 @@ QString Checkers::describeCapture(bool bottom_is_white, Captures* capture) const
 Captures* Checkers::getPossibleCapture() const {
   Captures capture;
   for (int i=6; i<48; i++) {
-    capture.add(getPossibleCapture(i));
+    Captures* c = getPossibleCapture(i);
+    capture.add(c);
+    delete c;
   }
   return new Captures(&capture);
 }
