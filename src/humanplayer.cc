@@ -68,9 +68,10 @@ bool myHumanPlayer::fieldClicked(int field_num, bool* select, bool bottom_is_whi
 	case KING1: {
     Captures* capture = m_game->getPossibleCapture();
     bool must_capture = !capture->isEmpty() && !m_game->canCapture1(field_num);
+    QString captureStr = m_game->describeCapture(bottom_is_white, capture);
     delete capture;
 		if (must_capture) {
-      errmsg = tr("You must capture. Available moves are: %1").arg(m_game->describeCapture(bottom_is_white, capture));
+      errmsg = tr("You must capture. Available moves are: %1").arg(captureStr);
 			return false;
 		}
 		if(!m_game->canCapture1(field_num)
