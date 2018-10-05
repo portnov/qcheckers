@@ -29,9 +29,11 @@
 
 #include "theme.h"
 #include "common.h"
+#include "checkers.h"
 
 Theme::Theme(QObject* parent, const QString& path, int size) : QObject(parent) {
   m_path = path;
+
   settings = new QSettings(path + "/"THEME_FILE, QSettings::IniFormat, this);
   qInfo("Theme: %s\n", qUtf8Printable(name()));
 
@@ -56,6 +58,19 @@ Theme::Theme(QObject* parent, const QString& path, int size) : QObject(parent) {
     m_king_white_path = path+"/" + settings->value("king_white", THEME_KINGWHITE).toString();
   }
   m_target_size = size;
+  //m_target_size = size == 0 ? MAX_TILE_SIZE : size;
+
+  reset();
+}
+
+void Theme::reset() {
+  m_man_white_valid = false;
+  m_man_black_valid = false;
+  m_king_black_valid = false;
+  m_king_white_valid = false;
+  m_pattern1_valid = false;
+  m_pattern2_valid = false;
+  m_frame_valid = false;
 }
 
 bool Theme::isValid() {
@@ -81,113 +96,110 @@ const QString Theme::name() {
   return settings->value("name", info.baseName()).toString();
 }
 
-QPixmap* Theme::getFrame() {
-  if (! m_frame) {
-    m_frame = render(m_frame_path);
-  }
+QPixmap& Theme::getFrame() {
+  render(m_frame_path, m_frame, m_frame_valid);
   return m_frame;
 }
 
-QPixmap* Theme::getPattern1() {
-  if (! m_pattern1) {
-    m_pattern1 = render(m_pat1_path);
-  }
+QPixmap& Theme::getPattern1() {
+  render(m_pat1_path, m_pattern1, m_pattern1_valid);
   return m_pattern1;
 }
 
-QPixmap* Theme::getPattern2() {
-  if (! m_pattern2) {
-    m_pattern2 = render(m_pat2_path);
-  }
+QPixmap& Theme::getPattern2() {
+  render(m_pat2_path, m_pattern2, m_pattern2_valid);
   return m_pattern2;
 }
 
-QPixmap* Theme::getMan1(bool white) {
+QPixmap& Theme::getPattern(int i) {
+  if (i == 1) {
+    return getPattern1();
+  } else {
+    return getPattern2();
+  }
+}
+
+QPixmap& Theme::getMan1(bool white) {
   if (white) {
-    if (! m_man_white) {
-      m_man_white = render(m_man_white_path);
-    }
+    render(m_man_white_path, m_man_white, m_man_white_valid);
     return m_man_white;
   } else {
-    if (! m_man_black) {
-      m_man_black = render(m_man_black_path);
-    }
+    render(m_man_black_path, m_man_black, m_man_black_valid);
     return m_man_black;
   }
 }
 
-QPixmap* Theme::getMan2(bool white) {
+QPixmap& Theme::getMan2(bool white) {
   if (! white) {
-    if (! m_man_white) {
-      m_man_white = render(m_man_white_path);
-    }
+    render(m_man_white_path, m_man_white, m_man_white_valid);
     return m_man_white;
   } else {
-    if (! m_man_black) {
-      m_man_black = render(m_man_black_path);
-    }
+    render(m_man_black_path, m_man_black, m_man_black_valid);
     return m_man_black;
   }
 }
 
-QPixmap* Theme::getKing1(bool white) {
+QPixmap& Theme::getKing1(bool white) {
   if (white) {
-    if (! m_king_white) {
-      m_king_white = render(m_king_white_path);
-    }
+    render(m_king_white_path, m_king_white, m_king_white_valid);
     return m_king_white;
   } else {
-    if (! m_king_black) {
-      m_king_black = render(m_king_black_path);
-    }
+    render(m_king_black_path, m_king_black, m_king_black_valid);
     return m_king_black;
   }
 }
 
-QPixmap* Theme::getKing2(bool white) {
+QPixmap& Theme::getKing2(bool white) {
   if (! white) {
-    if (! m_king_white) {
-      m_king_white = render(m_king_white_path);
-    }
+    render(m_king_white_path, m_king_white, m_king_white_valid);
     return m_king_white;
   } else {
-    if (! m_king_black) {
-      m_king_black = render(m_king_black_path);
-    }
+    render(m_king_black_path, m_king_black, m_king_black_valid);
     return m_king_black;
+  }
+}
+
+QPixmap& Theme::getChecker(int item, bool white) {
+  switch (item) {
+    case MAN1:
+      return getMan1(white);
+    case MAN2:
+      return getMan2(white);
+    case KING1:
+      return getKing1(white);
+    case KING2:
+      return getKing2(white);
+    default:
+      return m_empty_pixmap;
   }
 }
 
 int Theme::getFieldWidth() {
-  if (! m_man_white) {
-    m_man_white = render(m_man_white_path);
-  }
-  Q_ASSERT(m_man_white);
-  return m_man_white->width();
+  render(m_man_white_path, m_man_white, m_man_white_valid);
+  int result = m_man_white.width();
+  return result;
+  //return result == 0 ? MAX_TILE_SIZE : result;
 }
 
 int Theme::getFieldHeight() {
-  if (! m_man_white) {
-    m_man_white = render(m_man_white_path);
-  }
-  Q_ASSERT(m_man_white);
-  return m_man_white->height();
+  render(m_man_white_path, m_man_white, m_man_white_valid);
+  int result = m_man_white.height();
+  return result;
+  //return result == 0 ? MAX_TILE_SIZE : result;
 }
 
 void Theme::setTargetSize(int size) {
+  /*if (size == 0) {
+    size = MAX_TILE_SIZE;
+    qInfo("Size is 0, set it to %d", size);
+  }*/
   if (m_target_size != size) {
+    qInfo("Size: %d -> %d", m_target_size, size);
     m_target_size = size;
 
     // reset cached pixmaps,
     // so that they will be re-rendered
-    m_man_white = NULL;
-    m_man_black = NULL;
-    m_king_white = NULL;
-    m_king_black = NULL;
-
-    m_pattern1 = NULL;
-    m_pattern2 = NULL;
-    m_frame = NULL;
+    reset();
   }
 }
 
@@ -196,26 +208,32 @@ bool Theme::getIsResizeable() {
   return m_man_white_path.endsWith(".svg");
 }
 
-QPixmap* Theme::render(const QString& path) {
+void Theme::render(const QString& path, QPixmap& result, bool& valid) {
+  if (valid) {
+    //qDebug("Already valid: %s", qUtf8Printable(path));
+    return;
+  }
   int size = m_target_size;
+  valid = true;
   if (path.endsWith(".svg")) {
     QSvgRenderer renderer(path);
     if (size == 0) {
       size = renderer.defaultSize().width();
     }
-    //qInfo("SVG: %s, size: %d", qUtf8Printable(path), size);
-    QPixmap result(size,size);
+    qInfo("Rendering %s: %d", qUtf8Printable(path), size);
+    Q_ASSERT(size > 0);
+    result = QPixmap(size, size);
     result.fill(Qt::transparent);
     QPainter paint(&result);
     renderer.render(&paint);
-    return new QPixmap(result);
 
   } else {
-    if (m_target_size == 0) {
-      return new QPixmap(path);
+    qInfo("Rendering %s: %d", qUtf8Printable(path), size);
+    if (size == 0) {
+      result = QPixmap(path);
     } else {
-      QPixmap* result = new QPixmap(path);
-      return new QPixmap(result->scaled(size, size));
+      Q_ASSERT(size > 0);
+      result = QPixmap(path).scaled(size, size);
     }
   }
 }

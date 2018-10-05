@@ -66,7 +66,7 @@ myTopLevel::myTopLevel()
 			m_newgame->opponentName(), m_newgame->skill());
 
 	if(layout()) {
-		layout()->setSizeConstraint(QLayout::SetFixedSize);
+		//layout()->setSizeConstraint(QLayout::SetFixedSize);
 	}
 }
 

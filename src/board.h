@@ -37,6 +37,7 @@ public:
 	myBoard(QWidget* parent);
 	~myBoard();
 
+  QSize sizeHint() const;
   void resizeEvent(QResizeEvent*);
 
 	// returns coded move string: from_pos_string?to_pos_string
@@ -73,6 +74,7 @@ private:
 	void do_draw();
   void beginSetup();
   void endSetup();
+  int getTargetFieldSize(QSize size);
 
 private:
 	Field* m_fields[64];

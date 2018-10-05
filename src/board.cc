@@ -94,7 +94,11 @@ void myBoard::endSetup() {
 
 void myBoard::setTheme(const QString& path, bool set_white)
 {
+  int fieldSize = getTargetFieldSize(size());
   m_theme = new Theme(this, path, 0);
+  if (fieldSize > 3) {
+    m_theme->setTargetSize(fieldSize);
+  }
   for (int i = 0; i < 64; i++) {
     m_fields[i]->setTheme(m_theme);
   }
@@ -104,18 +108,16 @@ void myBoard::setTheme(const QString& path, bool set_white)
 	setColorWhite(set_white);
 
 	for(int i=0; i<32; i++) {
-		m_fields[i]->setPattern(m_theme->getPattern2());
+		m_fields[i]->setPattern(2);
 	}
 	for(int i=32; i<64; i++) {
-		m_fields[i]->setPattern(m_theme->getPattern1());
-	}
-	for(int i=0; i<32; i++) {
-		m_fields[i]->setFrame(m_theme->getFrame());
+		m_fields[i]->setPattern(1);
 	}
 
-  int width = m_theme->getFieldWidth()*8 + 2*frameWidth();
-  int height = m_theme->getFieldHeight()*8 + 2*frameWidth();
+  //setFixedSize(sizeHint());
   if (! m_theme->getIsResizeable()) {
+    int width = m_theme->getFieldWidth()*8 + 2*frameWidth();
+    int height = m_theme->getFieldHeight()*8 + 2*frameWidth();
     setFixedSize(width, height);
   } else {
     setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
@@ -126,6 +128,17 @@ void myBoard::setTheme(const QString& path, bool set_white)
 	}
 
   endSetup();
+}
+
+QSize myBoard::sizeHint() const {
+  if (! m_theme) {
+    return QSize();
+  } else {
+    int width = m_theme->getFieldWidth()*8 + 2*frameWidth();
+    int height = m_theme->getFieldHeight()*8 + 2*frameWidth();
+    return QSize(width, height);
+    //qInfo("Size is fixed: %d x %d", width, height);
+  }
 }
 
 void myBoard::reset()
@@ -328,12 +341,16 @@ void myBoard::doFreeMove(int from, int to)
 	do_draw();
 }
 
+int myBoard::getTargetFieldSize(QSize size) {
+  int w_max = size.width();
+  int h_max = size.height();
+  int max_size = w_max < h_max ? w_max : h_max;
+  return (max_size - 2*frameWidth()) / 8;
+}
+
 void myBoard::resizeEvent(QResizeEvent* e) {
   if (m_theme) {
-    int w_max = e->size().width();
-    int h_max = e->size().height();
-    int max_size = w_max < h_max ? w_max : h_max;
-    int size = (max_size - 2*frameWidth()) / 8;
+    int size = getTargetFieldSize(e->size());
     m_theme->setTargetSize(size);
     do_draw();
   }

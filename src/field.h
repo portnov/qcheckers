@@ -43,23 +43,20 @@ public:
 
     void showFrame(bool);
 
-    void setFrame(QPixmap*);
-    void setPicture(QPixmap*);
-    void setPattern(QPixmap*);
-
     void setTheme(Theme*);
+    void setPattern(int);
     void set(int, bool);
 
     int number() const { return m_number; }
 
     int width() const {
-      Q_ASSERT(m_checker);
-      return m_checker->width();
+      const QPixmap& checker = m_theme->getMan1(true);
+      return checker.width();
     }
 
     int height() const {
-      Q_ASSERT(m_checker);
-      return m_checker->height();
+      const QPixmap& checker = m_theme->getMan1(true);
+      return checker.height();
     }
 
     void fontUpdate() { draw(); }
@@ -76,21 +73,27 @@ protected:
     void mousePressEvent(QMouseEvent*);
 
 private:
+    void invalidate();
     void draw();
+    //void setPicture(QPixmap*);
 
     int m_number;
 
     // pixmap = pattern + label + picture + frame;
 
-    QPixmap* m_frame;
+    /*QPixmap* m_frame;
     QPixmap* m_checker;
-    QPixmap* m_pattern;
+    QPixmap* m_pattern;*/
+    int m_pattern_id;
+    int m_checker_id;
+    bool m_bottom_is_white;
 
     QString m_label;
     bool m_show_label;
     bool m_show_above;
 
     QPixmap* pixmap;
+    bool pixmap_valid;
 
     bool show_frame;
 

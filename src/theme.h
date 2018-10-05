@@ -30,14 +30,17 @@ class Theme : public QObject {
   public:
     Theme(QObject*, const QString&, int);
 
-    QPixmap* getMan1(bool);
-    QPixmap* getMan2(bool);
-    QPixmap* getKing1(bool);
-    QPixmap* getKing2(bool);
+    QPixmap& getMan1(bool);
+    QPixmap& getMan2(bool);
+    QPixmap& getKing1(bool);
+    QPixmap& getKing2(bool);
 
-    QPixmap* getPattern1();
-    QPixmap* getPattern2();
-    QPixmap* getFrame();
+    QPixmap& getChecker(int, bool);
+
+    QPixmap& getPattern1();
+    QPixmap& getPattern2();
+    QPixmap& getPattern(int);
+    QPixmap& getFrame();
 
     void setTargetSize(int);
     int getFieldWidth();
@@ -46,12 +49,13 @@ class Theme : public QObject {
     bool getIsResizeable();
 
     bool isValid();
+    void reset();
 
     const QString name();
 
   private:
 
-    QPixmap* render(const QString&);
+    void render(const QString&, QPixmap& result, bool&);
     QSettings* settings;
 
     QString m_path;
@@ -66,14 +70,23 @@ class Theme : public QObject {
     QString m_pat2_path;
     QString m_frame_path;
 
-    QPixmap* m_man_white = NULL;
-    QPixmap* m_man_black = NULL;
-    QPixmap* m_king_white = NULL;
-    QPixmap* m_king_black = NULL;
+    QPixmap m_man_white;
+    bool m_man_white_valid;
+    QPixmap m_man_black;
+    bool m_man_black_valid;
+    QPixmap m_king_white;
+    bool m_king_white_valid;
+    QPixmap m_king_black;
+    bool m_king_black_valid;
 
-    QPixmap* m_pattern1 = NULL;
-    QPixmap* m_pattern2 = NULL;
-    QPixmap* m_frame = NULL;
+    QPixmap m_pattern1;
+    bool m_pattern1_valid;
+    QPixmap m_pattern2;
+    bool m_pattern2_valid;
+    QPixmap m_frame;
+    bool m_frame_valid;
+
+    QPixmap m_empty_pixmap;
 
 };
 

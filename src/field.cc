@@ -33,19 +33,19 @@
 Field::Field(QWidget* parent,int i)
     : QWidget(parent)
 {
-    pixmap = new QPixmap(MAX_TILE_SIZE, MAX_TILE_SIZE);
+    pixmap = new QPixmap(128, 128);
+    pixmap_valid = false;
 
     m_number=i;
-
-    m_pattern=NULL;
-    m_checker=NULL;
-    m_frame=NULL;
 
     show_frame = false;
 
     m_show_label = true;
 
     setup_mode = false;
+
+    m_pattern_id = 0;
+    m_checker_id = FREE;
 }
 
 void Field::beginSetup() {
@@ -66,6 +66,8 @@ void Field::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
 
+    draw();
+    Q_ASSERT(pixmap_valid);
     p.drawPixmap(0, 0, *pixmap);
 
     p.end();
@@ -79,102 +81,102 @@ void Field::mousePressEvent(QMouseEvent* me)
     emit click(m_number);
 }
 
+void Field::invalidate() {
+  pixmap_valid = false;
+}
 
 void Field::draw()
 {
+    if (pixmap_valid) {
+      return;
+    }
+    /*if (pixmap) {
+      delete pixmap;
+    }*/
+    /*QSize mySize = size();
+    if (mySize.height() == 0 || mySize.width() == 0) {
+      return;
+    }*/
+    QSize mySize = size();
+    //qInfo("Draw: %d x %d", mySize.width(), mySize.height());
+    //pixmap = new QPixmap(128, 128);
+
     pixmap->fill(Qt::white);
     QPainter paint;
     paint.begin(pixmap);
     paint.setFont(font());
 
-    if(m_pattern)
-	paint.drawPixmap(0, 0, *m_pattern);
+    if (m_pattern_id) {
+      QPixmap& pattern = m_theme->getPattern(m_pattern_id);
+      if (! pattern.isNull()) {
+        paint.drawPixmap(0, 0, pattern);
+      }
+    }
 
     // notation
     paint.setPen(Qt::white);
     QRect not_rect = paint.boundingRect(2, 2, 0, 0, Qt::AlignLeft, m_label);
-    if(m_show_above) {
-	if(m_checker)
-	    paint.drawPixmap(0, 0, *m_checker);
-	if(m_show_label) {
-	    paint.fillRect(not_rect, Qt::black);
-	    paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
-	}
+    QPixmap& checker = m_theme->getChecker(m_checker_id, m_bottom_is_white);
+    if (m_show_above) {
+      if (! checker.isNull())
+        paint.drawPixmap(0, 0, checker);
+      if (m_show_label) {
+        paint.fillRect(not_rect, Qt::black);
+        paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
+      }
     } else {
-	if(m_show_label)
-	    paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
-	if(m_checker)
-	    paint.drawPixmap(0, 0, *m_checker);
+      if (m_show_label)
+        paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
+      if (! checker.isNull())
+        paint.drawPixmap(0, 0, checker);
     }
 
-    if(show_frame)
-	paint.drawPixmap(0, 0, *m_frame);
+    if (show_frame) {
+      QPixmap& frame = m_theme->getFrame();
+      paint.drawPixmap(0, 0, frame);
+    }
 
     paint.end();
     update();
+    pixmap_valid = true;
 }
 
 void Field::showFrame(bool b)
 {
     if(show_frame != b) {
-	show_frame = b;
-	draw();
+      show_frame = b;
+      invalidate();
     }
 }
 
-void Field::setFrame(QPixmap* xpm)
+void Field::setPattern(int i)
 {
-    m_frame = xpm;
-}
-
-
-void Field::setPicture(QPixmap* xpm)
-{
-    if(m_checker!=xpm) {
-	m_checker = xpm;
-	draw();
-    }
-}
-
-void Field::setPattern(QPixmap* xpm)
-{
-    if(m_pattern != xpm) {
-	m_pattern = xpm;
-	draw();
-    }
+  if (i != m_pattern_id) {
+    m_pattern_id = i;
+    invalidate();
+  }
 }
 
 void Field::setTheme(Theme* theme) {
   Q_ASSERT(theme);
   m_theme = theme;
-  m_frame = theme->getFrame();
-  pixmap = new QPixmap(theme->getFieldWidth(), theme->getFieldHeight());
+  invalidate();
+  draw();
 }
 
 void Field::set(int item, bool bottom_is_white) {
-  switch(item) {
-    case MAN1:
-      setPicture(m_theme->getMan1(bottom_is_white));
-      break;
-    case MAN2:
-      setPicture(m_theme->getMan2(bottom_is_white));
-      break;
-    case KING1:
-      setPicture(m_theme->getKing1(bottom_is_white));
-      break;
-    case KING2:
-      setPicture(m_theme->getKing2(bottom_is_white));
-      break;
-    default:
-      setPicture(NULL);
+  if (m_checker_id != item || m_bottom_is_white != bottom_is_white) {
+    m_checker_id = item;
+    m_bottom_is_white = bottom_is_white;
+    invalidate();
   }
 }
 
 void Field::setLabel(const QString& str)
 {
     if(m_label!=str) {
-	m_label=str;
-	draw();
+      m_label=str;
+      invalidate();
     }
 }
 
@@ -182,9 +184,9 @@ void Field::setLabel(const QString& str)
 void Field::showLabel(bool s, bool a)
 {
     if(s!=m_show_label || a!=m_show_above) {
-	m_show_above = a;
-	m_show_label = s;
-	draw();
+      m_show_above = a;
+      m_show_label = s;
+      invalidate();
     }
 }
 
@@ -196,9 +198,11 @@ QSize Field::sizeHint() const {
   }
 }
 
-void Field::resizeEvent(QResizeEvent*) {
-  if (m_theme) {
-    m_frame = m_theme->getFrame();
-    //pixmap = new QPixmap(m_theme->getFieldWidth(), m_theme->getFieldHeight());
+void Field::resizeEvent(QResizeEvent* e) {
+  invalidate();
+  if (e->size().width() == 0 || e->size().height() == 0) {
+    return;
   }
+  draw();
 }
+
