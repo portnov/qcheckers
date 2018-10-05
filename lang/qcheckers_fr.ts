@@ -1,4 +1,7 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
+<defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>myHistory</name>
     <message>
@@ -78,11 +81,23 @@
     </message>
     <message>
         <source>You must capture.</source>
-        <translation>Vous devez capturer.</translation>
+        <translation type="obsolete">Vous devez capturer.</translation>
     </message>
     <message>
         <source>Cannot move this.</source>
-        <translation>Impossible de déplacer cet élément.</translation>
+        <translation type="obsolete">Impossible de déplacer cet élément.</translation>
+    </message>
+    <message>
+        <source>You must capture. Available moves are: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This unit does not have valid moves.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This unit cannot be moved to field you pointed.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -1,4 +1,7 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
+<defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>myHistory</name>
     <message>
@@ -70,7 +73,7 @@
     <name>myHumanPlayer</name>
     <message>
         <source>You must capture.</source>
-        <translation>Sie müssen Schlagen.</translation>
+        <translation type="obsolete">Sie müssen Schlagen.</translation>
     </message>
     <message>
         <source>Unmovable.</source>
@@ -86,7 +89,19 @@
     </message>
     <message>
         <source>Cannot move this.</source>
-        <translation>Kann nicht bewegen.</translation>
+        <translation type="obsolete">Kann nicht bewegen.</translation>
+    </message>
+    <message>
+        <source>You must capture. Available moves are: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This unit does not have valid moves.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This unit cannot be moved to field you pointed.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -26,8 +26,8 @@ RESOURCES = ../qcheckers.qrc ../icons.qrc
 PREFIX		= $$system(sh ../helpers/extract_prefix.sh)
 message(PREFIX: $$PREFIX)
 
-TRANSLATIONS	= ../lang/qcheckers_de.ts ../lang/qcheckers_fr.ts
-#		i18n/qcheckers_ru.ts
+TRANSLATIONS	= ../lang/qcheckers_de.ts ../lang/qcheckers_fr.ts ../lang/qcheckers_ru.ts
+CODECFORTR = UTF-8
 
 target.path	= $$PREFIX/bin
 INSTALLS	+= target
