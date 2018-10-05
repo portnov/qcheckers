@@ -50,7 +50,7 @@ public:
     // return false on incorrect course.
     // set select to true to select the select, or unselect.
     // QString contains error msg.
-    virtual bool fieldClicked(int, bool*,QString&) { return true; }
+    virtual bool fieldClicked(int, bool*, bool, QString&) { return true; }
     // computerplayer terminates his thinking thread.
     // humanplayer
     // networkplayer disconnects from the server.

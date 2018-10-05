@@ -275,7 +275,7 @@ void myView::slot_click(int field_num)
 		bool select = false;
 		QString err_msg;
 
-		if(!m_current->fieldClicked(field_num, &select, err_msg)) {
+		if(!m_current->fieldClicked(field_num, &select, m_player->isWhite(), err_msg)) {
 			add_log(myView::Warning, m_current->name()+": "
 					+ (err_msg.length()
 						? err_msg

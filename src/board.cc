@@ -161,18 +161,9 @@ void myBoard::adjustNotation(bool bottom_is_white)
 		return;
 	}
 
-	QString notation = (m_game->type()==ENGLISH
-			? ENOTATION : QString(RNOTATION).toUpper());
-
-	if(bottom_is_white) {
-		for(int i=0; i<32; i++) {
-			m_fields[i]->setLabel(notation.mid(i*2,2).trimmed());
-		}
-	} else {
-		for(int i=0; i<32; i++) {
-			m_fields[i]->setLabel(notation.mid(62-i*2,2).trimmed());
-		}
-	}
+  for(int i=0; i<32; i++) {
+    m_fields[i]->setLabel(m_game->getFieldNotation(i, bottom_is_white));
+  }
 }
 
 

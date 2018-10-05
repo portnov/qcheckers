@@ -20,7 +20,7 @@
 
 
 // aw?1 - due to english rules a man reaching the king-row becomes a king
-//	and the is complete.
+//        and the is complete.
 //
 // English Checkers
 
@@ -64,16 +64,16 @@ bool ECheckers::go1(int from, int field)
             if((to==(from-6))||(to==(from-5))) {
                 board[from]=FREE;
                 if(to<10)
-		    board[to]=KING1;
+                    board[to]=KING1;
                 else
-		    board[to]=MAN1;
+                    board[to]=MAN1;
                 return true;
             }
             return false;
         case KING1:
-	    if((to==(from-6))||(to==(from-5)) ||
-		    (to==(from+5))||(to==(from+6)) ) {
-		board[from]=FREE;
+            if((to==(from-6))||(to==(from-5)) ||
+                    (to==(from+5))||(to==(from+6)) ) {
+                board[from]=FREE;
                 board[to]=KING1;
                 return true;
             }
@@ -88,41 +88,41 @@ bool ECheckers::go1(int from, int field)
 bool ECheckers::checkCapture1() const
 {
     for(int i=6;i<48;i++)
-	if(checkCapture1(i))
-	    return true;
+        if (! getPossibleCapture(i)->isEmpty())
+            return true;
 
     return false;
 }
 
 
-bool ECheckers::checkCapture1(int i) const
+Captures* ECheckers::getPossibleCapture(int i) const
 {
     switch(board[i]) {
     case MAN1:
-	// forward-left
-	if(board[i-6]==MAN2 || board[i-6]==KING2)
-	    if(board[i-12]==FREE) return true;
-	// forward-right
-	if(board[i-5]==MAN2 || board[i-5]==KING2)
-	    if(board[i-10]==FREE) return true;
-	break;
+        // forward-left
+        if(board[i-6]==MAN2 || board[i-6]==KING2)
+            if(board[i-12]==FREE) return new Captures(i, i-6, i-12);
+        // forward-right
+        if(board[i-5]==MAN2 || board[i-5]==KING2)
+            if(board[i-10]==FREE) return new Captures(i, i-5, i-10);
+        break;
 
     case KING1:
-	// forward-left
-	if(board[i-6]==MAN2 || board[i-6]==KING2)
-	    if(board[i-12]==FREE) return true;
-	// forward-right
-	if(board[i-5]==MAN2 || board[i-5]==KING2)
-	    if(board[i-10]==FREE) return true;
-	// backward-left
-	if(board[i+5]==MAN2 || board[i+5]==KING2)
-	    if(board[i+10]==FREE) return true;
-	// backward-right
-	if(board[i+6]==MAN2 || board[i+6]==KING2)
-	    if(board[i+12]==FREE) return true;
+        // forward-left
+        if(board[i-6]==MAN2 || board[i-6]==KING2)
+            if(board[i-12]==FREE) return new Captures(i, i-6, i-12);
+        // forward-right
+        if(board[i-5]==MAN2 || board[i-5]==KING2)
+            if(board[i-10]==FREE) return new Captures(i, i-5, i-10);
+        // backward-left
+        if(board[i+5]==MAN2 || board[i+5]==KING2)
+            if(board[i+10]==FREE) return new Captures(i, i+5, i+10);
+        // backward-right
+        if(board[i+6]==MAN2 || board[i+6]==KING2)
+            if(board[i+12]==FREE) return new Captures(i, i+6, i+12);
     }
 
-    return false;
+    return new Captures();
 }
 
 
@@ -132,25 +132,25 @@ bool ECheckers::checkCapture1()
     for(int i=6;i<48;i++) {
         switch(board[i]) {
         case MAN1:
-	    // forward-left
+            // forward-left
             if(board[i-6]==MAN2 || board[i-6]==KING2)
                 if(board[i-12]==FREE) return true;
-	    // forward-right
+            // forward-right
             if(board[i-5]==MAN2 || board[i-5]==KING2)
                 if(board[i-10]==FREE) return true;
             break;
 
         case KING1:
-	    // forward-left
+            // forward-left
             if(board[i-6]==MAN2 || board[i-6]==KING2)
                 if(board[i-12]==FREE) return true;
-	    // forward-right
+            // forward-right
             if(board[i-5]==MAN2 || board[i-5]==KING2)
                 if(board[i-10]==FREE) return true;
-	    // backward-left
+            // backward-left
             if(board[i+5]==MAN2 || board[i+5]==KING2)
                 if(board[i+10]==FREE) return true;
-	    // backward-right
+            // backward-right
             if(board[i+6]==MAN2 || board[i+6]==KING2)
                 if(board[i+12]==FREE) return true;
         }
@@ -176,25 +176,25 @@ bool ECheckers::manCapture1(int from, int direction, bool& capture)
             board[from]=FREE;
             board[i]=NONE;
 
-	    // become a king!
+            // become a king!
             if(k<10) {
                 board[k]=KING1;
-		/*aw?1
-		if(kingCapture1(k, direction+11, next)) {
-		    board[i]=FREE;
-		    return true;
-		}
-		*/
+                /*aw?1
+                if(kingCapture1(k, direction+11, next)) {
+                    board[i]=FREE;
+                    return true;
+                }
+                */
             } else {
                 board[k]=MAN1;
                 if(manCapture1(k,UL,next)) {board[i]=FREE; return true;}
                 if(manCapture1(k,UR,next)) {board[i]=FREE; return true;}
             }
 
-	    //?? make move here, too???
+            //?? make move here, too???
             if((!next) && k==to) {board[i]=FREE; return true;}// move success
 
-	    // move failed, restore
+            // move failed, restore
             board[k]=FREE;
             board[i]=save;
             board[from]=MAN1;
@@ -227,11 +227,11 @@ bool ECheckers::kingCapture1(int from, int direction, bool& capture)
                 if(kingCapture1(k,UL,next)) {board[i]=FREE;return true;}
                 if(kingCapture1(k,DR,next)) {board[i]=FREE;return true;}
             }
-	    if(kingCapture1(k,direction,next)) {board[i]=FREE;return true;}
+            if(kingCapture1(k,direction,next)) {board[i]=FREE;return true;}
 
             if((!next) && k==to) {board[i]=FREE;return true;}// move ok
 
-	    // move failed, restore
+            // move failed, restore
             board[k]=FREE;
             board[i]=save;
             board[from]=KING1;
@@ -328,18 +328,18 @@ bool ECheckers::manCapture2(int from, int& resMax)
             board[i]=NONE;
             resMax--;
 
-	    // become a king!
+            // become a king!
             if(from>32) {
                 board[k]=KING2;
-		// aw?1
-		turn(resMax, true);	//aw???
+                // aw?1
+                turn(resMax, true);        //aw???
                 //aw??if(!kingCapture2(k, UL, resMax)) turn(resMax, true);
             } else {
                 board[k]=MAN2;
                 if(!manCapture2(k, resMax)) turn(resMax, true);
             }
 
-	    // restore
+            // restore
             resMax++;
             board[k]=FREE;
             board[i]=save;
@@ -358,18 +358,18 @@ bool ECheckers::manCapture2(int from, int& resMax)
             board[i]=NONE;
             resMax--;
 
-	    // become a king!
+            // become a king!
             if(from>32) {
                 board[k]=KING2;
-		// aw?1
-		turn(resMax, true);	// aw???
+                // aw?1
+                turn(resMax, true);        // aw???
                 //aw???if(!kingCapture2(k,UR,resMax)) turn(resMax,true);
             } else {
                 board[k]=MAN2;
                 if(!manCapture2(k,resMax)) turn(resMax,true);
             }
 
-	    // restore
+            // restore
             resMax++;
             board[k]=FREE;
             board[i]=save;
@@ -410,7 +410,7 @@ bool ECheckers::kingCapture2(int from, int direction, int &resMax)
             if(!capture) turn(resMax,true);
             board[k]=FREE;
 
-	    //restore
+            //restore
             resMax++;
             board[i]=save;
             board[from]=KING2;
@@ -420,4 +420,13 @@ bool ECheckers::kingCapture2(int from, int direction, int &resMax)
     return false;
 }
 
+
+QString ECheckers::getFieldNotation(int i, bool bottom_is_white) const {
+  QString notation = QString(ENOTATION);
+  if (bottom_is_white) {
+    return notation.mid(i*2, 2).trimmed();
+  } else {
+    return notation.mid(62-i*2, 2).trimmed();
+  }
+}
 

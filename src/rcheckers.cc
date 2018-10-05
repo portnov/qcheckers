@@ -126,47 +126,47 @@ bool RCheckers::go1(int from,int field)
 bool RCheckers::checkCapture1() const
 {
     for(int i=6;i<48;i++)
-        if(checkCapture1(i))
+        if (! getPossibleCapture(i)->isEmpty())
             return true;
 
     return false;
 }
 
 
-bool RCheckers::checkCapture1(int i) const
+Captures* RCheckers::getPossibleCapture(int i) const
 {
     switch(board[i])
     {
     case MAN1:
         if(board[i-6]==MAN2 || board[i-6]==KING2)
-            if(board[i-12]==FREE) return true;
+            if(board[i-12]==FREE) return new Captures(i, i-6, i-12);
         if(board[i-5]==MAN2 || board[i-5]==KING2)
-            if(board[i-10]==FREE) return true;
+            if(board[i-10]==FREE) return new Captures(i, i-5, i-10);
         if(board[i+5]==MAN2 || board[i+5]==KING2)
-            if(board[i+10]==FREE) return true;
+            if(board[i+10]==FREE) return new Captures(i, i+5, i+10);
         if(board[i+6]==MAN2 || board[i+6]==KING2)
-            if(board[i+12]==FREE) return true;
+            if(board[i+12]==FREE) return new Captures(i, i+6, i+12);
         break;
     case KING1:
         int k;
         for(k=i-6;board[k]==FREE;k-=6);
         if(board[k]==MAN2 || board[k]==KING2)
-            if(board[k-6]==FREE) return true;
+            if(board[k-6]==FREE) return new Captures(i, k, k-6);
 
         for(k=i-5;board[k]==FREE;k-=5);
         if(board[k]==MAN2 || board[k]==KING2)
-            if(board[k-5]==FREE) return true;
+            if(board[k-5]==FREE) return new Captures(i, k, k-5);
 
         for(k=i+5;board[k]==FREE;k+=5);
         if(board[k]==MAN2 || board[k]==KING2)
-            if(board[k+5]==FREE) return true;
+            if(board[k+5]==FREE) return new Captures(i, k, k+5);
 
         for(k=i+6;board[k]==FREE;k+=6);
         if(board[k]==MAN2 || board[k]==KING2)
-            if(board[k+6]==FREE) return true;
+            if(board[k+6]==FREE) return new Captures(i, k, k+6);
     }
 
-    return false;
+    return new Captures();
 }
 
 
@@ -550,4 +550,12 @@ bool RCheckers::kingCapture2(int from,int direction,int &resMax)
     return false;
 }
 
+QString RCheckers::getFieldNotation(int i, bool bottom_is_white) const {
+  QString notation = QString(RNOTATION);
+  if (bottom_is_white) {
+    return notation.mid(i*2, 2).trimmed();
+  } else {
+    return notation.mid(62-i*2, 2).trimmed();
+  }
+}
 

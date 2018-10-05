@@ -1,4 +1,6 @@
 /***************************************************************************
+ *   Copyright (C) 2002-2003 Andi Peredri                                  *
+ *   andi@ukr.net                                                          *
  *   Copyright (C) 2004-2005 Artur Wiebe                                   *
  *   wibix@gmx.de                                                          *
  *                                                                         *
@@ -18,47 +20,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _HUMANPLAYER_H_
-#define _HUMANPLAYER_H_
+#include <QPair>
+#include <QList>
 
-#include "player.h"
+#include "capture.h"
 
-#include <qobject.h>
+Captures::Captures(int from, int capt, int to) {
+  m_captures.append(Capture(from, to, capt));
+}
 
+Captures::Captures(const Captures& capture) {
+  m_captures.append(capture.m_captures);
+}
 
-class myHumanPlayer : public myPlayer
-{
-	Q_OBJECT
+Captures::Captures(const Captures* capture) {
+  m_captures.append(capture->m_captures);
+}
 
-public:
-	// when playing player vs. player on same computer. the second
-	// player must invert some things.
-	myHumanPlayer(const QString& name, bool white, bool second_player);
-	~myHumanPlayer();
+bool Captures::isEmpty() const {
+  return m_captures.isEmpty();
+}
 
-    	virtual void yourTurn(const Checkers* game);
-	virtual bool fieldClicked(int fieldnumber, bool*, bool, QString& err_msg);
-	virtual void stop() {}
+int Captures::size() const {
+  return m_captures.size();
+}
 
-    	virtual bool isHuman() const { return true; }
+void Captures::add(Captures& capture) {
+  m_captures.append(capture.m_captures);
+}
 
+void Captures::add(Captures* capture) {
+  m_captures.append(capture->m_captures);
+}
 
-public slots:
-//	virtual void getReady() { emit readyToPlay(); }
+const Capture Captures::at(int i) const {
+  return m_captures.at(i);
+}
 
-private:
-	bool go(int fieldnumber);
-
-private:
-	bool m_second;
-
-	Checkers* m_game;
-	bool selected;
-
-	int from;	// on Checkers board
-	int fromField;	// on GUI board
-};
-
-
-#endif
+Capture::Capture(int from, int to, int capt) {
+  captured = capt;
+  source = from;
+  target = to;
+}
 

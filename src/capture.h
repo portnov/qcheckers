@@ -1,4 +1,6 @@
 /***************************************************************************
+ *   Copyright (C) 2002-2003 Andi Peredri                                  *
+ *   andi@ukr.net                                                          *
  *   Copyright (C) 2004-2005 Artur Wiebe                                   *
  *   wibix@gmx.de                                                          *
  *                                                                         *
@@ -18,47 +20,41 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _HUMANPLAYER_H_
-#define _HUMANPLAYER_H_
+#ifndef CAPTURE_H
+#define CAPTURE_H
 
-#include "player.h"
+#include <QPair>
+#include <QList>
 
-#include <qobject.h>
+class Capture {
+  public:
+    Capture(int, int, int);
+    ~Capture() { }
 
-
-class myHumanPlayer : public myPlayer
-{
-	Q_OBJECT
-
-public:
-	// when playing player vs. player on same computer. the second
-	// player must invert some things.
-	myHumanPlayer(const QString& name, bool white, bool second_player);
-	~myHumanPlayer();
-
-    	virtual void yourTurn(const Checkers* game);
-	virtual bool fieldClicked(int fieldnumber, bool*, bool, QString& err_msg);
-	virtual void stop() {}
-
-    	virtual bool isHuman() const { return true; }
-
-
-public slots:
-//	virtual void getReady() { emit readyToPlay(); }
-
-private:
-	bool go(int fieldnumber);
-
-private:
-	bool m_second;
-
-	Checkers* m_game;
-	bool selected;
-
-	int from;	// on Checkers board
-	int fromField;	// on GUI board
+    int captured;
+    int source;
+    int target;
 };
 
+class Captures {
+  public:
+    Captures() { }
+    Captures(int, int, int);
+    Captures(const Captures&);
+    Captures(const Captures*);
+    ~Captures() { }
+
+    void add(Captures&);
+    void add(Captures*);
+
+    bool isEmpty() const;
+    int size() const;
+
+    const Capture at(int) const;
+
+  private:
+    QList<Capture> m_captures;
+};
 
 #endif
 

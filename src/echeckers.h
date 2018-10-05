@@ -37,9 +37,10 @@ public:
 
     virtual bool checkCapture1() const;
     virtual bool checkCapture2() const;
+    virtual QString getFieldNotation(int, bool) const;
 
 protected:
-    virtual bool checkCapture1(int) const;
+    virtual Captures* getPossibleCapture(int) const;
 
 private:
     void kingMove2(int,int &);

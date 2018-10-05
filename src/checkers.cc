@@ -49,8 +49,6 @@ int Checkers::internal(int external) const
     return i[external];
 }
 
-
-/*
 int Checkers::external(int internal) const
 {
     const int i[]={
@@ -62,8 +60,6 @@ int Checkers::external(int internal) const
 	-1,-1,-1,-1};				// 50-53
     return i[internal];
 }
-*/
-
 
 Checkers::Checkers()
 {
@@ -146,7 +142,6 @@ bool Checkers::checkMove1(int i) const
     }
     return false;
 }
-
 
 ////////////////////////////////////////////////////
 //
@@ -354,6 +349,25 @@ bool Checkers::checkMove2() const
     return false;
 }
 
+QString Checkers::describeCapture(bool bottom_is_white, Captures* capture) const {
+  QString result;
+  for (int i = 0; i < capture->size(); i++) {
+    Capture move = capture->at(i);
+    QString from = getFieldNotation(external(move.source), bottom_is_white);
+    QString to   = getFieldNotation(external(move.target), bottom_is_white);
+    QString captured = getFieldNotation(external(move.captured), bottom_is_white);
+    result += QString("%1 -> %2 capturing %3, ").arg(from).arg(to).arg(captured);
+  }
+  return result;
+}
+
+Captures* Checkers::getPossibleCapture() const {
+  Captures capture;
+  for (int i=6; i<48; i++) {
+    capture.add(getPossibleCapture(i));
+  }
+  return new Captures(&capture);
+}
 
 int Checkers::turn()
 {

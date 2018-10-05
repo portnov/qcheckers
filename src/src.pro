@@ -6,7 +6,7 @@ QT += widgets svg
 
 HEADERS	= pdn.h \
 	    checkers.h echeckers.h rcheckers.h \
-	    theme.h field.h toplevel.h view.h history.h board.h \
+	    capture.h theme.h field.h toplevel.h view.h history.h board.h \
 	    newgamedlg.h \
 	    common.h \
 	    player.h humanplayer.h computerplayer.h
@@ -14,7 +14,7 @@ HEADERS	= pdn.h \
 
 SOURCES	= pdn.cc \
 	    checkers.cc echeckers.cc rcheckers.cc \
-	    theme.cc field.cc toplevel.cc view.cc history.cc board.cc \
+	    capture.cc theme.cc field.cc toplevel.cc view.cc history.cc board.cc \
 	    main.cc \
 	    newgamedlg.cc \
 	    humanplayer.cc computerplayer.cc

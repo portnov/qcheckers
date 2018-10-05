@@ -26,6 +26,7 @@
 
 #include <QString>
 
+#include "capture.h"
 
 // do not change - hard coded
 #define NONE   0
@@ -75,9 +76,19 @@ public:
 	virtual bool checkCapture1() const = 0;
 	virtual bool checkCapture2() const = 0;
 
+	bool checkCapture1(const int i) {
+    return ! getPossibleCapture(i)->isEmpty();
+  }
+
+  Captures* getPossibleCapture() const;
+
+  QString describeCapture(bool, Captures*) const;
+
+  virtual QString getFieldNotation(int, bool) const = 0;
+
 protected:
 	bool checkMove1(int) const;
-	virtual bool checkCapture1(int) const = 0;
+  virtual Captures* getPossibleCapture(int) const = 0;
 
 	int level;        // Current level
 	int levelmax;     // Maximum level
@@ -99,6 +110,7 @@ protected:
 	virtual bool kingCapture1(int,int,bool &)=0;
 
 	int internal(int) const;	// Return internal board position
+  int external(int) const;  // Return extenal board position
 };
 
 

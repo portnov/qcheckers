@@ -57,8 +57,7 @@ void myHumanPlayer::yourTurn(const Checkers* g)
 	m_game->fromString(g->toString(m_second));
 }
 
-
-bool myHumanPlayer::fieldClicked(int field_num, bool* select, QString& errmsg)
+bool myHumanPlayer::fieldClicked(int field_num, bool* select, bool bottom_is_white, QString& errmsg)
 {
 	if(m_second) {
 		field_num = 31 - field_num;
@@ -66,14 +65,16 @@ bool myHumanPlayer::fieldClicked(int field_num, bool* select, QString& errmsg)
 
 	switch(m_game->item(field_num)) {
 	case MAN1:
-	case KING1:
-		if(m_game->checkCapture1() && !m_game->canCapture1(field_num)) {
-	    		errmsg = tr("You must capture.");//TODO better text.
+	case KING1: {
+    Captures* capture = m_game->getPossibleCapture();
+		if(!capture->isEmpty() && !m_game->canCapture1(field_num)) {
+      errmsg = tr("You must capture: %1").arg(m_game->describeCapture(bottom_is_white, capture));
 			return false;
 		}
+    delete capture;
 		if(!m_game->canCapture1(field_num)
 				&& !m_game->canMove1(field_num)) {
-			errmsg = tr("Cannot move this.");//TODO better text.
+			errmsg = tr("This unit does not have valid moves.");//TODO better text.
 			return false;
 		}
 
@@ -83,15 +84,17 @@ bool myHumanPlayer::fieldClicked(int field_num, bool* select, QString& errmsg)
 		selected = true;
 		*select = true;
 		return true;
-	break;
+    break;
+  }
 
 	case FREE:
 		if(!selected) {
 			return true;
 		}
 
-	       	if(!go(field_num)) {
-		    	return false;	// incorrect course
+	  if (!go(field_num)) {
+      errmsg = tr("This unit cannot be moved to field you pointed.");
+      return false;	// incorrect course
 		}
 
 		// move done - unselect
