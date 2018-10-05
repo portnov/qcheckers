@@ -32,7 +32,6 @@
 class myBoard : public QFrame
 {
 	Q_OBJECT
-  Q_PROPERTY(QColor highlightColor READ highlightColor WRITE setHighlightColor)
 
 public:
 	myBoard(QWidget* parent);
@@ -67,15 +66,13 @@ public:
 	// TODO
 	const Checkers* game() const { return m_game; }
 
-  QColor highlightColor() const;
-  void setHighlightColor(const QColor& color);
-
 signals:
 	void fieldClicked(int);
 
 protected:
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent*);
+    void timerEvent(QTimerEvent*);
 
 private:
 	bool convert_move(const QString&, int* from, int* to);
@@ -87,8 +84,7 @@ private:
   void endSetup();
   int getTargetFieldSize(QSize size);
 
-  void highlightSource(int);
-  void highlightTarget(int);
+  void highlight(int, int, bool);
 
 private:
 	Field* m_fields[64];
@@ -99,8 +95,15 @@ private:
 
   bool bottom_is_white;
   bool animation_in_progress;
-  QColor m_highlight_color;
-  Field* m_highlighted_field;
+  QColor m_src_color;
+  QColor m_dst_color;
+  Field* m_src_field;
+  Field* m_dst_field;
+
+  int animation_steps;
+  int current_step;
+  int animation_timer;
+  bool animating_bottom_player;
 
 	Checkers* m_game;
 };

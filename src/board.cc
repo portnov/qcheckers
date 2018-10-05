@@ -35,11 +35,11 @@
 #include "computerplayer.h"
 */
 
-QVariant myColorInterpolator(const QColor &start, const QColor &end, qreal progress) {
+QColor myColorInterpolator(const QColor &start, const QColor &end, qreal progress) {
     qreal r = (1 - progress) * start.red() + progress * end.red();
     qreal g = (1 - progress) * start.green() + progress * end.green();
     qreal b = (1 - progress) * start.blue() + progress * end.blue();
-    qInfo("from %s to %s, progress %f", qUtf8Printable(start.name()), qUtf8Printable(end.name()), progress);
+    //qDebug("from %s to %s, progress %f", qUtf8Printable(start.name()), qUtf8Printable(end.name()), progress);
     return QColor(r, g, b);
 }
 
@@ -49,14 +49,17 @@ myBoard::myBoard(QWidget* parent)
 	/*
 	 * board & info 
 	 */
-  qRegisterAnimationInterpolator<QColor>(myColorInterpolator);
 	setFrameStyle(QFrame::Box|QFrame::Plain);
 	for(int i=0; i<64; i++) {
 		m_fields[i] = new Field(this, i);
 	}
 
   pixmap_valid = false;
-  m_highlighted_field = NULL;
+  m_src_field = NULL;
+  m_dst_field = NULL;
+  animation_steps = 10;
+  current_step = 0;
+  animation_timer = startTimer(100);
 
 // 	for(int i=0; i<32; i++) {
 // 		connect(m_fields[i], SIGNAL(click(int)),
@@ -238,10 +241,13 @@ void myBoard::draw() {
 		}
 	}
 
-  if (animation_in_progress && m_highlighted_field) {
-    qInfo("color: %s", qUtf8Printable(m_highlight_color.name()));
-    painter.setPen(QPen(m_highlight_color, 5));
-    painter.drawRect(m_highlighted_field->rect());
+  if (animation_in_progress && m_src_field && m_dst_field) {
+    painter.setPen(QPen(m_src_color, 5));
+    painter.drawRect(m_src_field->rect());
+    painter.setPen(Qt::black);
+
+    painter.setPen(QPen(m_dst_color, 5));
+    painter.drawRect(m_dst_field->rect());
     painter.setPen(Qt::black);
   }
   painter.end();
@@ -376,8 +382,7 @@ QString myBoard::doMove(int from_num, int to_num, bool white_player)
 	}
 
 	fieldsSetup();
-  highlightSource(from_num);
-  highlightTarget(to_num);
+  highlight(from_num, to_num, bottom_player);
 
 	return QString("%1?%3")
 		.arg(m_fields[from_num]->label())
@@ -424,6 +429,8 @@ void myBoard::mousePressEvent(QMouseEvent* me)
 {
     if(me->button() != Qt::LeftButton)
       return;
+    if (animation_in_progress)
+      return;
     for (int i = 0; i < 32; i++) {
       if (m_fields[i]->rect().contains(me->pos())) {
         invalidate();
@@ -434,43 +441,42 @@ void myBoard::mousePressEvent(QMouseEvent* me)
     }
 }
 
-QColor myBoard::highlightColor() const {
-  return m_highlight_color;
-}
-
-void myBoard::setHighlightColor(const QColor& color) {
-  m_highlight_color = color;
-  //if (animation_in_progress && m_highlighted_field) {
-    invalidate();
-    repaint();
-  //}
-}
-
-void myBoard::highlightSource(int i) {
+void myBoard::highlight(int from, int to, bool bottom_player) {
   animation_in_progress = true;
-  m_highlighted_field = m_fields[i];
-  QPropertyAnimation animation(this, "highlightColor");
-  animation.setKeyValueAt(0, QColor(0,0,0));
-  animation.setKeyValueAt(0.5, QColor(255,0,0));
-  animation.setKeyValueAt(1, QColor(255,255,255));
-  animation.setDuration(10000);
-  animation.start();
-  animation_in_progress = false;
-  m_highlighted_field = NULL;
+  m_src_field = m_fields[from];
+  m_dst_field = m_fields[to];
+  animating_bottom_player = bottom_player;
 }
 
-void myBoard::highlightTarget(int i) {
-  animation_in_progress = true;
-  m_highlighted_field = m_fields[i];
-  QPropertyAnimation animation(this, "highlightColor");
-  animation.setStartValue(QColor(0, 0, 0));
-  animation.setEndValue(QColor(255, 0, 0));
-  /*animation.setKeyValueAt(0, QColor(0,0,0));
-  animation.setKeyValueAt(0.5, QColor(0,255,0));
-  animation.setKeyValueAt(1, QColor(255,255,0));*/
-  animation.setDuration(10000);
-  animation.start();
-  animation_in_progress = false;
-  m_highlighted_field = NULL;
+void myBoard::timerEvent(QTimerEvent* e) {
+  if (e->timerId() != animation_timer) {
+    return;
+  }
+  if (animation_in_progress) {
+    qreal progress = ((qreal)current_step) / ((qreal)animation_steps);
+    QColor begin;
+    QColor end;
+    if (animating_bottom_player) {
+      begin = QColor(0, 0, 0);
+      end = QColor(0, 255, 0);
+    } else {
+      begin = QColor(0, 0, 0);
+      end = QColor(255, 0, 0);
+    }
+    m_src_color = myColorInterpolator(begin, end, progress);
+    m_dst_color = myColorInterpolator(begin, end, 1-progress);
+    current_step ++;
+    if (current_step >= animation_steps) {
+      current_step = 0;
+      animation_in_progress = false;
+      m_src_field = NULL;
+      m_dst_field = NULL;
+      invalidate();
+      repaint();
+    } else {
+      invalidate();
+      repaint();
+    }
+  }
 }
 
