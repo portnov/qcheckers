@@ -35,6 +35,7 @@
 #include "pdn.h"
 #include "toplevel.h"
 #include "newgamedlg.h"
+#include "history.h"
 #include "view.h"
 #include "common.h"
 
@@ -56,6 +57,7 @@ myTopLevel::myTopLevel()
 
 	m_newgame = new myNewGameDlg(this);
 	make_central_widget();
+  make_docks();
 	make_actions();
 	restore_settings();
 
@@ -70,6 +72,37 @@ myTopLevel::myTopLevel()
 	if(layout()) {
 		//layout()->setSizeConstraint(QLayout::SetFixedSize);
 	}
+}
+
+void myTopLevel::make_docks() {
+	m_history = new myHistory(this);
+
+	connect(m_history, SIGNAL(previewGame(int)),
+			m_view, SLOT(slot_preview_game(int)));
+	connect(m_history, SIGNAL(applyMoves(const QString&)),
+			m_view, SLOT(slot_apply_moves(const QString&)));
+	connect(m_history, SIGNAL(newMode(bool, bool)),
+			m_view, SLOT(slot_new_mode(bool, bool)));
+	connect(m_view, SIGNAL(working(bool)),
+			m_history, SLOT(slotWorking(bool)));
+
+  m_history_dock = make_dock("history", tr("History"), Qt::RightDockWidgetArea, m_history);
+
+	m_log = new QTextEdit(this);
+    	//m_log->setFixedHeight(100); //FIXME
+	m_log->setReadOnly(true);
+  
+  m_log_dock = make_dock("log", tr("Log"), Qt::BottomDockWidgetArea, m_log);
+
+}
+
+QDockWidget* myTopLevel::make_dock(const QString& name, const QString& title, Qt::DockWidgetArea area, QWidget* widget) {
+  QDockWidget* dock = new QDockWidget(title, this);
+  dock->setAllowedAreas(Qt::AllDockWidgetAreas);
+  dock->setWidget(widget);
+  dock->setObjectName(name);
+  addDockWidget(area, dock);
+  return dock;
 }
 
 
@@ -174,6 +207,8 @@ void myTopLevel::make_actions()
 	viewMenu->addSeparator();
 	viewMenu->addAction(viewNotation);
 	viewMenu->addAction(viewNotationAbove);
+  viewMenu->addAction(m_history_dock->toggleViewAction());
+  viewMenu->addAction(m_log_dock->toggleViewAction());
 
 	QMenu* settingsMenu = menuBar()->addMenu(tr("&Settings"));
 	settingsMenu->addAction(settingsKeep);
@@ -343,6 +378,18 @@ void myTopLevel::information(const QString& caption, const QString& text)
 	delete dlg;
 }
 
+myHistory* myTopLevel::get_history() const {
+  return m_history;
+}
+
+void myTopLevel::clear_log() {
+  m_log->clear();
+}
+
+void myTopLevel::append_log(const QString& text) {
+  m_log->append(text);
+	m_log->ensureCursorVisible();
+}
 
 void myTopLevel::slot_save_game()
 {

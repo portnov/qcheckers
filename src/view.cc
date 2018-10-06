@@ -29,6 +29,7 @@
 #include "common.h"
 #include "history.h"
 #include "newgamedlg.h"
+#include "toplevel.h"
 
 #include "player.h"
 #include "humanplayer.h"
@@ -49,9 +50,10 @@ public:
 };
 
 
-myView::myView(QWidget* parent)
+myView::myView(myTopLevel* parent)
 	: QFrame(parent)
 {
+  m_toplevel = parent;
 	/*
 	 * board & info 
 	 */
@@ -59,38 +61,12 @@ myView::myView(QWidget* parent)
 	connect(m_board, SIGNAL(fieldClicked(int)),
 			this, SLOT(slot_click(int)));
 
-	m_history = new myHistory(this);
-	connect(m_history, SIGNAL(previewGame(int)),
-			this, SLOT(slot_preview_game(int)));
-	connect(m_history, SIGNAL(applyMoves(const QString&)),
-			this, SLOT(slot_apply_moves(const QString&)));
-	connect(m_history, SIGNAL(newMode(bool, bool)),
-			this, SLOT(slot_new_mode(bool, bool)));
-	connect(this, SIGNAL(working(bool)),
-			m_history, SLOT(slotWorking(bool)));
-
-	QHBoxLayout* hb = new QHBoxLayout(0);
-	hb->addWidget(m_board);
-	hb->addSpacing(5);
-	hb->addWidget(m_history);
-
-
-	/*
-	 *
-	 */
-	m_log = new QTextEdit(this);
-    	//m_log->setFixedHeight(100); //FIXME
-	m_log->setReadOnly(true);
-
-
 	/*
 	 * it's the final layout.
 	 */
 	QVBoxLayout* vb = new QVBoxLayout(this);
-	vb->addLayout(hb);
-	vb->addWidget(m_log);
+	vb->addWidget(m_board);
 	//vb->setSizeConstraint(QLayout::SetFixedSize);
-
 
 	/*
 	 * game init
@@ -121,7 +97,7 @@ void myView::setEnabled(bool b)
 void myView::setTheme(const QString& path)
 {
 	m_board->setTheme(path, m_player ? m_player->isWhite() : true);
-	//m_history->setFixedHeight(m_board->height());
+	//m_toplevel->get_history()->setFixedHeight(m_board->height());
 }
 
 
@@ -173,7 +149,7 @@ void myView::newGame(int rules, bool freeplace,
 	m_board->setGame(rules);
 
 	m_board->reset();
-	m_history->clear();
+	m_toplevel->get_history()->clear();
 
 	begin_game(1, freeplace);
 }
@@ -182,16 +158,17 @@ void myView::newGame(int rules, bool freeplace,
 void myView::begin_game(unsigned int round, bool freeplace)
 {
 	if(m_clear_log)
-		m_log->clear();
+    m_toplevel->clear_log();
 
 	m_board->adjustNotation(m_player->isWhite());
 
-	m_history->newPdn(APPNAME" Game", freeplace);
-	m_history->setTag(PdnGame::Type, QString::number(m_board->type()));
-	m_history->setTag(PdnGame::Date,
+  myHistory* history = m_toplevel->get_history();
+	history->newPdn(APPNAME" Game", freeplace);
+	history->setTag(PdnGame::Type, QString::number(m_board->type()));
+	history->setTag(PdnGame::Date,
 		QDate::currentDate().toString("yyyy.MM.dd"));
-	m_history->setTag(PdnGame::Result, "*");
-	m_history->setTag(PdnGame::Round, QString::number(round));
+	history->setTag(PdnGame::Result, "*");
+	history->setTag(PdnGame::Round, QString::number(round));
 
 
 	/*
@@ -205,14 +182,14 @@ void myView::begin_game(unsigned int round, bool freeplace)
 
 	// setup names
 	if(m_player->isWhite()) {
-		m_history->setTag(PdnGame::White, m_player->name());
-		m_history->setTag(PdnGame::Black, m_player->opponent()->name());
+		history->setTag(PdnGame::White, m_player->name());
+		history->setTag(PdnGame::Black, m_player->opponent()->name());
 	} else {
-		m_history->setTag(PdnGame::White, m_player->opponent()->name());
-		m_history->setTag(PdnGame::Black, m_player->name());
+		history->setTag(PdnGame::White, m_player->opponent()->name());
+		history->setTag(PdnGame::Black, m_player->name());
 	}
 
-	if(m_history->isFreePlacement())
+	if(history->isFreePlacement())
 		emit working(false);
 	else
 		slot_move_done(m_board->game()->toString(false));
@@ -244,7 +221,7 @@ bool myView::check_game_over()
 	// neither of the player can go -> draw.
 	if(!player_can && !opp_can) {
 		add_log(myView::System, tr("Drawn game."));
-		m_history->setTag(PdnGame::Result, "1/2-1/2");
+		m_toplevel->get_history()->setTag(PdnGame::Result, "1/2-1/2");
 		return m_game_over;
 	}
 
@@ -258,8 +235,9 @@ void myView::slot_click(int field_num)
 	if(m_game_over || m_aborted)
 		return;
 
-	if(m_history->isPaused()) {
-		if(m_history->isFreePlacement()) {
+  myHistory* history = m_toplevel->get_history();
+	if(history->isPaused()) {
+		if(history->isFreePlacement()) {
 			// FIXME - hightlight fields
 			if(m_freeplace_from < 0) {
 				m_freeplace_from = field_num;
@@ -298,8 +276,9 @@ void myView::slotNextRound()
 	m_board->setColorWhite(m_player->isWhite());
 	m_board->reset();
 
-	unsigned int round = m_history->getTag(PdnGame::Round).toUInt() + 1;
-	begin_game(round, m_history->isFreePlacement());
+  myHistory* history = m_toplevel->get_history();
+	unsigned int round = history->getTag(PdnGame::Round).toUInt() + 1;
+	begin_game(round, history->isFreePlacement());
 }
 
 
@@ -324,14 +303,15 @@ void myView::stop_game(const QString& msg)
 
 void myView::slot_move_done(const QString& board_str)
 {
-	if(m_history->isPaused())	// FIXME - ???
+  myHistory* history = m_toplevel->get_history();
+	if (history->isPaused())	// FIXME - ???
 		return;
 
 	perform_jumps(m_board->game()->toString(false), board_str);
 
 	// show who is next?
 	m_current = m_current->opponent();
-	m_history->setCurrent(m_current->name());
+	history->setCurrent(m_current->name());
 
 	if(!m_current->isHuman()) {
 		emit working(true);
@@ -358,11 +338,12 @@ void myView::slot_move_done_step_two()
 
 void myView::you_won(bool yes)
 {
+  myHistory* history = m_toplevel->get_history();
 	if(yes&&m_player->isWhite() || !yes&&!m_player->isWhite()) {
-		m_history->setTag(PdnGame::Result, "1-0");	// white wins
+		history->setTag(PdnGame::Result, "1-0");	// white wins
 		add_log(myView::System, tr("White wins!"));
 	} else {
-		m_history->setTag(PdnGame::Result, "0-1");	// black wins
+		history->setTag(PdnGame::Result, "0-1");	// black wins
 		add_log(myView::System, tr("Black wins!"));
 	}
 
@@ -377,7 +358,7 @@ bool myView::openPdn(const QString& fn)
 	m_current->stop();
 
 	QString log_text;
-	if(!m_history->openPdn(fn, log_text)) {
+	if(!m_toplevel->get_history()->openPdn(fn, log_text)) {
 		return false;
 	}
 
@@ -393,7 +374,7 @@ bool myView::openPdn(const QString& fn)
 
 bool myView::savePdn(const QString& fn)
 {
-	if(!m_history->savePdn(fn)) {
+	if(!m_toplevel->get_history()->savePdn(fn)) {
 		qDebug() << __PRETTY_FUNCTION__ << "failed.";
 		return false;
 	}
@@ -416,7 +397,7 @@ void myView::slot_new_mode(bool paused, bool freeplace)
 	// resume game: ask info for who is next, black or white.XXX FIXME TODO
 	if(!paused) {
 		myPlayer* next = 0;
-		if(m_history->moveCount()%2==0)
+		if(m_toplevel->get_history()->moveCount()%2==0)
 			next = get_first_player();
 		else
 			next = get_first_player()->opponent();
@@ -436,12 +417,13 @@ void myView::slot_preview_game(int rules)
 
 	m_board->setGame(rules);
 
+  myHistory* history = m_toplevel->get_history();
 	if(m_player->isWhite() && rules==RUSSIAN) {
-		m_player->setName(m_history->getTag(PdnGame::White));
-		m_player->opponent()->setName(m_history->getTag(PdnGame::Black));
+		m_player->setName(history->getTag(PdnGame::White));
+		m_player->opponent()->setName(history->getTag(PdnGame::Black));
 	} else {
-		m_player->setName(m_history->getTag(PdnGame::Black));
-		m_player->opponent()->setName(m_history->getTag(PdnGame::White));
+		m_player->setName(history->getTag(PdnGame::Black));
+		m_player->opponent()->setName(history->getTag(PdnGame::White));
 	}
 
 	// FIXME
@@ -468,7 +450,7 @@ void myView::slot_apply_moves(const QString& moves)
 	m_current = (m_player->isWhite() ? m_player : m_player->opponent());
 	if(!white_player)
 		m_current = m_current->opponent();
-	m_history->setCurrent(m_current->name());
+	m_toplevel->get_history()->setCurrent(m_current->name());
 }
 
 
@@ -486,9 +468,7 @@ void myView::add_log(enum LogType type, const QString& text)
 	default:	break;
 	}
 
-	m_log->append(tag_b + str + tag_e);
-
-	m_log->ensureCursorVisible();
+  m_toplevel->append_log(tag_b + str + tag_e);
 }
 
 
@@ -556,7 +536,7 @@ void myView::perform_jumps(const QString& from_board, const QString& to_board)
 
 	// finally - animate :)
 	QString move = m_board->doMove(from_pos, to_pos, m_current->isWhite());
-	m_history->appendMove(move.replace("?", captured ? "x" : "-" ), "");
+	m_toplevel->get_history()->appendMove(move.replace("?", captured ? "x" : "-" ), "");
 
 	qDeleteAll(diff_list);
 }

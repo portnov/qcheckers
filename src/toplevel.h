@@ -26,7 +26,9 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QMap>
+#include <QTextEdit>
 
+#include "history.h"
 
 class myView;
 class myNewGameDlg;
@@ -40,6 +42,10 @@ public:
 	myTopLevel();
 
 	void open(const QString& filename);
+
+  myHistory* get_history() const;
+  void clear_log();
+  void append_log(const QString&);
 
 protected:
 	void closeEvent(QCloseEvent*);
@@ -69,6 +75,9 @@ private:
 	void restore_settings();
 	void store_settings();
 
+  void make_docks();
+  QDockWidget* make_dock(const QString&, const QString&, Qt::DockWidgetArea, QWidget*);
+
 	// add themes to this menu.
 	void read_themes(QActionGroup*, QMenu*, const QString& path);
 
@@ -96,6 +105,11 @@ private:
 
 	myView* m_view;
 	myNewGameDlg* m_newgame;
+
+	myHistory* m_history;
+	QTextEdit* m_log;
+  QDockWidget* m_history_dock;
+  QDockWidget* m_log_dock;
 
 	typedef QMap<QAction*, QString> myThemeMap;
 	myThemeMap m_themes;

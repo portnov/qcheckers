@@ -29,6 +29,7 @@
 
 
 #include "board.h"
+#include "toplevel.h"
 
 
 class Pdn;
@@ -41,7 +42,7 @@ class myView : public QFrame
 	Q_OBJECT
 
 public:
-	myView(QWidget* parent);
+	myView(myTopLevel* parent);
 	~myView();
 
 	void newGame(int rules, bool free_place,
@@ -109,10 +110,9 @@ private:
 
 	myPlayer* m_player;
 	myPlayer* m_current;
+  myTopLevel* m_toplevel;
 
 	myBoard* m_board;
-	myHistory* m_history;
-	QTextEdit* m_log;
 
 	int m_freeplace_from;
 };
