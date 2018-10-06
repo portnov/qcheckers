@@ -199,6 +199,8 @@ void myBoard::adjustNotation(bool bottom_is_white)
   for(int i=0; i<32; i++) {
     m_fields[i]->setLabel(m_game->getFieldNotation(i, bottom_is_white));
   }
+  invalidate();
+  repaint();
 }
 
 
@@ -271,6 +273,8 @@ void myBoard::setNotation(bool s, bool above)
 	for(int i=0; i<32; i++) {
 		m_fields[i]->showLabel(s, above);
 	}
+  invalidate();
+  repaint();
 }
 
 /*
