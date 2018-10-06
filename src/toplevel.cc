@@ -192,7 +192,7 @@ void myTopLevel::make_actions()
 	/*
 	 * menus
 	 */
-	QMenu* gameMenu = menuBar()->addMenu(tr("&Game"));
+	QMenu* gameMenu = menuBar()->addMenu(myTopLevel::tr("&Game"));
 	gameMenu->addAction(gameNew);
 	gameMenu->addAction(gameOpen);
 	gameMenu->addAction(gameSave);

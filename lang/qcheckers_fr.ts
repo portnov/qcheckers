@@ -462,6 +462,18 @@ Voulez-vous vraiment l&apos;abandonner ?</translation>
         <translation>&lt;p&gt;Au début vous avez 12 pions. Les pions peuvent se déplacer uniquement en avant. Ils peuvent capturer :&lt;ul&gt;&lt;li&gt;en sautant en avant seulement (règles anglaises),&lt;li&gt;en sautant en avant ou en arrière (règles russes).&lt;/ul&gt;&lt;p&gt;Un pion qui arrive du côté adverse du plateau devient une dame. Les dames peuvent se déplacer en avant ou en arrière :&lt;ul&gt;&lt;li&gt;d&apos;une seule case (règles anglaises),&lt;li&gt;de plusieurs cases (règles russes).&lt;/ul&gt;&lt;p&gt;Les dames peuvent capturer en sautant en avant ou en arrière. Quand une capture est possible, elle doit obligatoirement être exécutée.
 </translation>
     </message>
+    <message>
+        <source>%1 -&gt; %2 capturing %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>myView</name>

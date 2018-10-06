@@ -40,6 +40,7 @@
 #include <QDebug>
 
 #include "checkers.h"
+#include "toplevel.h"
 
 
 int Checkers::internal(int external) const
@@ -361,7 +362,7 @@ QString Checkers::describeCapture(bool bottom_is_white, Captures* capture) const
       result += ", ";
     }
     first = false;
-    result += QString("%1 -> %2 capturing %3").arg(from).arg(to).arg(captured);
+    result += myTopLevel::tr("%1 -> %2 capturing %3").arg(from).arg(to).arg(captured);
   }
   return result;
 }

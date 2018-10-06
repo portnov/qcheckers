@@ -6,28 +6,28 @@
     <message>
         <location filename="../src/history.cc" line="66"/>
         <source>Move</source>
-        <translation type="unfinished">Ход</translation>
+        <translation>Ход</translation>
     </message>
     <message>
         <location filename="../src/history.cc" line="66"/>
         <location filename="../src/history.cc" line="250"/>
         <source>Comment</source>
-        <translation type="unfinished">Комментарий</translation>
+        <translation>Комментарий</translation>
     </message>
     <message>
         <location filename="../src/history.cc" line="95"/>
         <source>Undo</source>
-        <translation type="unfinished">Отменить</translation>
+        <translation>Отменить</translation>
     </message>
     <message>
         <location filename="../src/history.cc" line="100"/>
         <source>Redo</source>
-        <translation type="unfinished">Вернуть</translation>
+        <translation>Вернуть</translation>
     </message>
     <message>
         <location filename="../src/history.cc" line="105"/>
         <source>Continue</source>
-        <translation type="unfinished">Продолжить</translation>
+        <translation>Продолжить</translation>
     </message>
     <message>
         <location filename="../src/history.cc" line="249"/>
@@ -194,223 +194,239 @@
 <context>
     <name>myTopLevel</name>
     <message>
-        <location filename="../src/toplevel.cc" line="77"/>
-        <source>&amp;New...</source>
-        <translation>&amp;Новая</translation>
+        <location filename="../src/toplevel.cc" line="89"/>
+        <source>History</source>
+        <translation>История</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="78"/>
+        <location filename="../src/toplevel.cc" line="95"/>
+        <source>Log</source>
+        <translation>Журнал</translation>
+    </message>
+    <message>
+        <location filename="../src/toplevel.cc" line="112"/>
+        <source>&amp;New...</source>
+        <translation>&amp;Новая...</translation>
+    </message>
+    <message>
+        <location filename="../src/toplevel.cc" line="113"/>
         <source>CTRL+N</source>
         <comment>File|New</comment>
         <translation>CTRL+N</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="82"/>
+        <location filename="../src/toplevel.cc" line="117"/>
         <source>&amp;Next Round</source>
         <translation>&amp;Следующий ход</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="86"/>
+        <location filename="../src/toplevel.cc" line="121"/>
         <source>&amp;Stop</source>
         <translation>&amp;Остановить</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="89"/>
+        <location filename="../src/toplevel.cc" line="124"/>
         <source>&amp;Open...</source>
-        <translation>&amp;Открыть</translation>
+        <translation>&amp;Открыть...</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="91"/>
+        <location filename="../src/toplevel.cc" line="126"/>
         <source>CTRL+O</source>
         <comment>File|Open</comment>
         <translation>CTRL+O</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="94"/>
+        <location filename="../src/toplevel.cc" line="129"/>
         <source>&amp;Save...</source>
-        <translation>&amp;Сохранить</translation>
+        <translation>&amp;Сохранить...</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="96"/>
+        <location filename="../src/toplevel.cc" line="131"/>
         <source>CTRL+S</source>
         <comment>File|Save</comment>
         <translation>CTRL+S</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="99"/>
+        <location filename="../src/toplevel.cc" line="134"/>
         <source>&amp;Quit</source>
         <translation>&amp;Выход</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="101"/>
+        <location filename="../src/toplevel.cc" line="136"/>
         <source>CTRL+Q</source>
         <comment>File|Quit</comment>
         <translation>CTRL+Q</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="107"/>
+        <location filename="../src/toplevel.cc" line="142"/>
         <source>&amp;Show Notation</source>
         <translation>&amp;Показать нотацию</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="112"/>
+        <location filename="../src/toplevel.cc" line="147"/>
         <source>Show notation &amp;above men</source>
         <translation>Показать нотацию &amp;над фишками</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="118"/>
+        <location filename="../src/toplevel.cc" line="153"/>
         <source>&amp;Confirm aborting current game</source>
         <translation>&amp;Подтверждать завершение текущей игры</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="121"/>
+        <location filename="../src/toplevel.cc" line="156"/>
         <source>Clear &amp;log on new round</source>
         <translation>Очищать &amp;журнал при следующем раунде</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="126"/>
+        <location filename="../src/toplevel.cc" line="161"/>
         <source>&amp;Notation font...</source>
         <translation>&amp;Шрифт нотации...</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="132"/>
+        <location filename="../src/toplevel.cc" line="167"/>
         <source>&amp;Rules of Play</source>
         <translation>Правила &amp;игры</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="133"/>
+        <location filename="../src/toplevel.cc" line="168"/>
         <source>F1</source>
         <comment>Help|Help</comment>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="137"/>
+        <location filename="../src/toplevel.cc" line="172"/>
         <source>&amp;About</source>
         <translation>&amp;О программе</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="140"/>
+        <location filename="../src/toplevel.cc" line="175"/>
         <source>About &amp;Qt</source>
         <translation>О &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="147"/>
+        <location filename="../src/toplevel.cc" line="182"/>
         <source>&amp;Toolbar</source>
         <translation>&amp;Панель инструментов</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="160"/>
+        <location filename="../src/toplevel.cc" line="195"/>
         <source>&amp;Game</source>
         <translation>&amp;Игра</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="170"/>
+        <location filename="../src/toplevel.cc" line="205"/>
         <source>&amp;View</source>
         <translation>&amp;Вид</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="176"/>
+        <location filename="../src/toplevel.cc" line="213"/>
         <source>&amp;Settings</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="183"/>
+        <location filename="../src/toplevel.cc" line="220"/>
         <source>&amp;Help</source>
         <translation>&amp;Помощь</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="298"/>
+        <location filename="../src/toplevel.cc" line="338"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="319"/>
+        <location filename="../src/toplevel.cc" line="359"/>
         <source>&amp;Close</source>
         <translation>&amp;Закрыть</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="345"/>
+        <location filename="../src/toplevel.cc" line="397"/>
         <source>Save Game</source>
         <translation>Сохранить игру</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="354"/>
+        <location filename="../src/toplevel.cc" line="406"/>
         <source>Could not save: </source>
-        <translation></translation>
+        <translation>Не могу сохранить:</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="363"/>
+        <location filename="../src/toplevel.cc" line="415"/>
         <source>Open Game</source>
         <translation>Открыть игру</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="425"/>
+        <location filename="../src/toplevel.cc" line="480"/>
         <source>&lt;p&gt;In the beginning of game you have 12 checkers (men). The men move forward only. The men can capture:&lt;ul&gt;&lt;li&gt;by jumping forward only (english rules);&lt;li&gt;by jumping forward or backward (russian rules).&lt;/ul&gt;&lt;p&gt;A man which reaches the far side of the board becomes a king. The kings move forward or backward:&lt;ul&gt;&lt;li&gt;to one square only (english rules);&lt;li&gt;to any number of squares (russian rules).&lt;/ul&gt;&lt;p&gt;The kings capture by jumping forward or backward. Whenever a player is able to make a capture he must do so.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="440"/>
+        <location filename="../src/toplevel.cc" line="495"/>
         <source>Rules of Play</source>
-        <translation></translation>
+        <translation>Правила игры</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="454"/>
+        <location filename="../src/toplevel.cc" line="509"/>
         <source>About</source>
-        <translation></translation>
+        <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="493"/>
+        <location filename="../src/toplevel.cc" line="548"/>
         <source>Abort Game?</source>
-        <translation></translation>
+        <translation>Прервать игру?</translation>
     </message>
     <message>
-        <location filename="../src/toplevel.cc" line="494"/>
+        <location filename="../src/toplevel.cc" line="549"/>
         <source>Current game will be lost if you continue.
 Do you really want to discard it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущая игра будет проиграна, если вы продолжите.
+Вы действительно хотите отбросить её?</translation>
+    </message>
+    <message>
+        <location filename="../src/checkers.cc" line="365"/>
+        <source>%1 -&gt; %2 capturing %3</source>
+        <translation type="unfinished">%1 -&gt; %2 (брать %3)</translation>
     </message>
 </context>
 <context>
     <name>myView</name>
     <message>
-        <location filename="../src/view.cc" line="246"/>
+        <location filename="../src/view.cc" line="223"/>
         <source>Drawn game.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/view.cc" line="282"/>
+        <location filename="../src/view.cc" line="260"/>
         <source>Invalid move.</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверный ход.</translation>
     </message>
     <message>
-        <location filename="../src/view.cc" line="318"/>
+        <location filename="../src/view.cc" line="297"/>
         <source>Game aborted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Игра прервана.</translation>
     </message>
     <message>
-        <location filename="../src/view.cc" line="363"/>
+        <location filename="../src/view.cc" line="344"/>
         <source>White wins!</source>
-        <translation type="unfinished"></translation>
+        <translation>Белые выиграли!</translation>
+    </message>
+    <message>
+        <location filename="../src/view.cc" line="347"/>
+        <source>Black wins!</source>
+        <translation>Чёрные выиграли!</translation>
     </message>
     <message>
         <location filename="../src/view.cc" line="366"/>
-        <source>Black wins!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/view.cc" line="385"/>
         <source>Opened:</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыто:</translation>
     </message>
     <message>
-        <location filename="../src/view.cc" line="387"/>
+        <location filename="../src/view.cc" line="368"/>
         <source>Warning! Some errors occured.</source>
-        <translation type="unfinished"></translation>
+        <translation>Предупреждение: произошли некоторые ошибки.</translation>
     </message>
     <message>
-        <location filename="../src/view.cc" line="400"/>
+        <location filename="../src/view.cc" line="381"/>
         <source>Saved:</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранено:</translation>
     </message>
 </context>
 </TS>

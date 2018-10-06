@@ -44,24 +44,22 @@ int main(int argc, char *argv[])
 		<< "QCheckers Prefix path:" << PREFIX << endl
 		<< "QT Translations path:" << qt_lang_path << endl;
 
-	if(current_lang!="en") {
-		// Qt translations
-		QTranslator qt_tr;
-		if(qt_tr.load("qt_" + current_lang, qt_lang_path)) {
-			app.installTranslator(&qt_tr);
-		} else {
-			qDebug() << "Loading Qt translations failed.";
-		}
+  // Qt translations
+  QTranslator qt_tr;
+  if(qt_tr.load("qt_" + current_lang, qt_lang_path)) {
+    app.installTranslator(&qt_tr);
+  } else {
+    qDebug() << "Loading Qt translations failed.";
+  }
 
-		// App translations
-		QTranslator app_tr;
-		if(app_tr.load("qcheckers_" + current_lang,
-					qcheckers_share_path)) {
-			app.installTranslator(&app_tr);
-		} else {
-			qDebug() << "Loading QCheckers translations failed.";
-		}
-	}
+  // App translations
+  QTranslator app_tr;
+  if(app_tr.load("qcheckers_" + current_lang,
+        qcheckers_share_path)) {
+    app.installTranslator(&app_tr);
+  } else {
+    qDebug() << "Loading QCheckers translations failed.";
+  }
 
 	myTopLevel* top = new myTopLevel();
 	top->show();
