@@ -413,7 +413,7 @@ void myHistory::set_mode(bool paused)
 				m_mode_icon->setPixmap(QPixmap(":/icons/freeplace.png"));
 				m_mode_icon->setToolTip(tr("Free Placement Mode"));
 			 } else {
-				m_mode_icon->setPixmap(QPixmap(":/icons/paused.png"));
+				m_mode_icon->setPixmap(QPixmap(":/icons/paused.svg"));
 				m_mode_icon->setToolTip(tr("Paused Mode"));
 			 }
 		} else {
