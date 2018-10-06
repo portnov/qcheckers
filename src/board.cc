@@ -220,8 +220,9 @@ void myBoard::drawField(QPainter& painter, Field* field, int row, int column) {
 
   int rowHeight = height / 8;
   int colWidth = width / 8;
+  int size = rowHeight < colWidth ? rowHeight : colWidth;
 
-  QRect rect(column * colWidth, row * rowHeight, colWidth, rowHeight);
+  QRect rect(column * size, row * size, size, size);
   field->draw(painter, rect);
 }
 
@@ -231,6 +232,7 @@ void myBoard::draw() {
   }
   QPixmap* prev = pixmap;
   pixmap = new QPixmap(size());
+  pixmap->fill(Qt::white);
   QPainter painter(pixmap);
 	for(int i=0; i<4; i++) {
 		for(int k=0; k<4; k++) {
