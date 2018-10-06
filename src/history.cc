@@ -75,13 +75,13 @@ myHistory::myHistory(QWidget* parent)
 
 	// history
 	/*
-	gameUndo = new QAction(QIcon(":/icons/undo.png"), tr("&Undo"), this);
+	gameUndo = new QAction(QIcon(":/icons/undo.svg"), tr("&Undo"), this);
 	connect(gameUndo, SIGNAL(triggered()), m_view, SLOT(slotUndo()));
 
-	gameRedo = new QAction(QIcon(":/icons/redo.png"), tr("&Redo"), this);
+	gameRedo = new QAction(QIcon(":/icons/redo.svg"), tr("&Redo"), this);
 	connect(gameRedo, SIGNAL(triggered()), m_view, SLOT(slotRedo()));
 
-	gameContinue = new QAction(QIcon(":/icons/continue.png"),
+	gameContinue = new QAction(QIcon(":/icons/continue.svg"),
 			tr("&Continue"), this);
 	connect(gameContinue, SIGNAL(triggered()), m_view, SLOT(slotContinue()));
 
@@ -91,17 +91,17 @@ myHistory::myHistory(QWidget* parent)
 	m_mode_icon->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 
 	m_undo = new QToolButton(this);
-	m_undo->setIcon(QIcon(":/icons/undo.png"));
+	m_undo->setIcon(QIcon(":/icons/undo.svg"));
 	m_undo->setToolTip(tr("Undo"));
 	connect(m_undo, SIGNAL(clicked()), this, SLOT(slot_undo()));
 
 	m_redo = new QToolButton(this);
-	m_redo->setIcon(QIcon(":/icons/redo.png"));
+	m_redo->setIcon(QIcon(":/icons/redo.svg"));
 	m_redo->setToolTip(tr("Redo"));
 	connect(m_redo, SIGNAL(clicked()), this, SLOT(slot_redo()));
 
 	m_cont = new QToolButton(this);
-	m_cont->setIcon(QIcon(":/icons/continue.png"));
+	m_cont->setIcon(QIcon(":/icons/continue.svg"));
 	m_cont->setToolTip(tr("Continue"));
 	connect(m_cont, SIGNAL(clicked()), this, SLOT(slot_continue()));
 
@@ -417,7 +417,7 @@ void myHistory::set_mode(bool paused)
 				m_mode_icon->setToolTip(tr("Paused Mode"));
 			 }
 		} else {
-			m_mode_icon->setPixmap(QPixmap(":/icons/logo.png"));
+			m_mode_icon->setPixmap(QPixmap(":/icons/logo.svg"));
 			m_mode_icon->setToolTip(tr("Play Mode"));
 		}
 

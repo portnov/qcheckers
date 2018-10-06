@@ -53,7 +53,7 @@
 myTopLevel::myTopLevel()
 {
 	setWindowTitle(APPNAME);
-	setWindowIcon(QIcon(":/icons/biglogo.png"));
+	setWindowIcon(QIcon(":/icons/logo.svg"));
 
 	m_newgame = new myNewGameDlg(this);
 	make_central_widget();
@@ -109,29 +109,29 @@ QDockWidget* myTopLevel::make_dock(const QString& name, const QString& title, Qt
 void myTopLevel::make_actions()
 {
 	// game menu actions
-	gameNew = new QAction(QIcon(":/icons/logo.png"), tr("&New..."), this);
+	gameNew = new QAction(QIcon(":/icons/logo.svg"), tr("&New..."), this);
 	gameNew->setShortcut(tr("CTRL+N", "File|New"));
 	connect(gameNew, SIGNAL(triggered()), this, SLOT(slot_new_game()));
 
-	gameNextRound = new QAction(QIcon(":/icons/next.png"),
+	gameNextRound = new QAction(QIcon(":/icons/next.svg"),
 			tr("&Next Round"), this);
 	connect(gameNextRound, SIGNAL(triggered()),
 			this, SLOT(slot_next_round()));
 
-	gameStop = new QAction(QIcon(":/icons/stop.png"), tr("&Stop"), this);
+	gameStop = new QAction(QIcon(":/icons/stop.svg"), tr("&Stop"), this);
 	connect(gameStop, SIGNAL(triggered()), m_view, SLOT(slotStopGame()));
 
-	gameOpen = new QAction(QIcon(":/icons/fileopen.png"), tr("&Open..."),
+	gameOpen = new QAction(QIcon(":/icons/fileopen.svg"), tr("&Open..."),
 			this);
 	gameOpen->setShortcut(tr("CTRL+O", "File|Open"));
 	connect(gameOpen, SIGNAL(triggered()), this, SLOT(slot_open_game()));
 
-	gameSave = new QAction(QIcon(":/icons/filesave.png"), tr("&Save..."),
+	gameSave = new QAction(QIcon(":/icons/filesave.svg"), tr("&Save..."),
 			this);
 	gameSave->setShortcut(tr("CTRL+S", "File|Save"));
 	connect(gameSave, SIGNAL(triggered()), this, SLOT(slot_save_game()));
 
-	QAction* gameQuit = new QAction(QIcon(":/icons/exit.png"), tr("&Quit"),
+	QAction* gameQuit = new QAction(QIcon(":/icons/exit.svg"), tr("&Quit"),
 		this);
 	gameQuit->setShortcut(tr("CTRL+Q", "File|Quit"));
 	connect(gameQuit, SIGNAL(triggered()),
@@ -168,7 +168,7 @@ void myTopLevel::make_actions()
 	helpRules->setShortcut(tr("F1", "Help|Help"));
 	connect(helpRules, SIGNAL(triggered()), this, SLOT(slot_help()));
 
-	QAction* helpAbout = new QAction(QIcon(":/icons/logo.png"),
+	QAction* helpAbout = new QAction(QIcon(":/icons/logo.svg"),
 		tr("&About")+" "APPNAME, this);
 	connect(helpAbout, SIGNAL(triggered()), this, SLOT(slot_about()));
 

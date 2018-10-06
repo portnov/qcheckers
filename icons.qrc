@@ -1,22 +1,21 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
 	<qresource>
-		<file>icons/biglogo.png</file>
-		<file>icons/fileopen.png</file>
-		<file>icons/filesave.png</file>
-		<file>icons/stop.png</file>
+		<file>icons/logo.svg</file>
+		<file>icons/fileopen.svg</file>
+		<file>icons/filesave.svg</file>
+		<file>icons/stop.svg</file>
 		<file>icons/dialog.png</file>
-		<file>icons/undo.png</file>
-		<file>icons/redo.png</file>
-		<file>icons/exit.png</file>
+		<file>icons/undo.svg</file>
+		<file>icons/redo.svg</file>
+		<file>icons/exit.svg</file>
 		<file>icons/info.png</file>
-		<file>icons/next.png</file>
+		<file>icons/next.svg</file>
 		<file>icons/context.png</file>
-		<file>icons/logo.png</file>
 		<file>icons/paused.png</file>
 		<file>icons/freeplace.png</file>
-		<file>icons/clear.png</file>
-		<file>icons/continue.png</file>
+		<file>icons/clear.svg</file>
+		<file>icons/continue.svg</file>
 
 		<file>icons/theme/frame.png</file>
 		<file>icons/theme/kingwhite.png</file>
