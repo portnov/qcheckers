@@ -45,6 +45,8 @@
 #define CFG_NOT_ABOVE	CFG_KEY"NotationAbove"
 #define CFG_NOT_FONT	CFG_KEY"NotationFont"
 #define CFG_CLEAR_LOG	CFG_KEY"ClearLogOnNewRound"
+#define CFG_GEOMETRY CFG_KEY"WindowGeometry"
+#define CFG_STATE CFG_KEY"WindowState"
 
 
 myTopLevel::myTopLevel()
@@ -279,6 +281,9 @@ void myTopLevel::restore_settings()
 
 	// new game
 	m_newgame->readSettings(&cfg);
+
+  restoreGeometry(cfg.value(CFG_GEOMETRY).toByteArray());
+  restoreState(cfg.value(CFG_STATE).toByteArray());
 }
 
 
@@ -409,6 +414,9 @@ void myTopLevel::store_settings()
 
 	// new game
 	m_newgame->writeSettings(&config);
+
+  config.setValue(CFG_GEOMETRY, saveGeometry());
+  config.setValue(CFG_STATE, saveState());
 }
 
 
