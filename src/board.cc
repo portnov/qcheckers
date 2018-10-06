@@ -116,7 +116,9 @@ void myBoard::setTheme(const QString& path, bool set_white)
   int fieldSize = getTargetFieldSize(size());
   m_theme = new Theme(this, path, 0);
   if (fieldSize > 3) {
-    m_theme->setTargetSize(fieldSize);
+    if (m_theme->getIsResizeable()) {
+      m_theme->setTargetSize(fieldSize);
+    }
   }
   for (int i = 0; i < 64; i++) {
     m_fields[i]->setTheme(m_theme);
@@ -147,6 +149,7 @@ void myBoard::setTheme(const QString& path, bool set_white)
 	}
 
   endSetup();
+  repaint();
 }
 
 QSize myBoard::sizeHint() const {
