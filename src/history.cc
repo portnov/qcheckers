@@ -41,7 +41,7 @@
 myHistory::myHistory(QWidget* parent)
 	: QFrame(parent)
 {
-	setFixedWidth(240);
+	//setFixedWidth(240);
 
 	m_gamelist = new QComboBox(this);
 	connect(m_gamelist, SIGNAL(activated(int)),
