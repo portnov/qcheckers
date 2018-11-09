@@ -1,29 +1,35 @@
+QCheckers README
+================
 
-  KCheckers is a Qt-based checkers board game.
+QCheckers (formely known as KCheckers) is a Qt-based checkers board game.
+It can play english draughts and russian draughts.
 
-  Requirements: Qt 4.0
+There is some additional information in the FAQ file.
 
-  Installation: Read INSTALLS for more information.
+Please address any bug reports or feature requests to [github issue tracker][1].
 
-  Information:  If you find any bugs, send a report to wibix@gmx.de.
-                For further information and recent versions of KCheckers,
-                please visit it's Homepage at 
+Formely this program was living at
 
-		http://qcheckers.wibix.de
-		http://qcheckers.org
+* http://qcheckers.sourceforge.net/
+* http://qcheckers.wibix.de
+* http://qcheckers.org
 
-  Usage:	Read FAQ for more information.
+[1]: https://github.com/portnov/qcheckers/issues
 
-  PDN Format:   For storing the positions of games KCheckers uses the 
-                Portable Draughts Notation (PDN) database format. It is
-                used by many other checkers programs, and is becoming
-                the standard way to swap games.
+PDN format
+----------
 
-                PDN is based on the Portable Game Notation (PGN) standard
-                which is widely used for Chess.
+For storing the positions of games QCheckers uses the 
+Portable Draughts Notation (PDN) database format. It is
+used by many other checkers programs, and is becoming
+the standard way to swap games.
 
-                For details see http://www.chessandcheckers.com/pdn.htm
+PDN is based on the Portable Game Notation (PGN) standard
+which is widely used for Chess.
 
+For details see http://www.chessandcheckers.com/pdn.htm
+
+```
   -----------------------------------------------------------------------
   PDN File:   	[Event "Game 1"]
 		[Black "Nemet,A"]
@@ -80,4 +86,26 @@
 		Canadian       12x12      +           >1        +
 
   -----------------------------------------------------------------------
+```
+
+
+Requirements
+------------
+
+Qt library version 5.0 or higher is required.
+
+Installation
+------------
+
+To install QCheckers, run the following commands:
+
+```
+$ qmake -o Makefile qcheckers.pro
+$ make
+$ sudo make install
+```
+
+Shared files are installed in `/usr/local/share/qcheckers` by default. You can
+change this by changing `SHARE_PATH` in `common.h`.
+
 
