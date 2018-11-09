@@ -9,6 +9,8 @@ How to create a themes?
 There are two places you can put your own theme directories:
 $SHARE/themes or $HOME/.qcheckers/themes. $SHARE is /usr/local/qcheckers on
 default. simply create a directory there that contains the following files:
+
+```
     tile1.png		- unused tiles.
     tile2.png		- where men are placed.
     frame.png		- around selected man.
@@ -25,6 +27,8 @@ default. simply create a directory there that contains the following files:
 			- Line 1) This is a default theme name
 			- Line 2) [de_DE]=Das ist Deutsch
 			- Line 2) [en]=This is English
+```
+
 Directory name will be shown as theme name. All pictures are the same size.
 
 

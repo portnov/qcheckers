@@ -11,6 +11,8 @@ QCheckers can play english draughts and russian draughts.
 * [GitHub issue tracker][2]
 * [Project on SourceForge.net][3]
 
+Some additional information can be found in the [FAQ](FAQ.md) file.
+
 News
 ----
 
@@ -52,7 +54,21 @@ Features
 Screenshots
 -----------
 
+Current git master with "Simple 3D" theme:
+
 ![3D-like SVG theme](https://user-images.githubusercontent.com/284644/48266670-e0373b00-e451-11e8-930c-ce57d2ef7fdb.png)
+
+Current git master with "Simple SVG" theme:
+
+![Simple SVG theme](https://user-images.githubusercontent.com/284644/48266672-e0cfd180-e451-11e8-80ab-692bb6a7f16d.png)
+
+Older screenshots:
+
+![QCheckers 0.8](https://user-images.githubusercontent.com/284644/48266511-63a45c80-e451-11e8-902e-245ab5c7e410.png)
+
+![KCheckers in KDE](https://user-images.githubusercontent.com/284644/48266512-643cf300-e451-11e8-85e4-ed8454e0c7f4.png)
+
+![KCheckers on Qtopia](https://user-images.githubusercontent.com/284644/48266514-643cf300-e451-11e8-87ce-1b6feb70c17f.png)
 		
 Future plans
 ------------
@@ -77,9 +93,9 @@ Rules of Play
 Team
 ----
 
-    Andi Peredri - original author, artist, designer, russian translation.
-    Artur Wiebe - current maintainer and developer, german translation. 
-    Ilya Portnov - current developer
+* Andi Peredri - original author, artist, designer, russian translation.
+* Artur Wiebe - current maintainer and developer, german translation. 
+* Ilya Portnov - current developer
 
 Links
 -----

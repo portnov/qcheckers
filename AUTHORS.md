@@ -1,3 +1,6 @@
+Authors
+=======
+
 Andi Peredri <andi@ukr.net>
 Artur Wiebe <wibix@gmx.de>
 
