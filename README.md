@@ -1,5 +1,5 @@
-QCheckers README
-================
+QCheckers 0.9.0 README
+======================
 
 QCheckers (formely known as KCheckers) is a Qt-based checkers board game.
 It can play english draughts and russian draughts.
@@ -97,15 +97,5 @@ Qt library version 5.0 or higher is required.
 Installation
 ------------
 
-To install QCheckers, run the following commands:
-
-```
-$ qmake -o Makefile qcheckers.pro
-$ make
-$ sudo make install
-```
-
-Shared files are installed in `/usr/local/share/qcheckers` by default. You can
-change this by changing `SHARE_PATH` in `common.h`.
-
+Please refer to INSTALL.md file.
 
