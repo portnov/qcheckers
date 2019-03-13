@@ -1,0 +1,5 @@
+qcheckers (0.9.0-1) unstable; urgency=medium
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Ilya Portnov <portnov84@rambler.ru>  Tue, 12 Mar 2019 23:57:32 +0500

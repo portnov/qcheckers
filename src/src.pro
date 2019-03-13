@@ -2,6 +2,12 @@ TEMPLATE= app
 TARGET	= qcheckers
 CONFIG  += qt warn_on debug
 
+isEmpty(PREFIX) {
+  PREFIX = /usr/local
+}
+
+DEFINES += PREFIX=\\\"$$PREFIX\\\"
+
 QT += widgets svg
 
 HEADERS	= pdn.h \
@@ -23,7 +29,7 @@ RESOURCES = ../qcheckers.qrc ../icons.qrc
 
 
 # prefix can be set in common.h
-PREFIX		= $$system(sh ../helpers/extract_prefix.sh)
+#PREFIX		= $$system(sh ../helpers/extract_prefix.sh)
 message(PREFIX: $$PREFIX)
 
 TRANSLATIONS	= ../lang/qcheckers_de.ts ../lang/qcheckers_fr.ts ../lang/qcheckers_ru.ts

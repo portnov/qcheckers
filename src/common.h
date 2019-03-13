@@ -33,9 +33,10 @@
 #define CONTRIBS	"Sebastien Prud'homme (prudhomme@laposte.net)<br>" \
 			"Guillaume Bedot (guillaume.bedot@wanadoo.fr)"
 
-/* !!! Do not change PREFIX variable name, please. !!! */
-/* !!! It is used in qcheckers.pro. !!! */
+#ifndef PREFIX
 #define PREFIX		"/usr/local"
+#endif
+
 #define USER_PATH	".qcheckers"		// in $HOME
 #define THEME_DIR	"themes/"
 

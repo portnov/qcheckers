@@ -1,0 +1,6 @@
+tar-ignore = .git 
+tar-ignore = .gitignore
+tar-ignore = debian
+tar-ignore = *.tar.xz
+
+extend-diff-ignore = "(^|/)(\.git|\.gitignore|debian|.*tar.xz)"

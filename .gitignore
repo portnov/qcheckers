@@ -5,3 +5,5 @@ src/Makefile
 src/qcheckers
 src/moc_*.cpp
 src/qrc_*.cpp
+debian/.debhelper
+debian/qcheckers
