@@ -1,0 +1,8 @@
+[Desktop Entry]
+Categories=Game;BoardGame;
+Encoding=UTF-8
+Name=QCheckers
+GenericName=Checkers board game
+Type=Application
+Exec=qcheckers
+Icon=qcheckers.svg

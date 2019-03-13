@@ -48,3 +48,12 @@ share.path	+= $$PREFIX/share/qcheckers
 share.files	+= qcheckers.pdn ../COPYING ../AUTHORS ../ChangeLog ../README ../themes ../lang
 INSTALLS	+= share
 
+# Install desktop entry
+desktop.path += $$PREFIX/share/applications
+desktop.files += ../qcheckers.desktop
+INSTALLS += desktop
+
+# Install icon
+icon.path += $$PREFIX/share/icons/hicolor/scalable/apps
+icon.files += ../qcheckers.svg
+INSTALLS += icon
