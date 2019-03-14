@@ -1,10 +1,9 @@
-Creating a Debian package
-=========================
+Creating a Debian / Ubuntu package
+==================================
 
-The procedure is relatively straightforward:
+Prerequisites: docker.
 
-```
-$ ./prepare_tarball.sh
-$ debuild -uc -us
-```
+The procedure for Debian is encoded in `build_debian_package.sh`.
+
+The procedure for Ubuntu is encoded in `build_ubuntu_package.sh`.
 
