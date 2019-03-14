@@ -1,0 +1,26 @@
+Source: qcheckers
+Section: games
+Priority: optional
+Maintainer: Ilya Portnov <portnov84@rambler.ru>
+Build-Depends: debhelper (>= 11), qt5-qmake-bin, qtbase5-dev, libqt5svg5-dev
+Standards-Version: 4.1.3
+Homepage: https://portnov.github.io/qcheckers/
+
+Package: qcheckers
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Qt-based checkers board game. It can play english draughts and russian draughts.
+ .
+  * Pure Qt.
+  * Built-in checkers engine.
+  * English and Russian rules of play.
+  * Beginner, Novice, Average, Good, Expert and Master levels of skill.
+  * Several themes of the board.
+  * Portable Draughts Notation database format support.
+  * Saving, loading and restarting of game.
+  * Auto change of the men’s color.
+  * Multiple Undos/Redos.
+  * Optional numeration of the board.
+  * The on-line description of the play’s rules.
+  * Threads support.
+  * Internationalization support (English, German, Russian and French).

@@ -2,7 +2,7 @@
 # See debhelper(7) (uncomment to enable)
 # output every command that modifies files on the build system.
 export DH_VERBOSE = 1
-export QT_SELECT := qt5
+export QT_SELECT := 5
 
 
 # see FEATURE AREAS in dpkg-buildflags(1)

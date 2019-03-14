@@ -2,5 +2,6 @@ tar-ignore = .git
 tar-ignore = .gitignore
 tar-ignore = debian
 tar-ignore = *.tar.xz
+tar-ignore = src/qcheckers
 
-extend-diff-ignore = "(^|/)(\.git|\.gitignore|debian|.*tar.xz)"
+extend-diff-ignore = "(^|/)(\.git|\.gitignore|debian|src/qcheckers|.*tar.xz)"
