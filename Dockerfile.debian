@@ -1,0 +1,12 @@
+FROM debian:buster
+MAINTAINER Ilya V. Portnov <portnov84@rambler.ru>
+
+RUN apt-get update && apt-get install -y debhelper qt5-qmake-bin qtbase5-dev libqt5svg5-dev build-essential devscripts
+
+VOLUME /dst
+VOLUME /src
+WORKDIR /src
+
+ADD debian_entrypoint.sh .
+
+CMD ["/bin/bash", "-c", "./debian_entrypoint.sh"]
