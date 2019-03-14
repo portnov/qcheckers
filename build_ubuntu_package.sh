@@ -2,10 +2,10 @@
 set -e
 
 cp debian/control.ubuntu debian/control
-rm Makefile src/Makefile
+rm -f Makefile src/Makefile
 qmake
 make clean
-rm Makefile src/Makefile
+rm -f Makefile src/Makefile
 
 docker build -t qcheckers-ubuntu -f Dockerfile.ubuntu .
 

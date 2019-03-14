@@ -4,8 +4,8 @@ MAINTAINER Ilya V. Portnov <portnov84@rambler.ru>
 RUN apt-get update && apt-get install -y debhelper qt5-qmake-bin qtbase5-dev libqt5svg5-dev build-essential devscripts
 
 VOLUME /dst
-VOLUME /src
-WORKDIR /src
+VOLUME /src/qcheckers
+WORKDIR /src/qcheckers
 
 ADD debian_entrypoint.sh .
 
