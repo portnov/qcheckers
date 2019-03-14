@@ -32,6 +32,8 @@ Old news can be found at http://kcheckers.org/ (no longer available).
 Downloads
 ---------
 
+Please refer to [GitHub Releases][7] for last builds.
+
 See [Downloads][4] for older versions. QCheckers up to version 0.6 requires the threaded version of Qt 3.0 library. From 0.6 you can download a corresponding GPG signature file to verify file's integrity.
 
 Features
@@ -109,4 +111,5 @@ Links
 [4]: https://sourceforge.net/projects/qcheckers/files/latest/download
 [5]: http://www.chessandcheckers.com/pdn.htm
 [6]: http://arton.cunst.net/xcheckers
+[7]: https://github.com/portnov/qcheckers/releases
 
