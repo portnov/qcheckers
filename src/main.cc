@@ -25,6 +25,7 @@
 #include <QLocale>
 #include <QDebug>
 #include <QLibraryInfo>
+#include <QStandardPaths>
 //#include <QPlastiqueStyle>
 
 
@@ -37,11 +38,12 @@ int main(int argc, char *argv[])
 	QApplication app(argc,argv);
 	QString current_lang = QLocale::system().name().split("_").front();
 	QString qt_lang_path = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-	QString qcheckers_share_path = PREFIX"/share/qcheckers/lang";
+	//QString qcheckers_share_path = PREFIX"/share/qcheckers/lang";
+  QString lang_path = QStandardPaths::locate(QStandardPaths::DataLocation, "lang", QStandardPaths::LocateDirectory);
 
 	qDebug()
 		<< "Your Locale:" << current_lang << endl
-		<< "QCheckers Prefix path:" << PREFIX << endl
+		<< "QCheckers Translations path:" << lang_path << endl
 		<< "QT Translations path:" << qt_lang_path << endl;
 
   // Qt translations
@@ -55,7 +57,7 @@ int main(int argc, char *argv[])
   // App translations
   QTranslator app_tr;
   if(app_tr.load("qcheckers_" + current_lang,
-        qcheckers_share_path)) {
+        lang_path)) {
     app.installTranslator(&app_tr);
   } else {
     qDebug() << "Loading QCheckers translations failed.";

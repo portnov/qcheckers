@@ -31,6 +31,7 @@
 #include <QCloseEvent>
 #include <QFontDialog>
 #include <QDebug>
+#include <QStandardPaths>
 
 #include "pdn.h"
 #include "toplevel.h"
@@ -108,6 +109,9 @@ QDockWidget* myTopLevel::make_dock(const QString& name, const QString& title, Qt
 
 void myTopLevel::make_actions()
 {
+  QString theme_path = QStandardPaths::locate(QStandardPaths::DataLocation, THEME_DIR, QStandardPaths::LocateDirectory);
+  qDebug()
+      << "Themes directory: " << theme_path << endl;
 	// game menu actions
 	gameNew = new QAction(QIcon(":/icons/logo.svg"), tr("&New..."), this);
 	gameNew->setShortcut(tr("CTRL+N", "File|New"));
@@ -243,7 +247,7 @@ void myTopLevel::make_actions()
 			viewMenu,QDir::homePath()+"/"USER_PATH"/"THEME_DIR);
 	//TODO-hardcoded
 	read_themes(themes_grp,
-			viewMenu, PREFIX"/share/qcheckers/"THEME_DIR);
+			viewMenu, theme_path);
 
 	connect(themes_grp, SIGNAL(triggered(QAction*)),
 		this, SLOT(set_theme(QAction*)));
