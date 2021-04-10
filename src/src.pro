@@ -1,11 +1,13 @@
 TEMPLATE= app
 TARGET	= qcheckers
-CONFIG  += qt warn_on debug
+CONFIG  += qt warn_on debug lrelease
 
+# prefix can be set in common.h
 isEmpty(PREFIX) {
   PREFIX = /usr/local
+# PREFIX = $$system(sh ../helpers/extract_prefix.sh)
 }
-
+message(PREFIX: $$PREFIX)
 DEFINES += PREFIX=\\\"$$PREFIX\\\"
 
 QT += widgets svg
@@ -27,25 +29,16 @@ SOURCES	= pdn.cc \
 
 RESOURCES = ../qcheckers.qrc ../icons.qrc
 
-
-# prefix can be set in common.h
-#PREFIX		= $$system(sh ../helpers/extract_prefix.sh)
-message(PREFIX: $$PREFIX)
-
 TRANSLATIONS	= ../lang/qcheckers_de.ts ../lang/qcheckers_fr.ts ../lang/qcheckers_ru.ts
+QM_FILES_INSTALL_PATH = $$PREFIX/share/qcheckers/lang
 
+# Set binary install path
 target.path	= $$PREFIX/bin
 INSTALLS	+= target
 
-#DESTDIR	= /usr/local
-#message(Destdir: $$DESTDIR)
-
-
-#
-# This hack is needed for i18n support.
-#
+# Install data files
 share.path	+= $$PREFIX/share/qcheckers
-share.files	+= qcheckers.pdn ../COPYING ../AUTHORS ../ChangeLog ../README ../themes ../lang
+share.files	+= qcheckers.pdn ../COPYING ../AUTHORS ../ChangeLog ../README ../themes
 INSTALLS	+= share
 
 # Install desktop entry
