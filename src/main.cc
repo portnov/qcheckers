@@ -39,12 +39,12 @@ int main(int argc, char *argv[])
 	QString current_lang = QLocale::system().name().split("_").front();
 	QString qt_lang_path = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 	//QString qcheckers_share_path = PREFIX"/share/qcheckers/lang";
-  QString lang_path = QStandardPaths::locate(QStandardPaths::DataLocation, "lang", QStandardPaths::LocateDirectory);
+  QString lang_path = QStandardPaths::locate(QStandardPaths::AppDataLocation, "lang", QStandardPaths::LocateDirectory);
 
 	qDebug()
-		<< "Your Locale:" << current_lang << endl
-		<< "QCheckers Translations path:" << lang_path << endl
-		<< "QT Translations path:" << qt_lang_path << endl;
+		<< "Your Locale:" << current_lang << Qt::endl
+		<< "QCheckers Translations path:" << lang_path << Qt::endl
+		<< "QT Translations path:" << qt_lang_path << Qt::endl;
 
   // Qt translations
   QTranslator qt_tr;

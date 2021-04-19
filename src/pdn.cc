@@ -133,7 +133,7 @@ bool Pdn::save(const QString& filename)
 	QTextStream ts(&file);
 
 	foreach(PdnGame* game, m_database) {
-		ts << game->toString() << endl << endl;
+		ts << game->toString() << Qt::endl << Qt::endl;
 	}
 
 	file.close();

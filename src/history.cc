@@ -118,7 +118,7 @@ myHistory::myHistory(QWidget* parent)
 
 	// layout
 	QVBoxLayout* vb = new QVBoxLayout(this);
-	vb->setMargin(0);
+	vb->setContentsMargins(0,0,0,0);
 	vb->addWidget(m_gamelist, 0);
 	vb->addWidget(m_taglist, 2);
 	vb->addWidget(m_movelist, 4);

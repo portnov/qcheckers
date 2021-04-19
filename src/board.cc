@@ -309,7 +309,7 @@ bool myBoard::convert_move(const QString& move_orig, int* from_num, int* to_num)
 	from = move.section('-', 0, 0);
 	to = move.section('-', sect, sect);
 
-	if(from!=QString::null && to!=QString::null) {
+	if(!from.isNull() && !to.isNull()) {
 		for(int i=0; i<32; i++) {
 			if(m_fields[i]->label()==from) {
 				*from_num = m_fields[i]->number();
@@ -379,7 +379,7 @@ QString myBoard::doMove(int from_num, int to_num, bool white_player)
 		m_game->fromString(m_game->toString(true));
 	}
 	if(!m_game->go1(from_pos, to_pos)) {
-		return QString::null;
+		return QString();
 		/*
 		qDebug() << __PRETTY_FUNCTION__
 			<< from_pos << "," << to_pos

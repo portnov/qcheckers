@@ -436,7 +436,7 @@ void myView::slot_preview_game(int rules)
 
 void myView::slot_apply_moves(const QString& moves)
 {
-	QStringList move_list= moves.split(MOVE_SPLIT, QString::SkipEmptyParts);
+	QStringList move_list= moves.split(MOVE_SPLIT, Qt::SkipEmptyParts);
 
 	m_board->reset();
 
