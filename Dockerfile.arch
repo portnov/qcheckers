@@ -1,0 +1,12 @@
+FROM archlinux
+MAINTAINER Ilya V. Portnov <portnov84@rambler.ru>
+
+RUN pacman -Sy && yes | pacman -S gcc make qt6-base qt6-svg qt6-tools icu
+
+VOLUME /dst
+VOLUME /src
+WORKDIR /src/qcheckers
+
+ADD arch_entrypoint.sh .
+
+CMD ["/bin/bash", "-c", "./arch_entrypoint.sh"]
