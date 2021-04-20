@@ -24,6 +24,7 @@
 #include <QProgressDialog>
 #include <QDebug>
 
+#include "common.h"
 #include "checkers.h"
 #include "pdn.h"
 
@@ -133,7 +134,7 @@ bool Pdn::save(const QString& filename)
 	QTextStream ts(&file);
 
 	foreach(PdnGame* game, m_database) {
-		ts << game->toString() << Qt::endl << Qt::endl;
+		ts << game->toString() << QT_ENDL << QT_ENDL;
 	}
 
 	file.close();

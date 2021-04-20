@@ -42,9 +42,9 @@ int main(int argc, char *argv[])
   QString lang_path = QStandardPaths::locate(QStandardPaths::AppDataLocation, "lang", QStandardPaths::LocateDirectory);
 
 	qDebug()
-		<< "Your Locale:" << current_lang << Qt::endl
-		<< "QCheckers Translations path:" << lang_path << Qt::endl
-		<< "QT Translations path:" << qt_lang_path << Qt::endl;
+		<< "Your Locale:" << current_lang << QT_ENDL
+		<< "QCheckers Translations path:" << lang_path << QT_ENDL
+		<< "QT Translations path:" << qt_lang_path << QT_ENDL;
 
   // Qt translations
   QTranslator qt_tr;
