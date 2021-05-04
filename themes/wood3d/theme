@@ -1,0 +1,11 @@
+name = Wood 3D
+tile1 = tile1.svg
+tile2 = tile2.svg
+frame = frame.svg
+man_white = manwhite.svg
+man_black = manblack.svg
+king_white = kingwhite.svg
+king_black = kingblack.svg
+message_color = #f0FFFFFF
+background = #CCC8B8
+#background = wood04.jpg
