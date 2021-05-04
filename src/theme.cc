@@ -194,7 +194,7 @@ void Theme::setTargetSize(int size) {
     qInfo("Size is 0, set it to %d", size);
   }*/
   if (m_target_size != size) {
-    qInfo("Size: %d -> %d", m_target_size, size);
+    //qDebug("Size: %d -> %d", m_target_size, size);
     m_target_size = size;
 
     // reset cached pixmaps,
@@ -220,7 +220,7 @@ void Theme::render(const QString& path, QPixmap& result, bool& valid) {
     if (size == 0) {
       size = renderer.defaultSize().width();
     }
-    qInfo("Rendering %s: %d", qUtf8Printable(path), size);
+    //qDebug("Rendering %s: %d", qUtf8Printable(path), size);
     Q_ASSERT(size > 0);
     result = QPixmap(size, size);
     result.fill(Qt::transparent);
@@ -228,7 +228,7 @@ void Theme::render(const QString& path, QPixmap& result, bool& valid) {
     renderer.render(&paint);
 
   } else {
-    qInfo("Rendering %s: %d", qUtf8Printable(path), size);
+    //qDebug("Rendering %s: %d", qUtf8Printable(path), size);
     if (size == 0) {
       result = QPixmap(path);
     } else {
