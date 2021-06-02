@@ -47,6 +47,10 @@ Theme::Theme(QObject* parent, const QString& path, int size) : QObject(parent) {
     m_man_white_path = ":/icons/theme/manwhite.png";
     m_king_black_path = ":/icons/theme/kingblack.png";
     m_king_white_path = ":/icons/theme/kingwhite.png";
+
+    m_notation_font_color = Qt::white;
+    m_notation_background_color = Qt::black;
+
   } else {
 		m_pat1_path = path+"/" + settings->value("tile1", THEME_TILE1).toString();
 		m_pat2_path = path+"/" + settings->value("tile2", THEME_TILE2).toString();
@@ -56,6 +60,10 @@ Theme::Theme(QObject* parent, const QString& path, int size) : QObject(parent) {
     m_man_white_path = path+"/" + settings->value("man_white", THEME_MANWHITE).toString();
     m_king_black_path = path+"/" + settings->value("king_black", THEME_KINGBLACK).toString();
     m_king_white_path = path+"/" + settings->value("king_white", THEME_KINGWHITE).toString();
+
+    m_notation_font_color = QColor(settings->value("field_notation_color", "white").toString());
+    m_notation_background_color = QColor(settings->value("field_notation_background", "black").toString());
+
   }
   m_target_size = size;
   //m_target_size = size == 0 ? MAX_TILE_SIZE : size;
@@ -172,6 +180,14 @@ QPixmap& Theme::getChecker(int item, bool white) {
     default:
       return m_empty_pixmap;
   }
+}
+
+ QColor& Theme::getNotationFontColor() {
+   return m_notation_font_color;
+ }
+
+QColor& Theme::getNotationBackgroundColor() {
+  return m_notation_background_color;
 }
 
 int Theme::getFieldWidth() {

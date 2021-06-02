@@ -41,6 +41,8 @@ class Theme : public QObject {
     QPixmap& getPattern2();
     QPixmap& getPattern(int);
     QPixmap& getFrame();
+    QColor& getNotationFontColor();
+    QColor& getNotationBackgroundColor();
 
     void setTargetSize(int);
     int getFieldWidth();
@@ -87,6 +89,9 @@ class Theme : public QObject {
     bool m_frame_valid;
 
     QPixmap m_empty_pixmap;
+
+    QColor m_notation_font_color;
+    QColor m_notation_background_color;
 
 };
 

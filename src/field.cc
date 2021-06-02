@@ -123,14 +123,14 @@ void Field::draw()
     }
 
     // notation
-    paint.setPen(Qt::white);
+    paint.setPen(m_theme->getNotationFontColor());
     QRect not_rect = paint.boundingRect(2, 2, 0, 0, Qt::AlignLeft, m_label);
     QPixmap& checker = m_theme->getChecker(m_checker_id, m_bottom_is_white);
     if (m_show_above) {
       if (! checker.isNull())
         paint.drawPixmap(0, 0, checker);
       if (m_show_label) {
-        paint.fillRect(not_rect, Qt::black);
+        paint.fillRect(not_rect, m_theme->getNotationBackgroundColor());
         paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
       }
     } else {
