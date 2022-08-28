@@ -47,12 +47,12 @@
     <message>
         <location filename="../src/history.cc" line="304"/>
         <source>Reading file...</source>
-        <translation>Читаю файл...</translation>
+        <translation>Чтение файла...</translation>
     </message>
     <message>
         <location filename="../src/history.cc" line="317"/>
         <source>Importing games...</source>
-        <translation>Импортирую игры...</translation>
+        <translation>Импорт игр...</translation>
     </message>
     <message>
         <location filename="../src/history.cc" line="399"/>
@@ -321,12 +321,12 @@
     <message>
         <location filename="../src/toplevel.cc" line="213"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Настройки</translation>
+        <translation>&amp;Настройка</translation>
     </message>
     <message>
         <location filename="../src/toplevel.cc" line="220"/>
         <source>&amp;Help</source>
-        <translation>&amp;Помощь</translation>
+        <translation>&amp;Справка</translation>
     </message>
     <message>
         <location filename="../src/toplevel.cc" line="338"/>
@@ -346,7 +346,7 @@
     <message>
         <location filename="../src/toplevel.cc" line="406"/>
         <source>Could not save: </source>
-        <translation>Не могу сохранить:</translation>
+        <translation>Не удалось сохранить: </translation>
     </message>
     <message>
         <location filename="../src/toplevel.cc" line="415"/>
@@ -356,7 +356,7 @@
     <message>
         <location filename="../src/toplevel.cc" line="480"/>
         <source>&lt;p&gt;In the beginning of game you have 12 checkers (men). The men move forward only. The men can capture:&lt;ul&gt;&lt;li&gt;by jumping forward only (english rules);&lt;li&gt;by jumping forward or backward (russian rules).&lt;/ul&gt;&lt;p&gt;A man which reaches the far side of the board becomes a king. The kings move forward or backward:&lt;ul&gt;&lt;li&gt;to one square only (english rules);&lt;li&gt;to any number of squares (russian rules).&lt;/ul&gt;&lt;p&gt;The kings capture by jumping forward or backward. Whenever a player is able to make a capture he must do so.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;В начале игры у вас есть 12 фишек. Фишки можно двигать только вперёд. Брать фишки соперника можно:&lt;ul&gt;&lt;li&gt;только прыжком вперёд (английские правила);&lt;li&gt;прыжком вперёд или назад (русские правила).&lt;/ul&gt;&lt;p&gt;Фишка, дошедшая до противоположного края игрового поля, становится «дамкой». Дамки перемещаются вперёд или назад:&lt;ul&gt;&lt;li&gt;только на одну клетку (английские правила);&lt;li&gt;на любое количество клеток (русские правила).&lt;/ul&gt;&lt;p&gt;Дамки берут фишки соперника прыжком вперёд или назад. Если у игрока есть возможность взять фишку соперника, он обязательно должен ей воспользоваться.</translation>
     </message>
     <message>
         <location filename="../src/toplevel.cc" line="495"/>
@@ -383,7 +383,7 @@ Do you really want to discard it?</source>
     <message>
         <location filename="../src/checkers.cc" line="365"/>
         <source>%1 -&gt; %2 capturing %3</source>
-        <translation type="unfinished">%1 -&gt; %2 (брать %3)</translation>
+        <translation>%1 -&gt; %2 берёт %3</translation>
     </message>
 </context>
 <context>
@@ -391,7 +391,7 @@ Do you really want to discard it?</source>
     <message>
         <location filename="../src/view.cc" line="223"/>
         <source>Drawn game.</source>
-        <translation></translation>
+        <translation>Ничья.</translation>
     </message>
     <message>
         <location filename="../src/view.cc" line="260"/>
