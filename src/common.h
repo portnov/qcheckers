@@ -23,15 +23,16 @@
 
 
 #define	APPNAME		"QCheckers"
-#define VERSION		"0.8.1"
+#define VERSION		"0.9.0"
 #define EXT		"pdn"
 
 
-#define HOMEPAGE	"http://qcheckers.wibix.de"
+#define HOMEPAGE	"https:/portnov.github.io/qcheckers"
 #define COPYRIGHT	"(c) 2002-2003, Andi Peredri (andi@ukr.net)<br>" \
-			"(c) 2004-2005, Artur Wiebe (wibix@gmx.de)"
+			"(c) 2004-2007, Artur Wiebe (wibix@gmx.de)"
 #define CONTRIBS	"Sebastien Prud'homme (prudhomme@laposte.net)<br>" \
-			"Guillaume Bedot (guillaume.bedot@wanadoo.fr)"
+			"Guillaume Bedot (guillaume.bedot@wanadoo.fr)<br>" \
+			"Ilya V. Portnov (portnov84@rambler.ru)"
 
 #ifndef PREFIX
 #define PREFIX		"/usr/local"
