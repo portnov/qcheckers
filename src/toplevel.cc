@@ -508,7 +508,7 @@ void myTopLevel::slot_about()
 		  	"<a href=\""HOMEPAGE"\">"HOMEPAGE"</a><br><br>"
 		"Contributors:<br>"CONTRIBS"<br><br>"
 		"This program is distributed under the terms "
-		"of the GNU General Public License.";
+		"of the GNU General Public License Version 2.";
 
 	information(tr("About"), text);
 }

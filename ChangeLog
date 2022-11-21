@@ -1,6 +1,14 @@
+2019-03-14 Ilya Portnov <portnov84@rambler.ru>
+    * QCheckers 0.9.0 released.
+	* Move to Qt5 for better HiDPI support.
+	* Support of SVG for themes, so that the board is scalable now.
+	* Change UI a bit: use docker widgets, that can be rearranged or resized.
+	* Indicate moves by blipping fields where from and where to the move was done.
+
 2005-12-29 Artur Wiebe <wibix@gmx.de>
+    * KCheckers 0.8.1 released.
 	* toplevel.cc, view.h: Removed unused slots.
-	* Renamed info to histrory.
+	* Renamed info to history.
 	* history.cc: Removed useless code.
 
 2005-12-19 Artur Wiebe <wibix@gmx.de>
