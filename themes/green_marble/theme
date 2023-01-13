@@ -1,0 +1,8 @@
+name = Green Marble
+tile1 = calacatta green.svg
+tile2 = plain green.svg
+frame = frame.svg
+man_white = manwhite.svg
+man_black = manblack.svg
+king_white = kingwhite.svg
+king_black = kingblack.svg
