@@ -109,9 +109,9 @@ QDockWidget* myTopLevel::make_dock(const QString& name, const QString& title, Qt
 
 void myTopLevel::make_actions()
 {
-  QString theme_path = QStandardPaths::locate(QStandardPaths::DataLocation, THEME_DIR, QStandardPaths::LocateDirectory);
+  QString theme_path = QStandardPaths::locate(QStandardPaths::AppDataLocation, THEME_DIR, QStandardPaths::LocateDirectory);
   qDebug()
-      << "Themes directory: " << theme_path << endl;
+      << "Themes directory: " << theme_path << QT_ENDL;
 	// game menu actions
 	gameNew = new QAction(QIcon(":/icons/logo.svg"), tr("&New..."), this);
 	gameNew->setShortcut(tr("CTRL+N", "File|New"));

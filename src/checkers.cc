@@ -449,7 +449,7 @@ QString Checkers::toString(bool rotate) const
 
     QString str;
     for(int i=0; i<32; i++)
-  	str += QString("").sprintf("%.2u", fields[i]);
+  	str += QString("").asprintf("%.2u", fields[i]);
 
     return str;
 }

@@ -59,5 +59,19 @@
 //
 #define MAX_TILE_SIZE	64
 
+// Qt5 / 6 compatibility workarounds
+
+#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
+#define QT_ENDL endl
+#else
+#define QT_ENDL Qt::endl
+#endif
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#define QT_SKIP_EMPTY_PARTS QString::SkipEmptyParts
+#else
+#define QT_SKIP_EMPTY_PARTS Qt::SkipEmptyParts
+#endif
+
 #endif
 

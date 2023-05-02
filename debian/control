@@ -2,7 +2,7 @@ Source: qcheckers
 Section: games
 Priority: optional
 Maintainer: Ilya Portnov <portnov84@rambler.ru>
-Build-Depends: debhelper (>= 11), qt5-qmake-bin, qtbase5-dev, libqt5svg5-dev
+Build-Depends: debhelper (>= 9), qt5-qmake, qtbase5-dev, libqt5svg5-dev
 Standards-Version: 4.1.3
 Homepage: https://portnov.github.io/qcheckers/
 
